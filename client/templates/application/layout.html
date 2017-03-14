@@ -1,15 +1,7 @@
 <template name="layout">
   <main>
     <header class="navbar navbar-default" role="navigation">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/">Interpoll</a>
-            {{#if currentUser}}
-           {{> logged}}
-            {{else}}
-            {{> register}}
-            {{> login}}
-            {{/if}}
-        </div>
+        {{> header}}
     </header>
     <section>
       <header>

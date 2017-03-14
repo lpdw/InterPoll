@@ -1,0 +1,24 @@
+<template name="header">
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">InterPoll</a>
+    </div>
+    <div class="collapse navbar-collapse" id="navigation">
+       <ul class="nav navbar-nav">
+         {{#if currentUser}}<li><a href="{{pathFor 'newPoll'}}">Créer un sondage</a></li>   {{/if}}
+         <li>
+           <a href="{{ pathFor 'pollsList'}}">Les sondages</a>
+         </li>
+       </ul>
+      <ul class="nav navbar-nav navbar-right">
+        {{> loginButtons}}
+      </ul>
+    </div>
+  </nav>
+</template>

@@ -1,0 +1,20 @@
+<template name="newPoll">
+    <form class="main form page" id="new-poll">
+        <div class="form-group">
+          <label class="control-label" for="url">Question</label>
+          <div class="controls">
+              <input name="question" id="question" type="text" value="" placeholder="Votre question" class="form-control"/>
+            </div>
+        </div>
+      <div class="form-group">
+          <label class="control-label" for="title">Réponses</label>
+          <div class="controls">
+              <input name="response1" id="reponses" type="text" value="" placeholder="Réponse 1" class="form-control"/>
+              <input name="response2" id="reponses" type="text" value="" placeholder="Réponse 2" class="form-control"/>
+              <input name="response3" id="reponses" type="text" value="" placeholder="Réponse 3" class="form-control"/>
+
+            </div>
+        </div>
+      <input type="submit" value="Créer" class="btn btn-primary"/>
+    </form>
+</template>
