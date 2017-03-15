@@ -6,9 +6,9 @@ Template.pollEdit.events({
 
     var pollProperties = {
           question: $(e.target).find('[name=question]').val(),
-          response1: $(e.target).find('[name=response1').val(),
-          response2: $(e.target).find('[name=response2').val(),
-          response3: $(e.target).find('[name=response3').val(),
+          response1: $(e.target).find('[name=response1]').val(),
+          response2: $(e.target).find('[name=response2]').val(),
+          response3: $(e.target).find('[name=response3]').val()
 
     };
 
