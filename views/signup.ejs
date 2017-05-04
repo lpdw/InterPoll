@@ -1,0 +1,28 @@
+<% include partials/header %>
+  <%if (err) {%>
+    <div style="color:red">
+      <%=err%>
+    </div>
+    <%} %>
+      <form action="/signup" method="post">
+        <div>
+          <label>Identifiant:</label>
+          <input required type="text" name="username" />
+        </div>
+        <div>
+          <label>Adresse e-mail:</label>
+          <input required type="email" name="email" />
+        </div>
+        <div>
+          <label>Mot de passe :</label>
+          <input required type="password" name="password" />
+        </div>
+        <div>
+          <label>Confirmation du mot de passe :</label>
+          <input  required type="password" name="confirm_password" />
+        </div>
+        <div>
+          <input type="submit" value="S’inscrire" />
+        </div>
+      </form>
+      <% include partials/footer %>
