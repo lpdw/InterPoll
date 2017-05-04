@@ -5,6 +5,13 @@ exports.findOneByQuery = query => {
       where: query
    });
 };
+exports.UserExists = (username, email) => {
+  return db.Users.findAndCountAll({
+  where: {
+  $or: [{username: username}, {email: email}]
+    }
+});
+};
 exports.createUser = (username,email,password) => {
    const model = db.Users.build({username:username,email:email,password:password});
 

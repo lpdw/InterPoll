@@ -3,6 +3,7 @@ const _ = require("lodash");
 const passport = require('passport');
 
 router.get('/', (req, res) => {
+  console.log(req);
    const err = (req.session.err) ? req.session.err : null;
    if (req.accepts('text/html')) {
        return res.render('login', {err});
@@ -14,9 +15,8 @@ router.get('/', (req, res) => {
 router.post('/',
    passport.authenticate('local', {
        successRedirect: '/polls',
-       failureRedirect: '/login',
-       failureFlash: true
-   })
+       failureRedirect: '/login'
+      })
 );
 
 module.exports = router;

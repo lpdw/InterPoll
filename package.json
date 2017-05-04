@@ -17,12 +17,14 @@
     "lodash": "^4.17.4",
     "method-override": "^2.3.7",
     "morgan": "~1.7.0",
+    "nodemailer": "^4.0.1",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
-    "pg": "^6.1.2",
+    "pg": "^6.1.5",
     "pug": "^2.0.0-beta6",
     "sequelize": "^3.29.0",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "socket.io": "^1.7.3"
   },
   "devDependencies": {
     "nodemon": "^1.11.0",

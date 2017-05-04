@@ -1,0 +1,26 @@
+body {
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+    color: #00B7FF;
+}
+
+.alert {
+    padding: 20px;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.alert-danger {
+    background-color: #f44336;
+}
+
+.alert-warning {
+    background-color: #f4cf36;
+}
+
+.alert-sucess {
+    background-color: #51c965;
+}

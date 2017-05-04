@@ -1,9 +1,7 @@
 <% include partials/header %>
-  <%if (err) {%>
-    <div style="color:red">
-      <%=err%>
-    </div>
-    <%} %>
+<% if (err != null) { %>
+      <div class="alert alert-danger"><%= err %></div>
+    <% } %>
       <form action="/signup" method="post">
         <div>
           <label>Identifiant:</label>

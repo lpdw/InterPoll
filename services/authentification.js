@@ -6,10 +6,10 @@ module.exports.interpollLocalStrategy = () => {
        return UserService.findOneByQuery({ username: username })
            .then(user => {
                if (!user) {
-                  return done(null, false, { message: 'Identifiant incorrect.' });
+                  return done(null, false, { message: 'Identifiant incorrect' });
                }
                if (!bcrypt.compareSync(password, user.password)) {
-                   return done(null, false, { message: 'Mot de passe incorrect.' });
+                   return done(null, false, { message: 'Mot de passe incorrect'});
                }
                return done(null, user);
            })

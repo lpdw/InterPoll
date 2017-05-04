@@ -25,6 +25,12 @@ sequelize.sync()
        console.log('DB loaded');
    })
 ;
-exports.Users = sequelize.import(path.join(__dirname, 'users'));
-exports.Polls = sequelize.import(path.join(__dirname, 'polls'));
-exports.Poll_Results = sequelize.import(path.join(__dirname, 'pollResults'));
+const Users = sequelize.import(path.join(__dirname, 'users'));
+const Polls = sequelize.import(path.join(__dirname, 'polls'));
+const Poll_Results = sequelize.import(path.join(__dirname, 'pollResults'));
+
+Polls.belongsTo(Users, {as: 'User',foreignKey: 'fk_user' });
+Poll_Results.belongsTo(Polls, {as:'Poll', foreignKey: 'fk_poll' });
+exports.Users = Users;
+exports.Polls = Polls;
+exports.Poll_Results = Poll_Results;

@@ -1,0 +1,12 @@
+<body>
+<div id="next">
+
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+var socket = io.connect('http://localhost:3000');
+   console.log(socket);
+   console.log("socket.io : ");
+   socket.emit('join', 'Hello World from client');
+</script>
+</body>

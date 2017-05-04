@@ -25,5 +25,10 @@
                  }
              }
          },
+         checked:{
+           type: DataTypes.BOOLEAN,
+           defaultValue:false
+
+         }
      });
  };
