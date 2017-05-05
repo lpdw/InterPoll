@@ -14,6 +14,7 @@ router.get('/', function(req, res, next) {
   });
 });
 router.get('/new', function(req, res, next) {
+  console.log(req.user);
   return res.render('polls/new');
 });
 router.get('/:id', function(req, res, next) {

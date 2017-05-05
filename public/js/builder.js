@@ -135,7 +135,7 @@ jQuery(function($) {
         // console.log($(this).data('formBuilder').actions.getData("json"));
 
       });
-      // console.log(allEditorValues);
+      console.log(allEditorValues);
       /**
         * Stocker en base
         */
@@ -189,7 +189,5 @@ jQuery(function($) {
   document.getElementById('edit-form').onclick = function() {
     toggleEdit();
   };
-
-  console.log(this);
 
 });
