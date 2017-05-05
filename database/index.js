@@ -28,9 +28,14 @@ sequelize.sync()
 const Users = sequelize.import(path.join(__dirname, 'users'));
 const Polls = sequelize.import(path.join(__dirname, 'polls'));
 const Poll_Results = sequelize.import(path.join(__dirname, 'pollResults'));
+const Themes = sequelize.import(path.join(__dirname, 'themes'));
+const Poll_Settings = sequelize.import(path.join(__dirname, 'pollSettings'));
 
 Polls.belongsTo(Users, {as: 'User',foreignKey: 'fk_user' });
 Poll_Results.belongsTo(Polls, {as:'Poll', foreignKey: 'fk_poll' });
+Polls.hasOne(Themes,{as: 'Theme', foreignKey:'fk_theme'});
 exports.Users = Users;
 exports.Polls = Polls;
 exports.Poll_Results = Poll_Results;
+exports.Themes = Themes ;
+exports.Poll_Settings = Poll_Settings ;
