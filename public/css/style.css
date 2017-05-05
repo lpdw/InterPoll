@@ -11,6 +11,7 @@ a {
     padding: 20px;
     color: white;
     margin-bottom: 15px;
+    width: 100%;
 }
 
 .alert-danger {
@@ -23,4 +24,17 @@ a {
 
 .alert-sucess {
     background-color: #51c965;
+}
+
+.login-container{
+  display:flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.full-content{
+  width: inherit;
 }

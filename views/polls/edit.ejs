@@ -1,0 +1,31 @@
+<% include ../partials/header %>
+<h1>Editer le sondage </h1>
+
+
+<div class="content">
+  <div id="form-builder-pages">
+    <ul id="tabs">
+      <li><a href="#page-1">Page 1</a></li>
+      <li id="add-page-tab"><a href="#new-page">+ Page</a></li>
+    </ul>
+    <div id="page-1">
+      <div class="build-wrap"></div>
+    </div>
+    <div id="new-page">
+    </div>
+    <div class="render-wrap"></div>
+    <button id="edit-form">Edit Form</button>
+  </div>
+  <div class="save-all-wrap"><button id="save-all" class="btn btn-primary" type="button">Save All</button></div>
+</div>
+
+
+<script src="/jquery/jquery.min.js"></script>
+<script src="/jqueryui/jquery-ui.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/formbuilder/form-builder.min.js"></script>
+<script src="/formbuilder/form-render.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/builder.js"></script>
+
+<% include ../partials/footer %>
