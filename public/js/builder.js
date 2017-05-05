@@ -2,32 +2,31 @@
 
 jQuery(function($) {
 
-
-  let templates = {
-    starRating: function(fieldData) {
-      return {
-        field: '<span id="'+fieldData.name+'">',
-        onRender: function() {
-          $(document.getElementById(fieldData.name)).rateYo({rating: 3.6});
-        }
-      };
-    }
-  };
-
   var typeUserDisabledAttrs = {
     autocomplete: ['access']
   };
 
   var typeUserAttrs = {
-    text: {
-      className: {
-        label: 'Class',
+    date: {
+      resultat: {
+        label: 'Resultat',
         options: {
-          'red form-control': 'Red',
-          'green form-control': 'Green',
-          'blue form-control': 'Blue'
-        },
-        style: 'border: 1px solid red'
+          'noresult': 'Ne pas afficher le résultat',
+          'circulaire': 'Diagramme circulaire',
+          'diagramme': 'Diagramme en bâton',
+          'graph': 'Graphique',
+        }
+      }
+    },
+    select: {
+      resultat: {
+        label: 'Resultat',
+        options: {
+          'noresult': 'Ne pas afficher le résultat',
+          'circulaire': 'Diagramme circulaire',
+          'diagramme': 'Diagramme en bâton',
+          'graph': 'Graphique',
+        }
       }
     }
   };
@@ -43,7 +42,7 @@ jQuery(function($) {
       type: "header"
       }],
     i18n: {
-      // locale: 'en-EN'
+       locale: 'fr-FR'
       //location: 'http://languagefile.url/directory/'
       //extension: '.ext'
       //preloaded: {
@@ -65,11 +64,11 @@ jQuery(function($) {
       'button'
     ],
     onSave: function(e, formData) {
-      console.log("save");
+      // console.log("save");
       toggleEdit();
       $('.render-wrap').formRender({
-        formData,
-        templates
+        formData
+        //  tes
       });
       window.sessionStorage.setItem('formData', JSON.stringify(formData));
     },
@@ -77,8 +76,6 @@ jQuery(function($) {
       enable: true
     },
     sortableControls: true,
-    // fields,
-    templates,
     typeUserDisabledAttrs,
     typeUserAttrs,
     // disabledAttrs
@@ -91,8 +88,8 @@ jQuery(function($) {
     fbOptions.formData = JSON.parse(formData);
   }
   if (multipleFormData) {
-    fbOptions.formData = JSON.parse(multipleFormData)[0];
-    console.log(JSON.parse(multipleFormData));
+    // fbOptions.formData = JSON.parse(multipleFormData)[0];
+    // console.log(JSON.parse(multipleFormData));
   }
 
   // Tabs
@@ -155,7 +152,6 @@ jQuery(function($) {
 
   const setFormData = '[{"type":"text","label":"Full Name","subtype":"text","className":"form-control","name":"text-1476748004559"},{"type":"select","label":"Occupation","className":"form-control","name":"select-1476748006618","values":[{"label":"Street Sweeper","value":"option-1","selected":true},{"label":"Moth Man","value":"option-2"},{"label":"Chemist","value":"option-3"}]},{"type":"textarea","label":"Short Bio","rows":"5","className":"form-control","name":"textarea-1476748007461"}]';
 
-  console.log(fbOptions);
   const formBuilder = $('.build-wrap').formBuilder(fbOptions);
   const fbPromise = formBuilder.promise;
 
@@ -175,15 +171,6 @@ jQuery(function($) {
       },
       removeField: () => fb.actions.removeField()
     };
-
-    // Object.keys(apiBtns).forEach(action => {
-    //   console.log(document.getElementById(action));
-    //   document.getElementById(action)
-    //   .addEventListener('click', e => apiBtns[action]());
-    // });
-
-    // document.getElementById('setLanguage')
-    // .addEventListener('change', e => fb.actions.setLang(e.target.value));
   });
 
 

@@ -3,22 +3,48 @@ body {
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-    color: #00B7FF;
+.btn a {
+    color: white;
 }
 
-.alert{
-  width:100%;
+.btn a:hover {
+    text-decoration: none;
 }
-.login-container{
-  display:flex;
-  justify-content: center;
-  flex-wrap: wrap;
+
+.alert {
+    width: 100%;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.full-content {
+    width: inherit;
+}
+
+.list-sondages {
+    margin: 0;
+    list-style-type: none;
+}
+.item-sondage{
+  display: flex;
   flex-direction: row;
-  width: 50%;
-  margin: 0 auto;
+  width: 100%;
+  justify-content: space-between;
+  padding: 15px;
+}
+.item-sondage p{
+  width: 45%;
 }
 
-.full-content{
-  width: inherit;
+.item-sondage div{
+  width: 45%;
+  display: flex;
+  justify-content: space-around;
 }

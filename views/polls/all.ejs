@@ -1,11 +1,36 @@
 <% include ../partials/header %>
 <h1>Mes sondages </h1>
+<% console.log(messages);%>
+<% if(messages.success){%>
+  <div class="alert alert-success"><%= messages.success %></div>
+
+  <%}%>
+  <% if(messages.error){%>
+    <div class="alert alert-error"><%= messages.error %></div>
+
+    <%}%>
 <button class="btn btn-primary"><a href="/polls/new">Nouveau sondage</a></button>
 
 <% if(polls.length > 0 ){%>
-  <ul>
+  <ul class="list-sondages">
   <% polls.forEach(function(poll){ %>
+    <li class="item-sondage">
+      <p><%= poll.title %></p>
+      <div>
+        <%if(poll.online){%>
+          <button class="btn btn-danger"><a href="polls/offline/<%=poll.id%>">Mettre hors ligne</a></button>
+          <%}else{%>
+            <button class="btn btn-success"><a href="polls/online/<%=poll.id%>">Mettre en ligne</a></button>
 
+            <%}%>
+
+        <button class="btn btn-warning"><a href="polls/edit/<%=poll.id%>">Modifier le sondage</a></button>
+        <form method="POST" action="polls/delete/<%=poll.id%>?_method=DELETE">
+    <button type="submit" class="btn btn-danger">Supprimer le sondage</button>
+  </form>
+      </div>
+
+    </li>
   <% });%>
   </ul>
   <%}else{%>
