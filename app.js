@@ -64,8 +64,12 @@ const verifyAuth = (req, res, next) => {
 };
 app.all('*', verifyAuth);
 
+// Form Builder
+app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist'));
+app.use('/jqueryui', express.static(__dirname + '/node_modules/jqueryui'));
+app.use('/formbuilder', express.static(__dirname + '/node_modules/formBuilder/dist'));
+app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist'));
 
-app.all('*', verifyAuth);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
