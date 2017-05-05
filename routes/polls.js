@@ -7,7 +7,6 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:id', function(req, res, next) {
-  console.log(req.isAuthenticated());
   return res.render('poll');
 });
 

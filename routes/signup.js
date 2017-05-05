@@ -7,8 +7,6 @@ const APIError = require('../lib/error');
 
 router.get('/', (req, res, next) => {
     const err = (req.session.err) ? req.session.err : null;
-    console.log(req.session);
-    console.log(err);
     if (req.accepts('text/html')) {
         return res.render('signup', {
             err: err
@@ -37,8 +35,6 @@ const bodyVerificator = (req, res, next) => {
     }
     if (req.accepts('text/html')) {
         req.session.err = error.message;
-        console.log(error);
-        console.log(req.session);
         return res.render('signup', {
             err: req.session.err
         });
@@ -69,7 +65,6 @@ router.post('/', bodyVerificator, (req, res, next) => {
             return res.status(200).send(_.omit(user.dataValues, 'password'));
         })
         .catch(error => {
-          console.log(error);
             if (req.accepts('text/html')) {
                 req.session.err = error.message;
                 return res.render('signup', {

@@ -3,7 +3,6 @@ const _ = require("lodash");
 const passport = require('passport');
 
 router.get('/', (req, res) => {
-  console.log(req);
    const err = (req.session.err) ? req.session.err : null;
    if (req.accepts('text/html')) {
        return res.render('login', {err});
