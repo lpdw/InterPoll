@@ -46,7 +46,7 @@ exports.update = (song,id) => {
 exports.destroy=(id)=>{
   return db.Polls.destroy({
   where : {
-      _id: id
+      id: id
     }
   });
 

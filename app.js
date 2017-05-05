@@ -12,8 +12,8 @@ var logout = require('./routes/logout');
 var signup = require('./routes/signup');
 var polls = require('./routes/polls');
 var myaccount = require('./routes/myaccount');
-var flash = require('connect-flash');
-
+var flash = require('express-flash');
+var methodOverride = require("method-override");
 const projectRoot = path.resolve(__dirname, '../')
 
   http = require('http');
@@ -79,7 +79,6 @@ app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist'));
 app.use('/jqueryui', express.static(__dirname + '/node_modules/jqueryui'));
 app.use('/formbuilder', express.static(__dirname + '/node_modules/formBuilder/dist'));
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist'));
-app.use('/gentelella', express.static(__dirname + '/node_modules/gentelella/producti'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -94,6 +93,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(methodOverride('_method'));
 
 app.use('/', index);
 app.use('/signup', signup);
@@ -101,6 +101,7 @@ app.use('/login', login);
 app.use('/logout', logout);
 app.use('/polls', polls);
 app.use('/myaccount', myaccount);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
