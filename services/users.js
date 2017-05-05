@@ -23,3 +23,7 @@ exports.createUser = (username,email,password) => {
            return model.save();
        });
 };
+
+exports.currentUser=(id)=>{
+  return db.Users.findById(id);
+}

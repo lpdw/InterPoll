@@ -1,10 +1,11 @@
 <% include partials/header %>
 <div class="login-container">
-
-<% console.log(err.length); %>
 <% if (err.length>0) { %>
         <div class="alert alert-danger"><%= err %></div>
     <% } %>
+    <% if (user) { %>
+            <div class="alert alert-success"> Félicitations <%=user.username%> votre compte a bien été créé ! Vous pouvez désormais vous connecter</div>
+        <% } %>
 <form action="/login" method="post" class="full-content">
   <div class="form-group">
        <label for="username" >Identifiant :</label>

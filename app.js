@@ -70,6 +70,7 @@ app.all('/', verifyAuth);
 app.all('/myaccount', verifyAuth);
 app.all('/login', verifyAuth);
 app.all('/signup', verifyAuth);
+app.all('/logout', verifyAuth);
 app.use('static', express.static(projectRoot + '/public'));
 app.use('dist', express.static(__dirname));
 
