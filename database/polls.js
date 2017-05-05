@@ -28,6 +28,10 @@
          },
          background_color: {
              type: DataTypes.STRING,
+         },
+         online: {
+             type: DataTypes.BOOLEAN,
+             defaultValue:false
          }
      });
  };

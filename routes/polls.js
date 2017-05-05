@@ -20,7 +20,19 @@ router.get('/:id', function(req, res, next) {
   return res.render('polls/show');
 });
 
-
+router.get('/online/:id', function(req, res, next) {
+  pollService.onlinePoll(req.params.id)
+  .then(poll =>{
+    req.flash("success", "Le sondage a bien été mis en ligne à l'url suivante :");
+      res.redirect("/polls");
+  });
+});
+router.get('/offline/:id', function(req, res, next) {
+  pollService.offlinePoll(req.params.id)
+  .then(poll =>{
+    req.flash("success", "Le sondage a bien été mis en hors ligne");
+      res.redirect("/polls");
+  });});
 router.get('/edit/:id', function(req, res, next) {
   return res.render('polls/edit');
 });
