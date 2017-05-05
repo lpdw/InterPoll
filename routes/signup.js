@@ -58,8 +58,9 @@ router.post('/', bodyVerificator, (req, res, next) => {
         })
         .then(user => {
             if (req.accepts('text/html')) {
-                return res.render('registered', {
-                    user: _.omit(user.dataValues, 'password')
+                return res.render('login', {
+                    user: _.omit(user.dataValues, 'password'),
+                    err: ""
                 });
             }
             return res.status(200).send(_.omit(user.dataValues, 'password'));

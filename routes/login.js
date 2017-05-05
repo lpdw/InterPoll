@@ -4,8 +4,9 @@ const passport = require('passport');
 
 router.get('/', (req, res) => {
    const err = (req.session.err) ? req.session.err : null;
+   const user ="";
    if (req.accepts('text/html')) {
-       return res.render('login', { err: req.flash('error') });
+       return res.render('login', { err: req.flash('error'), user:user});
    }
    next(new APIError(406, 'Not valid type for asked ressource'));
 });

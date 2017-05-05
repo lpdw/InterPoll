@@ -10,4 +10,7 @@ router.get('/', function(req, res, next) {
       user:user
   });
 });
+router.post('/', (req, res, next) => {
+    
+});
 module.exports = router;
