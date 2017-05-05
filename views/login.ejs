@@ -1,4 +1,7 @@
 <% include partials/header %>
+<% if (err != null) { %>
+      <div class="alert alert-danger"><%= err %></div>
+    <% } %>
 <form action="/login" method="post">
    <div>
        <label>Identifiant:</label>

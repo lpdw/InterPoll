@@ -5,7 +5,7 @@ const passport = require('passport');
 router.get('/', (req, res) => {
    const err = (req.session.err) ? req.session.err : null;
    if (req.accepts('text/html')) {
-       return res.render('login', {err});
+       return res.render('login', { err: req.flash('error') });
    }
    next(new APIError(406, 'Not valid type for asked ressource'));
 });
@@ -14,7 +14,8 @@ router.get('/', (req, res) => {
 router.post('/',
    passport.authenticate('local', {
        successRedirect: '/polls',
-       failureRedirect: '/login'
+       failureRedirect: '/login',
+       failureFlash: true
       })
 );
 
