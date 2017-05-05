@@ -11,4 +11,9 @@ router.get('/:id', function(req, res, next) {
   return res.render('poll');
 });
 
+router.get('/edit/:id', function(req, res, next) {
+  console.log(req.isAuthenticated());
+  return res.render('edit');
+});
+
 module.exports = router;
