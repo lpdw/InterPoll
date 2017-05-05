@@ -131,7 +131,7 @@ jQuery(function($) {
       var allEditorValues = $('.build-wrap').map(function() {
         // return $(this).data('formBuilder').formData;
         console.log($(this));
-        return $(this).data("formBuilder").actions.getData("json");
+        return getJsonAndAddResult($(this).data("formBuilder").actions.getData("json"));
         // console.log($(this).data('formBuilder').actions.getData("json"));
 
       });
