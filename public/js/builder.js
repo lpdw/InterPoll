@@ -2,18 +2,6 @@
 
 jQuery(function($) {
 
-
-  // let templates = {
-  //   starRating: function(fieldData) {
-  //     return {
-  //       field: '<span id="'+fieldData.name+'">',
-  //       onRender: function() {
-  //         $(document.getElementById(fieldData.name)).rateYo({rating: 3.6});
-  //       }
-  //     };
-  //   }
-  // };
-
   var typeUserDisabledAttrs = {
     autocomplete: ['access']
   };
@@ -77,8 +65,6 @@ jQuery(function($) {
       enable: true
     },
     sortableControls: true,
-    // fields,
-    // templates,
     typeUserDisabledAttrs,
     typeUserAttrs,
     // disabledAttrs
@@ -174,15 +160,6 @@ jQuery(function($) {
       },
       removeField: () => fb.actions.removeField()
     };
-
-    // Object.keys(apiBtns).forEach(action => {
-    //   console.log(document.getElementById(action));
-    //   document.getElementById(action)
-    //   .addEventListener('click', e => apiBtns[action]());
-    // });
-
-    // document.getElementById('setLanguage')
-    // .addEventListener('change', e => fb.actions.setLang(e.target.value));
   });
 
 
