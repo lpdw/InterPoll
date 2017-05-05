@@ -18,8 +18,7 @@ const projectRoot = path.resolve(__dirname, '../')
   http = require('http');
 var app = express();
 app.io = require('socket.io')();
-app.use('static', express.static(projectRoot + '/public'));
-app.use('dist', express.static(__dirname));
+
 var passport = require('passport');
 var authentification = require('./services/authentification');
 app.use(session({
@@ -43,7 +42,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 const verifyAuth = (req, res, next) => {
    res.locals.userLogged = false;
-   if (req.originalUrl === '/signup' ||req.originalUrl === '/login' || req.originalUrl === '/' || req.originalUrl === '/css') {
+   console.log(req.originalUrl);
+   if (req.originalUrl === '/signup' ||req.originalUrl === '/login' || req.originalUrl === '/css/*') {
        return next();
    }
    if (req.get('authorization') === '681433da-d3f4-4a62-9dbd-58c6f73d9f0f') {
@@ -62,10 +62,10 @@ const verifyAuth = (req, res, next) => {
         return res.status(401).send({err: 'Vous devez être connecté'});
    }
 };
-app.all('*', verifyAuth);
+app.all('polls/', verifyAuth);
+app.use('static', express.static(projectRoot + '/public'));
+app.use('dist', express.static(__dirname));
 
-
-app.all('*', verifyAuth);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
