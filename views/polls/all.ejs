@@ -1,0 +1,18 @@
+<% include ../partials/header %>
+<h1>Mes sondages </h1>
+<button class="btn btn-primary"><a href="/polls/new">Nouveau sondage</a></button>
+
+<% if(polls.length > 0 ){%>
+  <ul>
+  <% polls.forEach(function(poll){ %>
+
+  <% });%>
+  </ul>
+  <%}else{%>
+  <p>
+    Vous n'avez pas encore de sondage
+  </p>
+  <%}%>
+
+
+<% include ../partials/footer %>

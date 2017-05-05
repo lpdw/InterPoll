@@ -4,11 +4,11 @@
  <head>
    <meta charset="utf-8">
    <title>Interpoll</title>
-   <link rel="stylesheet" type="text/css" href="/css/style.css" />
    <link rel="stylesheet" type="text/css" href="/jqueryui/jquery-ui.min.css">
    <link rel="stylesheet" type="text/css" href="/formbuilder/form-builder.min.css">
    <link rel="stylesheet" type="text/css" href="/formbuilder/form-render.min.css">
    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
+   <link rel="stylesheet" type="text/css" href="/css/style.css" />
 
 
    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
@@ -16,10 +16,28 @@
      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
    <![endif]-->
 </head>
+<body>
+<header>
 
-<div class="menu">
-  <a href="/">Interpoll</a>
-  <a href="/polls">Mes sondages</a>
-  <a href="/login">Connexion</a>
-  <a href="/signup">Inscription</a>
-</div>
+
+<% if (userLogged) { %>
+
+<nav class="navbar navbar-default">
+  <ul class="nav navbar-nav">
+    <li>
+      <a href="/">Interpoll</a>
+    </li>
+    <li>
+      <a href="/polls">Mes sondages</a>
+    </li>
+    <li>
+      <a href="/myaccount">Mon compte</a>
+    </li>
+    <li>
+      <a href="/logout">Se déconnecter</a>
+    </li>
+  </ul>
+</nav>
+<% } %>
+</header>
+  <main>

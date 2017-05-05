@@ -1,0 +1,27 @@
+<% include partials/header %>
+<div class="login-container">
+
+<% if (err != null) { %>
+      <div class="alert alert-danger"><%= err %></div>
+    <% } %>
+      <form action="/signup" method="post" class="full-content">
+        <div class="form-group">
+             <label for="username" >Identifiant :</label>
+             <input type="text" id="username" required class="form-control" placeholder="Identifiant" value="<%= user.username%>" name="username"/>
+      </div>
+      <div class="form-group">
+          <label for="email">Adresse e-mail:</label>
+          <input required type="email" id="email" class="form-control" placeholder="E-mail"  value="<%= user.email%>" name="email" />
+        </div>
+        <div class="form-group">
+               <label for="password">Mot de passe:</label>
+               <input type="password" id="password"  class="form-control" placeholder="Mot de passe" value="" name="password"/>
+           </div>
+
+              <div class="form-group">
+                  <input type="submit" class="btn btn-primary" value="Mettre à jour mon compte"/>
+              </div>
+
+      </form>
+    </div>
+      <% include partials/footer %>

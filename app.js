@@ -11,6 +11,7 @@ var login = require('./routes/login');
 var logout = require('./routes/logout');
 var signup = require('./routes/signup');
 var polls = require('./routes/polls');
+var myaccount = require('./routes/myaccount');
 var flash = require('connect-flash');
 
 const projectRoot = path.resolve(__dirname, '../')
@@ -18,8 +19,7 @@ const projectRoot = path.resolve(__dirname, '../')
   http = require('http');
 var app = express();
 app.io = require('socket.io')();
-app.use('static', express.static(projectRoot + '/public'));
-app.use('dist', express.static(__dirname));
+
 var passport = require('passport');
 var authentification = require('./services/authentification');
 app.use(session({
@@ -43,7 +43,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 const verifyAuth = (req, res, next) => {
    res.locals.userLogged = false;
-   if (req.originalUrl === '/signup' ||req.originalUrl === '/login' || req.originalUrl === '/' || req.originalUrl === '/css') {
+   console.log(req.originalUrl);
+   if (req.originalUrl === '/signup' ||req.originalUrl === '/login' ) {
        return next();
    }
    if (req.get('authorization') === '681433da-d3f4-4a62-9dbd-58c6f73d9f0f') {
@@ -62,13 +63,23 @@ const verifyAuth = (req, res, next) => {
         return res.status(401).send({err: 'Vous devez être connecté'});
    }
 };
-app.all('*', verifyAuth);
+app.all('/polls', verifyAuth);
+app.all('/polls/new', verifyAuth);
+app.all('/polls/edit/*', verifyAuth);
+app.all('/', verifyAuth);
+app.all('/myaccount', verifyAuth);
+app.all('/login', verifyAuth);
+app.all('/signup', verifyAuth);
+app.all('/logout', verifyAuth);
+app.use('static', express.static(projectRoot + '/public'));
+app.use('dist', express.static(__dirname));
 
 // Form Builder
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist'));
 app.use('/jqueryui', express.static(__dirname + '/node_modules/jqueryui'));
 app.use('/formbuilder', express.static(__dirname + '/node_modules/formBuilder/dist'));
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist'));
+app.use('/gentelella', express.static(__dirname + '/node_modules/gentelella/producti'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -89,6 +100,7 @@ app.use('/signup', signup);
 app.use('/login', login);
 app.use('/logout', logout);
 app.use('/polls', polls);
+app.use('/myaccount', myaccount);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

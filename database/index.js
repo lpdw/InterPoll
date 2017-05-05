@@ -31,7 +31,7 @@ const Poll_Results = sequelize.import(path.join(__dirname, 'pollResults'));
 const Themes = sequelize.import(path.join(__dirname, 'themes'));
 const Poll_Settings = sequelize.import(path.join(__dirname, 'pollSettings'));
 
-Polls.belongsTo(Users, {as: 'User',foreignKey: 'fk_user' });
+Users.hasMany(Polls, {as: 'Polls'});
 Poll_Results.belongsTo(Polls, {as:'Poll', foreignKey: 'fk_poll' });
 Polls.hasOne(Themes,{as: 'Theme', foreignKey:'fk_theme'});
 exports.Users = Users;
