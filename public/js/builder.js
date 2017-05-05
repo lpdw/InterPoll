@@ -65,7 +65,7 @@ jQuery(function($) {
       'button'
     ],
     onSave: function(e, formData) {
-      console.log("save");
+      // console.log("save");
       toggleEdit();
       $('.render-wrap').formRender({
         formData,
@@ -92,7 +92,7 @@ jQuery(function($) {
   }
   if (multipleFormData) {
     fbOptions.formData = JSON.parse(multipleFormData)[0];
-    console.log(JSON.parse(multipleFormData));
+    // console.log(JSON.parse(multipleFormData));
   }
 
   // Tabs
@@ -130,12 +130,12 @@ jQuery(function($) {
     $(document.getElementById('save-all')).click(function() {
       var allEditorValues = $('.build-wrap').map(function() {
         // return $(this).data('formBuilder').formData;
-        console.log($(this));
+        // console.log($(this));
         return $(this).data("formBuilder").actions.getData("json");
         // console.log($(this).data('formBuilder').actions.getData("json"));
 
       });
-      console.log(allEditorValues);
+      // console.log(allEditorValues);
       /**
         * Stocker en base
         */
@@ -155,7 +155,6 @@ jQuery(function($) {
 
   const setFormData = '[{"type":"text","label":"Full Name","subtype":"text","className":"form-control","name":"text-1476748004559"},{"type":"select","label":"Occupation","className":"form-control","name":"select-1476748006618","values":[{"label":"Street Sweeper","value":"option-1","selected":true},{"label":"Moth Man","value":"option-2"},{"label":"Chemist","value":"option-3"}]},{"type":"textarea","label":"Short Bio","rows":"5","className":"form-control","name":"textarea-1476748007461"}]';
 
-  console.log(fbOptions);
   const formBuilder = $('.build-wrap').formBuilder(fbOptions);
   const fbPromise = formBuilder.promise;
 
@@ -190,5 +189,7 @@ jQuery(function($) {
   document.getElementById('edit-form').onclick = function() {
     toggleEdit();
   };
+
+  console.log(this);
 
 });
