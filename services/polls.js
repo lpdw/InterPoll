@@ -26,14 +26,22 @@ exports.findByUser= (user) => {
   }
 });};
 
-exports.update = (song,id) => {
+exports.onlinePoll = (id) => {
     return db.Polls.update(
     {
-        title: song.title,
-        album: song.album,
-        artist: song.artist,
-        year: song.year,
-        bpm: song.bpm
+        online: true,
+    },
+    { where:{
+      id: id
+
+    }
+    // TODO: Generate URL + QR CODE
+  });
+};
+exports.offlinePoll = (id) => {
+    return db.Polls.update(
+    {
+        online: false,
     },
     { where:{
       id: id
@@ -41,7 +49,6 @@ exports.update = (song,id) => {
     }
   });
 };
-
 
 exports.destroy=(id)=>{
   return db.Polls.destroy({

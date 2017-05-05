@@ -7,15 +7,26 @@ jQuery(function($) {
   };
 
   var typeUserAttrs = {
-    text: {
-      className: {
-        label: 'Class',
+    date: {
+      resultat: {
+        label: 'Resultat',
         options: {
-          'red form-control': 'Red',
-          'green form-control': 'Green',
-          'blue form-control': 'Blue'
-        },
-        style: 'border: 1px solid red'
+          'noresult': 'Ne pas afficher le résultat',
+          'circulaire': 'Diagramme circulaire',
+          'diagramme': 'Diagramme en bâton',
+          'graph': 'Graphique',
+        }
+      }
+    },
+    select: {
+      resultat: {
+        label: 'Resultat',
+        options: {
+          'noresult': 'Ne pas afficher le résultat',
+          'circulaire': 'Diagramme circulaire',
+          'diagramme': 'Diagramme en bâton',
+          'graph': 'Graphique',
+        }
       }
     }
   };
@@ -31,7 +42,7 @@ jQuery(function($) {
       type: "header"
       }],
     i18n: {
-      // locale: 'en-EN'
+       locale: 'fr-FR'
       //location: 'http://languagefile.url/directory/'
       //extension: '.ext'
       //preloaded: {
