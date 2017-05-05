@@ -3,16 +3,16 @@
 jQuery(function($) {
 
 
-  let templates = {
-    starRating: function(fieldData) {
-      return {
-        field: '<span id="'+fieldData.name+'">',
-        onRender: function() {
-          $(document.getElementById(fieldData.name)).rateYo({rating: 3.6});
-        }
-      };
-    }
-  };
+  // let templates = {
+  //   starRating: function(fieldData) {
+  //     return {
+  //       field: '<span id="'+fieldData.name+'">',
+  //       onRender: function() {
+  //         $(document.getElementById(fieldData.name)).rateYo({rating: 3.6});
+  //       }
+  //     };
+  //   }
+  // };
 
   var typeUserDisabledAttrs = {
     autocomplete: ['access']
@@ -68,8 +68,8 @@ jQuery(function($) {
       // console.log("save");
       toggleEdit();
       $('.render-wrap').formRender({
-        formData,
-        templates
+        formData
+        //  tes
       });
       window.sessionStorage.setItem('formData', JSON.stringify(formData));
     },
@@ -78,7 +78,7 @@ jQuery(function($) {
     },
     sortableControls: true,
     // fields,
-    templates,
+    // templates,
     typeUserDisabledAttrs,
     typeUserAttrs,
     // disabledAttrs
@@ -91,7 +91,7 @@ jQuery(function($) {
     fbOptions.formData = JSON.parse(formData);
   }
   if (multipleFormData) {
-    fbOptions.formData = JSON.parse(multipleFormData)[0];
+    // fbOptions.formData = JSON.parse(multipleFormData)[0];
     // console.log(JSON.parse(multipleFormData));
   }
 
