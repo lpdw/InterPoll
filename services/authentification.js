@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const LocalStrategy = require('passport-local').Strategy;
 const UserService = require('../services/users');
 module.exports.interpollLocalStrategy = () => {

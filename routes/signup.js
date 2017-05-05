@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const UserService = require('../services/users');
 const _ = require("lodash");
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const LocalStrategy = require('passport-local').Strategy;
 const APIError = require('../lib/error');
 
