@@ -43,7 +43,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 const verifyAuth = (req, res, next) => {
    res.locals.userLogged = false;
-   if (req.originalUrl === '/signup' ||req.originalUrl === '/login' || req.originalUrl === '/') {
+   if (req.originalUrl === '/signup' ||req.originalUrl === '/login' || req.originalUrl === '/' || req.originalUrl === '/css') {
        return next();
    }
    if (req.get('authorization') === '681433da-d3f4-4a62-9dbd-58c6f73d9f0f') {
