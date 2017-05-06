@@ -7,7 +7,7 @@ jQuery(function($) {
   };
 
   var typeUserAttrs = {
-    date: {
+    'checkbox-group': {
       resultat: {
         label: 'Resultat',
         options: {
@@ -18,7 +18,62 @@ jQuery(function($) {
         }
       }
     },
-    select: {
+    'radio-group': {
+      resultat: {
+        label: 'Resultat',
+        options: {
+          'noresult': 'Ne pas afficher le résultat',
+          'circulaire': 'Diagramme circulaire',
+          'diagramme': 'Diagramme en bâton',
+          'graph': 'Graphique',
+        }
+      }
+    },
+    'select': {
+      resultat: {
+        label: 'Resultat',
+        options: {
+          'noresult': 'Ne pas afficher le résultat',
+          'circulaire': 'Diagramme circulaire',
+          'diagramme': 'Diagramme en bâton',
+          'graph': 'Graphique',
+        }
+      }
+    },
+    'date': {
+      resultat: {
+        label: 'Resultat',
+        options: {
+          'noresult': 'Ne pas afficher le résultat',
+          'circulaire': 'Diagramme circulaire',
+          'diagramme': 'Diagramme en bâton',
+          'graph': 'Graphique',
+        }
+      }
+    },
+    'text': {
+      resultat: {
+        label: 'Resultat',
+        options: {
+          'noresult': 'Ne pas afficher le résultat',
+          'circulaire': 'Diagramme circulaire',
+          'diagramme': 'Diagramme en bâton',
+          'graph': 'Graphique',
+        }
+      }
+    },
+    'textarea': {
+      resultat: {
+        label: 'Resultat',
+        options: {
+          'noresult': 'Ne pas afficher le résultat',
+          'circulaire': 'Diagramme circulaire',
+          'diagramme': 'Diagramme en bâton',
+          'graph': 'Graphique',
+        }
+      }
+    },
+    'number': {
       resultat: {
         label: 'Resultat',
         options: {
@@ -42,25 +97,22 @@ jQuery(function($) {
       type: "header"
       }],
     i18n: {
-       locale: 'fr-FR'
-      //location: 'http://languagefile.url/directory/'
-      //extension: '.ext'
-      //preloaded: {
-      //    'en-US': {...}
-      //}
+      locale: 'fr-FR',
+      location: '/formbuilder/',
+      extension: '.lang'
     },
     controlOrder: [
       'header',
       'paragraph',
       'checkbox-group',
       'radio-group',
-      'select'
+      'select',
+      'number'
     ],
     disableFields: [
       'autocomplete',
       'file',
       'hidden',
-      'number',
       'button'
     ],
     onSave: function(e, formData) {
@@ -128,7 +180,7 @@ jQuery(function($) {
       var allEditorValues = $('.build-wrap').map(function() {
         // return $(this).data('formBuilder').formData;
         console.log($(this));
-        return getJsonAndAddResult($(this).data("formBuilder").actions.getData("json"));
+        return $(this).data("formBuilder").actions.getData("json");
         // console.log($(this).data('formBuilder').actions.getData("json"));
 
       });

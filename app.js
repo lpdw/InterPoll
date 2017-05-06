@@ -16,7 +16,7 @@ var flash = require('express-flash');
 var methodOverride = require("method-override");
 const projectRoot = path.resolve(__dirname, '../')
 
-  http = require('http');
+var http = require('http');
 var app = express();
 app.io = require('socket.io')();
 
@@ -44,7 +44,7 @@ app.use(passport.session());
 const verifyAuth = (req, res, next) => {
    res.locals.userLogged = false;
    console.log(req.originalUrl);
-   if (req.originalUrl === '/signup' ||req.originalUrl === '/login' ) {
+   if (req.originalUrl === '/signup' || req.originalUrl === '/login' ) {
        return next();
    }
    if (req.get('authorization') === '681433da-d3f4-4a62-9dbd-58c6f73d9f0f') {

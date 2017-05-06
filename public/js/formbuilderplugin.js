@@ -1,22 +1,52 @@
 var formBuilderUl = $('.frmb.ui-sortable');
 
+var getResultChart = function(chart) {
+	return $('<div class="col-md-6 result-display">' + chart + '</div>');
+};
+
+var resultDisplayToggle = function(formField) {
+	var prevHolder = formField.find('div.prev-holder');
+	prevHolderNodeInserted(prevHolder, formField);
+
+};
+
+var prevHolderNodeInserted = function(prevHolder, formField) {
+	prevHolder.on('DOMNodeInserted', function() {
+		var formGroup = prevHolder.find('.form-group');
+		formGroup.addClass('col-md-12');
+		var resultSelect = formField.find('.fld-resultat');
+		if (resultSelect.length) {
+			if (resultSelect.val() != 'noresult') {
+				formGroup.removeClass('col-md-12').addClass('col-md-6');
+				prevHolder.off('DOMNodeInserted');
+				formGroup.after(getResultChart(resultSelect.val()));
+				prevHolderNodeInserted(prevHolder, formField);
+			}
+			else {
+				formGroup.removeClass('col-md-6').addClass('col-md-12');
+				formGroup.next('div.result-display').remove();
+			}
+		}
+	});
+};
+
 var formbuilderplugin = function() {
 	$('.content').on('DOMNodeInserted', function() {
 		if ($('.frmb.ui-sortable').length && $('.frmb.ui-sortable').length != formBuilderUl.length)
 			formBuilderUl = $('.frmb.ui-sortable');
 		if (formBuilderUl.length) {
 			formBuilderUl.off('DOMNodeInserted').on('DOMNodeInserted', function(e) {
-				if ($(e.target).is('.form-field')) {
-					$(e.target).addClass("col-md-12");
-					if ($(e.target).is('.autocomplete-field, .checkbox-group-field, .date-field, .radio-group-field, .select-field, .text-field, .textarea-field') && !$(e.target).find('.result-wrap').length)
-						$('<div class="form-group result-wrap" style="display: block"><label>Result</label><div class="input-wrap"><select name="result" class="fld-result form-control"><option>Ne pas afficher le résultat</option><option>Diagramme circulaire</option><option>Diagramme en bâton</option><option>Graphique</option></select></div></div>').insertBefore($(e.target).find(".close-field"));
+				if ($(e.target).is('li.form-field')) {
+					$(e.target).addClass('col-md-12');
+					$(e.target).find('div.prev-holder').addClass('row');
+					resultDisplayToggle($(e.target));
 				}
 			});
 		}
 	});
-}
+};
 
-var getJsonAndAddResult = function(formData) {
+/*var getJsonAndAddResult = function(formData) {
 	if (formBuilderUl.length) {
 		formData = jQuery.parseJSON(formData);
 		for (var i=0; i<formBuilderUl.length; i++) {
@@ -29,6 +59,6 @@ var getJsonAndAddResult = function(formData) {
 		console.log(formData);
 	}
 	return formData;
-}
+}*/
 
 formbuilderplugin();
