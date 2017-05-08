@@ -1,43 +1,38 @@
 
 <!DOCTYPE html>
 <html lang="en">
- <head>
-   <meta charset="utf-8">
-   <title>Interpoll</title>
-   <link rel="stylesheet" type="text/css" href="/jqueryui/jquery-ui.min.css">
-   <link rel="stylesheet" type="text/css" href="/formbuilder/form-builder.custom.css">
-   <link rel="stylesheet" type="text/css" href="/formbuilder/form-render.min.css">
-   <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
-   <link rel="stylesheet" type="text/css" href="/css/style.css" />
-
-
-   <!-- HTML5 shim, for IE6-8 support of HTML elements -->
-   <!--[if lt IE 9]>
-     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-   <![endif]-->
-</head>
-<body>
-<header>
-
-
-<% if (userLogged) { %>
-
-<nav class="navbar navbar-default">
-  <ul class="nav navbar-nav">
-    <li>
-      <a href="/">Interpoll</a>
-    </li>
-    <li>
-      <a href="/polls">Mes sondages</a>
-    </li>
-    <li>
-      <a href="/myaccount">Mon compte</a>
-    </li>
-    <li>
-      <a href="/logout">Se déconnecter</a>
-    </li>
-  </ul>
-</nav>
-<% } %>
-</header>
-  <main>
+  <head>
+    <meta charset="utf-8">
+    <title>Interpoll</title>
+    <link rel="stylesheet" type="text/css" href="/jqueryui/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="/formbuilder/form-builder.custom.css">
+    <link rel="stylesheet" type="text/css" href="/formbuilder/form-render.min.css">
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <header>
+      <% if (userLogged) { %>
+      <nav class="navbar navbar-default">
+        <ul class="nav navbar-nav">
+          <li>
+            <a href="/">Interpoll</a>
+          </li>
+          <li>
+            <a href="/polls">Mes sondages</a>
+          </li>
+          <li>
+            <a href="/myaccount">Mon compte</a>
+          </li>
+          <li>
+            <a href="/logout">Se déconnecter</a>
+          </li>
+        </ul>
+      </nav>
+      <% } %>
+    </header>
+    <main>

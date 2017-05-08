@@ -79,6 +79,7 @@ app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist'));
 app.use('/jqueryui', express.static(__dirname + '/node_modules/jqueryui'));
 app.use('/formbuilder', express.static(__dirname + '/node_modules/formBuilder/dist'));
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist'));
+app.use('/chart', express.static(__dirname + '/node_modules/chart.js/dist'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
