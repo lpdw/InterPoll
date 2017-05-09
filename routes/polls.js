@@ -2,6 +2,12 @@ var express = require('express');
 var router = express.Router();
 var userService = require("../services/users");
 var pollService = require("../services/polls");
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+const { window } = new JSDOM(`<!DOCTYPE html>`);
+const $ = require('jQuery')(window);
+
+express.io = require('socket.io')();
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   const user= req.user;
@@ -13,9 +19,16 @@ router.get('/', function(req, res, next) {
   });
 });
 router.get('/new', function(req, res, next) {
+  var form_json = jQuery('.build-wrap').map(function() {
+    // return $(this).data('formBuilder').formData;
+    return jQuery(this).data("formBuilder").actions.getData("json");
+  });
+
+  console.log(form_json);
   return res.render('polls/new');
 });
 router.get('/:id', function(req, res, next) {
+  res.locals.userLogged=false;
   return res.render('polls/show');
 });
 
