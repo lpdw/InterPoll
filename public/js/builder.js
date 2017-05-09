@@ -167,12 +167,26 @@ jQuery(function($) {
         // $newPage = $newPageTemplate.clone().attr('id', tabId).prepend('<div class="build-wrap">'),
         $newTab = $(this).clone().removeAttr('id'),
         $tabLink = $('a', $newTab).attr('href', '#' + tabId).text('Page ' + tabCount);
+        $newTab.append('<span class="closeTab">X</span>');
 
       $newPage.insertBefore($newPageTemplate);
       $newTab.insertBefore(this);
       $fbPages.tabs('refresh');
       $fbPages.tabs("option", "active", tabCount - 1);
       $newPage.formBuilder(fbOptions);
+
+      // Close tab
+      $('.closeTab').on('click', function(e){
+        // e.preventDefault();
+        console.log(this);
+        var idTab = $(this).prev().attr('href');
+        var tabs = $( "#tabs" ).tabs();
+        console.log($(idTab));
+        $(idTab).remove();
+        $(this).parent().remove();
+        tabs.tabs( "refresh" );
+      });
+
     };
 
     $('.fb-editor').formBuilder();
@@ -192,6 +206,7 @@ jQuery(function($) {
 
       window.sessionStorage.setItem('multipleFormData', JSON.stringify(allEditorValues));
     });
+
   });
 
   /**
