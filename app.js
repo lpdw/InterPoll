@@ -14,6 +14,7 @@ var polls = require('./routes/polls');
 var myaccount = require('./routes/myaccount');
 var flash = require('express-flash');
 var methodOverride = require("method-override");
+var UserService = require("./services/users");
 const projectRoot = path.resolve(__dirname, '../')
 
 var http = require('http');
@@ -32,37 +33,62 @@ app.use(session({
     }
 }));
 app.use(flash());
-passport.serializeUser(function(user, done) {
-    done(null, user);
-});
-passport.deserializeUser(function(obj, done) {
-    done(null, obj);
-});
+
 passport.use(authentification.interpollLocalStrategy());
 app.use(passport.initialize());
 app.use(passport.session());
+passport.serializeUser(function(user, done) {
+  console.log("serializeUser" + user);
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  console.log("deserializeUser" + user);
+
+  done(null, user);
+});
 const verifyAuth = (req, res, next) => {
    res.locals.userLogged = false;
-   console.log(req.originalUrl);
-   if (req.originalUrl === '/signup' || req.originalUrl === '/login' ) {
-       return next();
+   // manually set user for dev environment
+   if(app.settings.env==="development"){
+     res.locals.userLogged=true;
+     UserService.findById(1)
+     .then(user => {
+      req.user = user.toJSON();
+      res.cookie('User',user.toJSON(), { maxAge: 2592000000 });
+      next();
+     }
+   ).catch(err=>{
+     console.log(err);
+
    }
-   if (req.get('authorization') === '681433da-d3f4-4a62-9dbd-58c6f73d9f0f') {
-       res.locals.userLogged = true;
-       return next();
+ );
+
+   }else{
+     if (req.originalUrl === '/signup' || req.originalUrl === '/login' ) {
+         return next();
+     }
+     if (req.get('authorization') === '681433da-d3f4-4a62-9dbd-58c6f73d9f0f') {
+         res.locals.userLogged = true;
+         return next();
+     }
+     if (req.isAuthenticated()) {
+         res.locals.userLogged = true;
+         return next();
+     }
+     if (req.accepts('text/html')) {
+          return res.redirect('/login');
+     }
+     if (req.accepts('application/json')) {
+          res.set('Location', '/login');
+          return res.status(401).send({err: 'Vous devez être connecté'});
+     }
    }
-   if (req.isAuthenticated()) {
-       res.locals.userLogged = true;
-       return next();
-   }
-   if (req.accepts('text/html')) {
-        return res.redirect('/login');
-   }
-   if (req.accepts('application/json')) {
-        res.set('Location', '/login');
-        return res.status(401).send({err: 'Vous devez être connecté'});
-   }
+
+     console.log("Cookie user" +req.user);
+
 };
+
 app.all('/polls', verifyAuth);
 app.all('/polls/new', verifyAuth);
 app.all('/polls/edit/*', verifyAuth);
@@ -122,9 +148,10 @@ app.use(function(err, req, res, next) {
     res.render('error');
 });
 
+
+console.log("App environment "+app.settings.env);
 app.io.on( "connection", function( socket )
 {
-    console.log( "A user connected" );
     socket.on('user', function (user) {
     socket_user = user;
     sockets.emit('join', user);

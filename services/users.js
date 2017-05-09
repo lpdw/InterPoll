@@ -5,6 +5,9 @@ exports.findOneByQuery = query => {
       where: query
    });
 };
+exports.findById = (id) => {
+      return db.Users.findById(id);
+};
 exports.UserExists = (username, email) => {
   return db.Users.findAndCountAll({
   where: {
