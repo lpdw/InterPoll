@@ -5,7 +5,6 @@ var pollService = require("../services/polls");
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   const user= req.user;
-
   userService.currentUser(user.id)
   .then(user=>{
     return user.getPolls();
@@ -14,7 +13,6 @@ router.get('/', function(req, res, next) {
   });
 });
 router.get('/new', function(req, res, next) {
-  console.log(req.user);
   return res.render('polls/new');
 });
 router.get('/:id', function(req, res, next) {
