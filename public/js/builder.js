@@ -4,7 +4,15 @@ var formBuilder;
 jQuery(function($) {
 
   var typeUserDisabledAttrs = {
-    autocomplete: ['access']
+    'header': ['access'],
+    'paragraph': ['access'],
+    'checkbox-group': ['access'],
+    'radio-group': ['access'],
+    'select': ['access'],
+    'number': ['access'],
+    'date': ['access'],
+    'text': ['access'],
+    'textarea': ['access']
   };
 
   var typeUserAttrs = {
