@@ -1,19 +1,25 @@
-'use strict'
+
+/* jshint esversion: 6 */
+/* jshint node: true */
+
+'use strict';
 const db = require('../database');
 exports.find = (query = {}) => {
     return db.Polls.findAll({
         where: query
     });
 };
-exports.create = (song) => {
-    const model = db.Polls.build(song);
-    return model.validate()
-        .then(err => {
-            if (err) {
-                return Promise.reject(err);
-            }
-            return model.save();
-        });
+
+exports.createPoll = (title,form_json,logo,font,font_color,background_color) => {
+  return db.Polls.create(
+  {
+      title: title,
+      form_json: form_json,
+      logo: logo,
+      font: font,
+      font_color: font_color,
+      background_color: background_color
+  });
 };
 
 exports.findById = (id) => {
@@ -26,22 +32,14 @@ exports.findByUser= (user) => {
   }
 });};
 
-exports.onlinePoll = (id) => {
+exports.update = (song,id) => {
     return db.Polls.update(
     {
-        online: true,
-    },
-    { where:{
-      id: id
-
-    }
-    // TODO: Generate URL + QR CODE
-  });
-};
-exports.offlinePoll = (id) => {
-    return db.Polls.update(
-    {
-        online: false,
+        title: song.title,
+        album: song.album,
+        artist: song.artist,
+        year: song.year,
+        bpm: song.bpm
     },
     { where:{
       id: id
@@ -49,11 +47,12 @@ exports.offlinePoll = (id) => {
     }
   });
 };
+
 
 exports.destroy=(id)=>{
   return db.Polls.destroy({
   where : {
-      id: id
+      _id: id
     }
   });
 

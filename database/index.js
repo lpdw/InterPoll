@@ -1,3 +1,5 @@
+/* jshint esversion: 6 */
+/* jshint node: true */
 
 'use strict';
 const path = require('path');
@@ -31,7 +33,8 @@ const Poll_Results = sequelize.import(path.join(__dirname, 'pollResults'));
 const Themes = sequelize.import(path.join(__dirname, 'themes'));
 const Poll_Settings = sequelize.import(path.join(__dirname, 'pollSettings'));
 
-Users.hasMany(Polls, {as: 'Polls'});
+Polls.belongsTo(Users, {as: 'User',foreignKey: 'fk_user' });
+Users.hasMany(Polls, {as: 'Polls',foreignKey: 'fk_user' });
 Poll_Results.belongsTo(Polls, {as:'Poll', foreignKey: 'fk_poll' });
 Polls.hasOne(Themes,{as: 'Theme', foreignKey:'fk_theme'});
 exports.Users = Users;

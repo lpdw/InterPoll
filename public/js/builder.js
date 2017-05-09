@@ -91,7 +91,7 @@ jQuery(function($) {
     subtypes: {
       text: ['datetime-local']
     },
-    disabledActionButtons: ['data'],
+    disabledActionButtons: ['data', 'save'],
     defaultFields: [{
       class: "header-base",
       label: "Votre question ?",
@@ -191,23 +191,35 @@ jQuery(function($) {
 
     $('.fb-editor').formBuilder();
 
-    $(document.getElementById('save-all')).click(function() {
-      var allEditorValues = $('.build-wrap').map(function() {
-        // return $(this).data('formBuilder').formData;
-        console.log($(this));
-        return $(this).data("formBuilder").actions.getData("json");
-        // console.log($(this).data('formBuilder').actions.getData("json"));
 
-      });
-      console.log(allEditorValues);
-      /**
-        * Stocker en base
-        */
-
-      window.sessionStorage.setItem('multipleFormData', JSON.stringify(allEditorValues));
-    });
-
+// ON SAVE ALL
+  //   $(document.getElementById('save-all')).click(function(e) {
+  //     var allEditorValues = $('.build-wrap').map(function() {
+  //       return $(this).data("formBuilder").actions.getData("json");
+  //     });
+  //     // window.sessionStorage.setItem('multipleFormData', JSON.stringify(allEditorValues));
+  //     // $('.inputJSON').val(JSON.stringify(allEditorValues));
+  //     var dataJSON = JSON.stringify(allEditorValues);
+  //
+  //     // Ajax request save polls
+  //     $.ajax({
+  //       url: '/polls/new',
+  //       method: 'POST',
+  //       dataType: "json",
+  //       contentType: "application/json; charset=utf-8",
+  //       data: {polls: dataJSON},
+  //       error: function(e) {
+  //         console.log(e);
+  //       }
+  //     });
+  //
+  //   });
+  
   });
+
+
+
+
 
   /**
    * Toggles the edit mode for the demo

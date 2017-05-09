@@ -1,6 +1,13 @@
 <% include ../partials/header %>
 <h1>Nouveau  sondage </h1>
+<% if(messages.success){%>
+  <div class="alert alert-success"><%= messages.success %></div>
 
+  <%}%>
+  <% if(messages.error){%>
+    <div class="alert alert-error"><%= messages.error %></div>
+
+    <%}%>
 
 <div class="content">
   <div id="form-builder-pages">
@@ -16,7 +23,14 @@
     <div class="render-wrap"></div>
     <button id="edit-form">Edit Form</button>
   </div>
-  <div class="save-all-wrap"><button id="save-all" class="btn btn-primary" type="button">Save All</button></div>
+  <form action="/polls/new" method="post" class="save-all-wrap" id="form-save-all">
+    <input type="hidden" name="title" value="title">
+    <input type="hidden" name="logo" value="logo">
+    <input type="hidden" name="font" value="font">
+    <input type="hidden" name="font_color" value="font_color">
+    <input type="hidden" name="background_color" value="background_color">
+    <button id="save-all" class="btn btn-primary" type="submit">Save All</button>
+  </form>
 </div>
 
 
