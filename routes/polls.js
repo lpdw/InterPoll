@@ -5,6 +5,7 @@ var express = require('express');
 var router = express.Router();
 var userService = require("../services/users");
 var pollService = require("../services/polls");
+var themeService = require("../services/themes");
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const { window } = new JSDOM(`<!DOCTYPE html>`);
@@ -36,8 +37,11 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/new', function(req, res, next) {
-
-  return res.render('polls/new');
+    themeService.findAll().then(
+      themes => {
+        return res.render('polls/new', {themes : themes});
+      }
+    )
 });
 
 router.post('/new',upload.single('logo'), function(req, res, next) {
@@ -52,6 +56,7 @@ router.post('/new',upload.single('logo'), function(req, res, next) {
   .then(poll=>{
     // console.log(poll);
     poll.setUser(req.user.id);
+    poll.setTheme(req.body.theme);
     req.flash("success", "Le sondage a bien été créé");
 
     res.redirect("edit/" + poll.id);
@@ -79,7 +84,15 @@ router.get('/offline/:id', function(req, res, next) {
       res.redirect("/polls");
   });});
 router.get('/edit/:id', function(req, res, next) {
-  return res.render('polls/edit');
+  themeService.findAll().then(
+    themes => {
+      pollService.findById(req.params.id)
+      .then(poll => {
+        return res.render('polls/edit', {themes : themes, poll : poll});
+
+      });
+    }
+  )
 });
 
 router.delete('/delete/:id', function(req, res) {
