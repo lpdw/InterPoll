@@ -5,7 +5,6 @@ var colorsArray = ['rgba(81,87,74,1)', 'rgba(68,124,105,1)', 'rgba(116,196,147,1
 var getResultChart = function(formField, formGroup, chart) {
 	var ctx = document.createElement('canvas');
 	ctx.id = formField.attr('id') + '-' + chart;
-	console.log(ctx.outerHTML);
 	formGroup.after($('<div class="col-md-6 result-display">' + ctx.outerHTML + '</div>'));
 	var labels = [];
 	var datas = [];
