@@ -48,6 +48,29 @@ exports.update = (song,id) => {
   });
 };
 
+exports.onlinePoll = (id) => {
+    return db.Polls.update(
+    {
+        online: true,
+    },
+    { where:{
+      id: id
+
+    }
+    // TODO: Generate URL + QR CODE
+  });
+};
+exports.offlinePoll = (id) => {
+    return db.Polls.update(
+    {
+        online: false,
+    },
+    { where:{
+      id: id
+
+    }
+  });
+};
 
 exports.destroy=(id)=>{
   return db.Polls.destroy({
