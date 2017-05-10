@@ -57,3 +57,23 @@ body {
 .closeTab:hover {
   opacity: 1;
 }
+.tabs-poll {
+  background-color: #212121;
+  background-image: none;
+  border: 1px solid #212121;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.ui-tabs {
+  padding: 0;
+}
+.tab-page {
+  /*color: blue !important;*/
+  cursor: pointer;
+  border: 1px solid #fff !important;
+  outline: none;
+}
+.tab-page.ui-state-focus {
+  outline: none !important;
+  border: 1px solid #fff !important;
+}

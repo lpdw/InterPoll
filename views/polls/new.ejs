@@ -1,13 +1,12 @@
 <% include ../partials/header %>
 <h1>Nouveau  sondage </h1>
+
 <% if(messages.success){%>
   <div class="alert alert-success"><%= messages.success %></div>
-
   <%}%>
   <% if(messages.error){%>
     <div class="alert alert-error"><%= messages.error %></div>
-
-    <%}%>
+<%}%>
 
 <div class="content">
   <div id="form-builder-pages">
@@ -42,9 +41,7 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="/chart/Chart.js"></script>
 
-
 <script src="/js/builder.js"></script>
 <script src="/js/formbuilderplugin.js"></script>
-
 
 <% include ../partials/footer %>
