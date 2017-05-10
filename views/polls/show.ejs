@@ -1,12 +1,62 @@
-<body>
-<div id="next">
+<% include ../partials/header %>
 
-</div>
-<script src="/socket.io/socket.io.js"></script>
-<script>
-var socket = io.connect('http://localhost:3000');
-   console.log(socket);
-   console.log("socket.io : ");
-   socket.emit('join', 'Hello World from client');
-</script>
-</body>
+    <body>
+        <p id="status">
+
+        </p>
+        <div id="next">
+
+        </div>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/jquery/jquery.min.js"></script>
+
+        <script>
+            var socket = io.connect('http://localhost:3000');
+            console.log(socket);
+            console.log("socket.io : ");
+            // Si l'utilisateur est un Administrateur connecté, il peut changer les slides
+            socket.on('isConnected', function() {
+                $("#status").html("Administrateur");
+
+                $(document).keyup(function(e) {
+                    switch (e.which) {
+                        case 37: // left
+                            console.log("previous");
+                            socket.emit("change_slide", "previous");
+                            break;
+
+                        case 38: // up
+                            break;
+
+                        case 39: // right
+                            console.log("next");
+                            socket.emit("change_slide", "next")
+                            console.log(socket.emit("change_slide", "next"));
+
+                            break;
+
+                        case 40: // down
+                            break;
+
+                        default:
+                            return; // exit this handler for other keys
+                    }
+                    e.preventDefault();
+                });
+
+            });
+
+          // Si l'utilisateur n'est pas connecté, il n'a aucun droit sur l'écran
+          socket.on("isVisitor", function() {
+              console.log("visiteur");
+              $("#status").html("Visiteur");
+
+          });
+          socket.on("refresh_slide", function(slide) {
+              console.log("refresh");
+              console.log(slide);
+              $("#next").html(slide);
+          });
+        </script>
+    </body>
+    <% include ../partials/footer %>

@@ -8,7 +8,8 @@ var pollService = require("../services/polls");
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const { window } = new JSDOM(`<!DOCTYPE html>`);
-const $ = require('jquery')(window);
+const $ = require('jQuery')(window);
+express.io = require('socket.io')();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -24,6 +25,12 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/new', function(req, res, next) {
+  var form_json = $('.build-wrap').map(function() {
+    // return $(this).data('formBuilder').formData;
+    return $(this).data("formBuilder").actions.getData("json");
+  });
+
+  console.log(form_json);
   return res.render('polls/new');
 });
 
@@ -48,6 +55,7 @@ router.post('/new', function(req, res, next) {
 });
 
 router.get('/:id', function(req, res, next) {
+  res.locals.userLogged=false;
   return res.render('polls/show');
 });
 
