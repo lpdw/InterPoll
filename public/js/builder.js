@@ -222,7 +222,7 @@ jQuery(function($) {
   //     });
   //
   //   });
-  
+
   });
 
 
@@ -261,9 +261,17 @@ jQuery(function($) {
     };
   });
 
-
   document.getElementById('edit-form').onclick = function() {
     toggleEdit();
   };
 
+  $('#form-save-all').submit(function() {
+
+  var allEditorValues = $('.build-wrap').map(function() {
+    return $(this).data("formBuilder").actions.getData("json");
+  });
+  var form_json = JSON.stringify(allEditorValues);
+  $("#form_json").val(form_json);
+  return true;
+});
 });

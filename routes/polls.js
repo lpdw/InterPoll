@@ -3,13 +3,15 @@
 
 var express = require('express');
 var router = express.Router();
+var cookie = require('cookie');
+
+
 var userService = require("../services/users");
 var pollService = require("../services/polls");
 var themeService = require("../services/themes");
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
-const { window } = new JSDOM(`<!DOCTYPE html>`);
-const $ = require('jQuery')(window);
+
 const  uuid = require('uuid');
 const fs = require('fs');
 const multer = require("multer");
@@ -45,14 +47,11 @@ router.get('/new', function(req, res, next) {
 });
 
 router.post('/new',upload.single('logo'), function(req, res, next) {
-  var allEditorValues = $('.build-wrap').map(function() {
-    return $(this).data("formBuilder").actions.getData("json");
-  });
-  var form_json = JSON.stringify(allEditorValues);
+
   var filename = req.file.path;
 
   // PollService.createPoll(req.body.title,form_json,req.body.logo,req.body.font,req.body.font_color,req.body.background_color)
-  pollService.createPoll(req.body.title,form_json,filename,req.body.font,req.body.font_color,req.body.background_color)
+  pollService.createPoll(req.body.title,req.body.form_json,filename,req.body.font,req.body.font_color,req.body.background_color)
   .then(poll=>{
     // console.log(poll);
     poll.setUser(req.user.id);
@@ -65,9 +64,46 @@ router.post('/new',upload.single('logo'), function(req, res, next) {
   });
 });
 
-router.get('/:id', function(req, res, next) {
-  res.locals.userLogged=false;
-  return res.render('polls/show');
+router.get('/live/:id', function(req, res, next) {
+  var io = req.app.get('socketio');
+  pollService.findById(req.params.id)
+  .then(poll => {
+    themeService.findById(poll.fk_theme)
+    .then(theme => {
+        //var questions =
+        io.on("connection", function(socket) {
+         var session =  socket.handshake.session;
+         var form_array = JSON.parse(poll.form_json)
+        if(session.passport !== undefined && session.passport !==null ){
+            socket.emit('isConnected',{number:0,form_json:form_array[0]}  );
+        }else{
+          socket.emit('isVisitor',form_array[0])
+        }
+          socket.on ('change_slide', function(slide) {
+            console.log(" current slide number "+slide.number);
+            console.log("slide action "+slide.action);
+            var nouvelle_slide= parseInt(slide.number)+parseInt(slide.action);
+            console.log("next slide number "+nouvelle_slide);
+
+            if(form_array[nouvelle_slide]!== undefined && form_array[nouvelle_slide]!==null){
+              io.emit("refresh_slide", {number:nouvelle_slide,form_json:form_array[nouvelle_slide]});
+            }
+            else{
+              io.emit("last_slide");
+            }
+
+          });
+        });
+        console.log(JSON.parse(poll.form_json));
+      return res.render('polls/themes/'+theme.page, {poll : poll});
+    }).catch(err => {
+      console.log(err);
+    });
+
+  }).catch(err => {
+    console.log(err);
+  });
+
 });
 
 router.get('/online/:id', function(req, res, next) {
@@ -106,5 +142,7 @@ router.delete('/delete/:id', function(req, res) {
               res.redirect("/polls");
                       });
 });
+
+
 
 module.exports = router;

@@ -24,75 +24,95 @@ app.io = require('socket.io')();
 
 var passport = require('passport');
 var authentification = require('./services/authentification');
+var sessionMiddleware =session({
+  secret: '681433da-d3f4-4a62-9dbd-58c6f73d9f0f',
+  resave: true,
+  saveUninitialized: true,
+  cookie: {
+    secure: false,
+    maxAge: 6000000
+  }
+});
 app.use(cookieParser());
-
-app.use(session({
-    secret: '681433da-d3f4-4a62-9dbd-58c6f73d9f0f',
-    saveUninitialized: true,
-    resave: true,
-    cookie: {
-        secure: false,
-        maxAge: 6000000
-    }
-}));
+app.use(sessionMiddleware);
 app.use(flash());
 
 passport.use(authentification.interpollLocalStrategy());
 app.use(passport.initialize());
 app.use(passport.session());
 passport.serializeUser(function(user, done) {
-    console.log("serializeUser" + user);
-    done(null, user);
+  console.log("serializeUser" + user);
+  done(null, user);
 });
 
 passport.deserializeUser(function(user, done) {
-    console.log("deserializeUser" + user);
+  console.log("deserializeUser" + user);
 
-    done(null, user);
+  done(null, user);
 });
 const verifyAuth = (req, res, next) => {
-    res.locals.userLogged = false;
-    // manually set user for dev environment
-    // if (app.settings.env === "development") {
-    //     res.locals.userLogged = true;
-    //     UserService.findById(1)
-    //         .then(user => {
-    //             res.cookie('User', user.toJSON(), {
-    //                 maxAge: 2592000000
-    //             });
-    //             next();
-    //         }).catch(err => {
-    //             console.log(err);
-    //
-    //         });
-    //
-    // } else {
-        if (req.originalUrl === '/signup' || req.originalUrl === '/login') {
-            return next();
-        }
-        if (req.get('authorization') === '681433da-d3f4-4a62-9dbd-58c6f73d9f0f') {
-            res.locals.userLogged = true;
-            return next();
-        }
-        if (req.isAuthenticated()) {
-            res.locals.userLogged = true;
-            return next();
-        }
-        if (req.accepts('text/html')) {
-            return res.redirect('/login');
-        }
-        if (req.accepts('application/json')) {
-            res.set('Location', '/login');
-            return res.status(401).send({
-                err: 'Vous devez être connecté'
-            });
-        }
-    // }
-};
+  res.locals.userLogged = false;
+  // manually set user for dev environment
+  // if (app.settings.env === "development") {
+  //     res.locals.userLogged = true;
+  //     UserService.findById(1)
+  //         .then(user => {
+  //             res.cookie('User', user.toJSON(), {
+  //                 maxAge: 2592000000
+  //             });
+  //             next();
+  //         }).catch(err => {
+  //             console.log(err);
+  //
+  //         });
+  //
+  // } else {
+  console.log(req.originalUrl.indexOf("/polls/live/"));
 
+  if (req.originalUrl === '/signup' || req.originalUrl === '/login') {
+    return next();
+  }else if(req.originalUrl.indexOf("/polls/live/")===0){
+    console.log("Live poll");
+    if (req.isAuthenticated()) {
+      res.locals.userLogged = true;
+      return next();
+    }else{
+      res.locals.userLogged = false;
+      return next();
+    }
+  }
+  if (req.get('authorization') === '681433da-d3f4-4a62-9dbd-58c6f73d9f0f') {
+    res.locals.userLogged = true;
+    return next();
+  }
+  if (req.isAuthenticated()) {
+    res.locals.userLogged = true;
+    return next();
+  }
+  if (req.accepts('text/html')) {
+    return res.redirect('/login');
+  }
+  if (req.accepts('application/json')) {
+    res.set('Location', '/login');
+    return res.status(401).send({
+      err: 'Vous devez être connecté'
+    });
+  }
+  // }
+};
+const verifyAuthLive = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    res.locals.userLogged = true;
+    return next();
+  }else{
+    res.locals.userLogged = false;
+    return next();
+  }
+}
 app.all('/polls', verifyAuth);
 app.all('/polls/new', verifyAuth);
 app.all('/polls/edit/*', verifyAuth);
+app.all('/polls/live/*', verifyAuth);
 app.all('/', verifyAuth);
 app.all('/myaccount', verifyAuth);
 app.all('/login', verifyAuth);
@@ -118,7 +138,7 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-    extended: false
+  extended: false
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method'));
@@ -135,39 +155,41 @@ app.use('/myaccount', myaccount);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
 // error handler
 app.use(function(err, req, res, next) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-    // render the error page
-    res.status(err.status || 500);
-    res.render('error');
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
 });
-
-
-
-app.io.on("connection", function(socket) {
-    var user =cookie.parse(socket.request.headers.cookie).User;
-    console.log(user)
-    if(user){
-      socket.emit('isConnected');
-    }
-    else{
-      socket.emit('isVisitor');
-    }
-    socket.on('change_slide',function(slide){
-      socket.broadcast.emit("refresh_slide",slide);
-      socket.emit("refresh_slide",slide);
-
-    });
+app.io.use(function(socket, next) {
+  sessionMiddleware(socket.handshake, {}, next);
 });
+app.set('socketio', app.io);
+
+// app.io.on("connection", function(socket) {
+//   var user = cookie.parse(socket.request.headers.cookie).User;
+//   console.log("user   " + user)
+//   if (user === undefined ||  user === null) {
+//     socket.emit('isVisitor')
+//   } else {
+//     socket.emit('isConnected');
+//   }
+//
+//   socket.on('change_slide', function(slide) {
+//     socket.broadcast.emit("refresh_slide", slide);
+//     socket.emit("refresh_slide", slide);
+//
+//   });
+// });
 
 
 module.exports = app;
