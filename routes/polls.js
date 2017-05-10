@@ -19,9 +19,9 @@ router.get('/', function(req, res, next) {
   });
 });
 router.get('/new', function(req, res, next) {
-  var form_json = jQuery('.build-wrap').map(function() {
+  var form_json = $('.build-wrap').map(function() {
     // return $(this).data('formBuilder').formData;
-    return jQuery(this).data("formBuilder").actions.getData("json");
+    return $(this).data("formBuilder").actions.getData("json");
   });
 
   console.log(form_json);
