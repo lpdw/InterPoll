@@ -188,11 +188,11 @@ jQuery(function($) {
         // e.preventDefault();
         console.log(this);
         var idTab = $(this).prev().attr('href');
-        var tabs = $( "#tabs" ).tabs();
+        // var tabs = $( "#tabs" ).tabs();
         console.log($(idTab));
         $(idTab).remove();
         $(this).parent().remove();
-        tabs.tabs( "refresh" );
+        // tabs.tabs( "refresh" );
       });
 
     };
@@ -222,7 +222,7 @@ jQuery(function($) {
   //     });
   //
   //   });
-  
+
   });
 
 

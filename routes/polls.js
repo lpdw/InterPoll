@@ -9,7 +9,18 @@ const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const { window } = new JSDOM(`<!DOCTYPE html>`);
 const $ = require('jQuery')(window);
-express.io = require('socket.io')();
+const  uuid = require('uuid');
+const fs = require('fs');
+const multer = require("multer");
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, uuid.v1()+"."+file.mimetype.split("/")[1])
+  }
+})
+const upload = multer({ storage: storage});
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -25,32 +36,28 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/new', function(req, res, next) {
-  var form_json = $('.build-wrap').map(function() {
-    // return $(this).data('formBuilder').formData;
-    return $(this).data("formBuilder").actions.getData("json");
-  });
 
-  console.log(form_json);
   return res.render('polls/new');
 });
 
-router.post('/new', function(req, res, next) {
+router.post('/new',upload.single('logo'), function(req, res, next) {
   var allEditorValues = $('.build-wrap').map(function() {
     return $(this).data("formBuilder").actions.getData("json");
   });
   var form_json = JSON.stringify(allEditorValues);
-  // console.log("form json : ", allEditorValues);
-  // console.log(req.body);
+  console.log("console log : ", $);
+  var filename = req.file.path;
+
   // PollService.createPoll(req.body.title,form_json,req.body.logo,req.body.font,req.body.font_color,req.body.background_color)
-  pollService.createPoll("Un titre",form_json,"path logo","font family","font color","background color")
+  pollService.createPoll(req.body.title,form_json,filename,req.body.font,req.body.font_color,req.body.background_color)
   .then(poll=>{
-    console.log(poll);
+    // console.log(poll);
     poll.setUser(req.user.id);
     req.flash("success", "Le sondage a bien été créé");
 
     res.redirect("edit/" + poll.id);
   }).catch(err=>{
-    console.log("error : ", err);
+    // console.log("error : ", err);
   });
 });
 

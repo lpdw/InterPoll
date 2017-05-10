@@ -107,6 +107,7 @@ app.use('/jqueryui', express.static(__dirname + '/node_modules/jqueryui'));
 app.use('/formbuilder', express.static(__dirname + '/node_modules/formBuilder/dist'));
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist'));
 app.use('/chart', express.static(__dirname + '/node_modules/chart.js/dist'));
+app.use('/uploads', express.static(__dirname + '/uploads'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -121,6 +122,8 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method'));
+//app.use(bodyParser({keepExtensions:true,uploadDir:path.join(__dirname,'/uploads')}));
+// app.use(express.multipart());
 
 app.use('/', index);
 app.use('/signup', signup);
