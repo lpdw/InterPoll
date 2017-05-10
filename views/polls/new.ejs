@@ -1,19 +1,17 @@
 <% include ../partials/header %>
+  <h1>Nouveau  sondage </h1>
+  <% if(messages.success){%>
+    <div class="alert alert-success">
+      <%= messages.success %>
+    </div>
 
-    <h1>Nouveau  sondage </h1>
-    <% if(messages.success){%>
-        <div class="alert alert-success">
-            <%= messages.success %>
+    <%}%>
+      <% if(messages.error){%>
+        <div class="alert alert-error">
+          <%= messages.error %>
         </div>
 
         <%}%>
-            <% if(messages.error){%>
-                <div class="alert alert-error">
-                    <%= messages.error %>
-                </div>
-
-                <%}%>
-
                     <div class="content">
                         <form action="/polls/new" method="post" enctype="multipart/form-data" class="save-all-wrap" id="form-save-all">
                             <div class="form-group">
@@ -48,22 +46,22 @@
                                 </div>
                             </div>
 
-                            <button id="save-all" class="btn btn-primary" type="submit">Save All</button>
-                        </form>
-                    </div>
+              <button id="save-all" class="btn btn-primary" type="submit">Save All</button>
+            </form>
+          </div>
 
 
-                    <script src="/jquery/jquery.min.js"></script>
-                    <script src="/jqueryui/jquery-ui.min.js"></script>
-                    <script src="/bootstrap/js/bootstrap.min.js"></script>
-                    <script src="/formbuilder/form-builder.min.js"></script>
-                    <script src="/formbuilder/form-render.min.js"></script>
-                    <script src="/socket.io/socket.io.js"></script>
-                    <script src="/chart/Chart.js"></script>
+          <script src="/jquery/jquery.min.js"></script>
+          <script src="/jqueryui/jquery-ui.min.js"></script>
+          <script src="/bootstrap/js/bootstrap.min.js"></script>
+          <script src="/formbuilder/form-builder.min.js"></script>
+          <script src="/formbuilder/form-render.min.js"></script>
+          <script src="/socket.io/socket.io.js"></script>
+          <script src="/chart/Chart.js"></script>
 
 
-                    <script src="/js/builder.js"></script>
-                    <script src="/js/formbuilderplugin.js"></script>
+          <script src="/js/builder.js"></script>
+          <script src="/js/formbuilderplugin.js"></script>
 
 
-                    <% include ../partials/footer %>
+          <% include ../partials/footer %>
