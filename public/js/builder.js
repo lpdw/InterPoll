@@ -1,4 +1,5 @@
 /*jshint esversion: 6 */
+
 var formBuilder;
 
 jQuery(function($) {
@@ -100,11 +101,6 @@ jQuery(function($) {
       text: ['datetime-local']
     },
     disabledActionButtons: ['data', 'save'],
-    defaultFields: [{
-      class: "header-base",
-      label: "Votre question ?",
-      type: "header"
-      }],
     i18n: {
       locale: 'fr-FR',
       location: '/formbuilder/',
@@ -124,15 +120,6 @@ jQuery(function($) {
       'hidden',
       'button'
     ],
-    onSave: function(e, formData) {
-      // console.log("save");
-      toggleEdit();
-      $('.render-wrap').formRender({
-        formData
-        //  tes
-      });
-      window.sessionStorage.setItem('formData', JSON.stringify(formData));
-    },
     stickyControls: {
       enable: true
     },
@@ -141,22 +128,11 @@ jQuery(function($) {
     typeUserAttrs,
     // disabledAttrs
   };
-  let formData = window.sessionStorage.getItem('formData');
-  let multipleFormData = window.sessionStorage.getItem('multipleFormData');
-  let editing = true;
-
-  if (formData) {
-    fbOptions.formData = JSON.parse(formData);
-  }
-  if (multipleFormData) {
-    // fbOptions.formData = JSON.parse(multipleFormData)[0];
-    // console.log(JSON.parse(multipleFormData));
-  }
 
   // Tabs
   $(function() {
     'use strict';
-    var $fbPages = $(document.getElementById('form-builder-pages')),
+    var $fbPages = $('#form-builder-pages'),
       addPageTab = document.getElementById('add-page-tab');
 
     $fbPages.tabs({
@@ -170,12 +146,11 @@ jQuery(function($) {
     addPageTab.onclick = function() {
       var tabCount = document.getElementById('tabs').children.length,
         tabId = 'page-' + tabCount.toString(),
-        $newPageTemplate = $(document.getElementById('new-page')),
+        $newPageTemplate = $('#new-page'),
         $newPage = $newPageTemplate.clone().attr('id', tabId).addClass('build-wrap'),
-        // $newPage = $newPageTemplate.clone().attr('id', tabId).prepend('<div class="build-wrap">'),
         $newTab = $(this).clone().removeAttr('id'),
         $tabLink = $('a', $newTab).attr('href', '#' + tabId).text('Page ' + tabCount);
-        $newTab.append('<span class="closeTab">X</span>');
+        $newTab.append('<span class="closeTab">&#215;</span>');
 
       $newPage.insertBefore($newPageTemplate);
       $newTab.insertBefore(this);
@@ -185,11 +160,7 @@ jQuery(function($) {
 
       // Close tab
       $('.closeTab').on('click', function(e){
-        // e.preventDefault();
-        console.log(this);
         var idTab = $(this).prev().attr('href');
-        // var tabs = $( "#tabs" ).tabs();
-        console.log($(idTab));
         $(idTab).remove();
         $(this).parent().remove();
         // tabs.tabs( "refresh" );
@@ -262,8 +233,8 @@ jQuery(function($) {
   });
 
 
-  document.getElementById('edit-form').onclick = function() {
-    toggleEdit();
-  };
+  // document.getElementById('edit-form').onclick = function() {
+  //   toggleEdit();
+  // };
 
 });
