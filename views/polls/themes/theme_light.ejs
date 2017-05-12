@@ -1,5 +1,5 @@
 <% include partials/header %>
-
+<%=userLogged%>
     <p id="status">
 
     </p>
@@ -12,9 +12,9 @@
     <script src="/formbuilder/form-builder.min.js"></script>
     <script src="/formbuilder/form-render.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/polls_live.js"></script>
-
-
+    <script>
+      var isLogged=<%=userLogged%>;
+    </script>
     <script src="/js/poll_live.js"></script>
 
   <% include partials/footer %>

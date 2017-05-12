@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var cookie = require('cookie');
-
+const url = require('url');
 var index = require('./routes/index');
 var login = require('./routes/login');
 var logout = require('./routes/logout');
@@ -21,10 +21,10 @@ const projectRoot = path.resolve(__dirname, '../')
 var http = require('http');
 var app = express();
 app.io = require('socket.io')();
-
+var pollService = require("./services/polls");
 var passport = require('passport');
 var authentification = require('./services/authentification');
-var sessionMiddleware =session({
+var sessionMiddleware = session({
   secret: '681433da-d3f4-4a62-9dbd-58c6f73d9f0f',
   resave: true,
   saveUninitialized: true,
@@ -67,16 +67,14 @@ const verifyAuth = (req, res, next) => {
   //         });
   //
   // } else {
-  console.log(req.originalUrl.indexOf("/polls/live/"));
-
   if (req.originalUrl === '/signup' || req.originalUrl === '/login') {
     return next();
-  }else if(req.originalUrl.indexOf("/polls/live/")===0){
+  } else if (req.originalUrl.indexOf("/polls/live/") === 0) {
     console.log("Live poll");
     if (req.isAuthenticated()) {
       res.locals.userLogged = true;
       return next();
-    }else{
+    } else {
       res.locals.userLogged = false;
       return next();
     }
@@ -100,19 +98,11 @@ const verifyAuth = (req, res, next) => {
   }
   // }
 };
-const verifyAuthLive = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    res.locals.userLogged = true;
-    return next();
-  }else{
-    res.locals.userLogged = false;
-    return next();
-  }
-}
+
 app.all('/polls', verifyAuth);
 app.all('/polls/new', verifyAuth);
-app.all('/polls/edit/*', verifyAuth);
 app.all('/polls/live/*', verifyAuth);
+app.all('/polls/edit/*', verifyAuth);
 app.all('/', verifyAuth);
 app.all('/myaccount', verifyAuth);
 app.all('/login', verifyAuth);
@@ -128,6 +118,7 @@ app.use('/formbuilder', express.static(__dirname + '/node_modules/formBuilder/di
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist'));
 app.use('/chart', express.static(__dirname + '/node_modules/chart.js/dist'));
 app.use('/uploads', express.static(__dirname + '/uploads'));
+app.use('/js', express.static(__dirname + '/public/js'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -170,26 +161,58 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
 app.io.use(function(socket, next) {
   sessionMiddleware(socket.handshake, {}, next);
 });
 app.set('socketio', app.io);
 
-// app.io.on("connection", function(socket) {
-//   var user = cookie.parse(socket.request.headers.cookie).User;
-//   console.log("user   " + user)
-//   if (user === undefined ||  user === null) {
-//     socket.emit('isVisitor')
-//   } else {
-//     socket.emit('isConnected');
-//   }
-//
-//   socket.on('change_slide', function(slide) {
-//     socket.broadcast.emit("refresh_slide", slide);
-//     socket.emit("refresh_slide", slide);
-//
-//   });
-// });
+app.io.on("connection", function(socket) {
 
+  var url_cuurent = url.parse(socket.handshake.headers.referer, true, true);
+  var poll_id = url_cuurent.pathname.split("/");
+  poll_id = poll_id[poll_id.length - 1];
+  pollService.findById(poll_id)
+    .then(poll => {
+      var session = socket.handshake.session;
+      var form_array = JSON.parse(poll.form_json);
+      var isConnected = false;
+      if (session.passport !== undefined && session.passport !== null) {
+        isConnected = true;
+        app.io.emit("change_slide", {
+          number: 0,
+          form_json: form_array[0]
+        });
+      }else{
+        socket.emit("change_slide", {
+          number: 0,
+          form_json: form_array[0]
+        });
+      }
 
+      console.log(isConnected);
+      // On affiche la première slide avec le formulaire
+      socket.on('change_slide', function(slide) {
+        console.log("current slide number " + slide.number);
+        console.log("slide action " + slide.action);
+        var session = socket.handshake.session;
+        var nouvelle_slide = parseInt(slide.number) + parseInt(slide.action);
+        console.log("next slide number " + nouvelle_slide);
+        // Si il existe la nouvelle slide
+        if (form_array[nouvelle_slide] !== undefined && form_array[nouvelle_slide] !== null) {
+          app.io.emit("change_slide", {
+            number: nouvelle_slide,
+            form_json: form_array[nouvelle_slide]
+          });
+        } else {
+          if(nouvelle_slide>0){
+            app.io.emit("last_slide");
+          }
+        }
+
+      });
+    })
+
+});
 module.exports = app;
