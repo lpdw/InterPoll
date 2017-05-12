@@ -2,7 +2,7 @@
 
 var formBuilder;
 
-jQuery(function($) {
+$(document).ready(function(){
 
   var typeUserDisabledAttrs = {
     'header': ['access'],
@@ -130,8 +130,8 @@ jQuery(function($) {
   };
 
   // Tabs
-  $(function() {
-    'use strict';
+  // $(function() {
+  //   'use strict';
     var $fbPages = $('#form-builder-pages'),
       addPageTab = document.getElementById('add-page-tab');
 
@@ -143,12 +143,12 @@ jQuery(function($) {
       }
     });
 
-    addPageTab.onclick = function() {
+    $(addPageTab).on('click', function() {
       var tabCount = document.getElementById('tabs').children.length,
         tabId = 'page-' + tabCount.toString(),
         $newPageTemplate = $('#new-page'),
-        $newPage = $newPageTemplate.clone().attr('id', tabId).addClass('build-wrap'),
-        $newTab = $(this).clone().removeAttr('id'),
+        $newPage = $newPageTemplate.clone().attr('id', tabId).addClass('build-wrap new-slide'),
+        $newTab = $(this).clone().removeAttr('id').addClass('new-tab'),
         $tabLink = $('a', $newTab).attr('href', '#' + tabId).text('Page ' + tabCount);
         $newTab.append('<span class="closeTab">&#215;</span>');
 
@@ -159,55 +159,39 @@ jQuery(function($) {
       $newPage.formBuilder(fbOptions);
 
       // Close tab
-      $('.closeTab').on('click', function(e){
+      $('.closeTab').on('click', function(){
+        console.log("close");
+
         var idTab = $(this).prev().attr('href');
         $(idTab).remove();
         $(this).parent().remove();
         // tabs.tabs( "refresh" );
+
+        // Rename tabs
+        var i = 2,
+        j = 2;
+        $('.new-tab a').map(function(){
+          this.innerHTML = 'Page ' + i;
+          $(this).attr('href', '#page-' + i);
+          $(this).parent().attr('aria-controls', 'page-' + i);
+          i++;
+        });
+        i = 2;
+        $('.new-slide').map(function(){
+          $(this).removeAttr('id');
+          $(this).attr('id', 'page-' + j);
+          j++;
+        });
+        j = 2;
+
+        console.log("close after");
       });
 
-    };
+    });
 
     $('.fb-editor').formBuilder();
 
-
-// ON SAVE ALL
-  //   $(document.getElementById('save-all')).click(function(e) {
-  //     var allEditorValues = $('.build-wrap').map(function() {
-  //       return $(this).data("formBuilder").actions.getData("json");
-  //     });
-  //     // window.sessionStorage.setItem('multipleFormData', JSON.stringify(allEditorValues));
-  //     // $('.inputJSON').val(JSON.stringify(allEditorValues));
-  //     var dataJSON = JSON.stringify(allEditorValues);
-  //
-  //     // Ajax request save polls
-  //     $.ajax({
-  //       url: '/polls/new',
-  //       method: 'POST',
-  //       dataType: "json",
-  //       contentType: "application/json; charset=utf-8",
-  //       data: {polls: dataJSON},
-  //       error: function(e) {
-  //         console.log(e);
-  //       }
-  //     });
-  //
-  //   });
-
-  });
-
-
-
-
-
-  /**
-   * Toggles the edit mode for the demo
-   * @return {Boolean} editMode
-   */
-  function toggleEdit() {
-    document.body.classList.toggle('form-rendered', editing);
-    return editing = !editing;
-  }
+  // });
 
   const setFormData = '[{"type":"text","label":"Full Name","subtype":"text","className":"form-control","name":"text-1476748004559"},{"type":"select","label":"Occupation","className":"form-control","name":"select-1476748006618","values":[{"label":"Street Sweeper","value":"option-1","selected":true},{"label":"Moth Man","value":"option-2"},{"label":"Chemist","value":"option-3"}]},{"type":"textarea","label":"Short Bio","rows":"5","className":"form-control","name":"textarea-1476748007461"}]';
 
@@ -231,10 +215,5 @@ jQuery(function($) {
       removeField: () => fb.actions.removeField()
     };
   });
-
-
-  // document.getElementById('edit-form').onclick = function() {
-  //   toggleEdit();
-  // };
 
 });
