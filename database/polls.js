@@ -20,7 +20,10 @@
          logo: {
              type: DataTypes.STRING,
          },
-         font: {
+         font_family: {
+             type: DataTypes.STRING,
+         },
+         font_category: {
              type: DataTypes.STRING,
          },
          font_color: {

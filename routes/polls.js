@@ -11,7 +11,7 @@ var pollService = require("../services/polls");
 var themeService = require("../services/themes");
 var TinyURL = require('tinyurl');
 var QRCode = require('qrcode')
-
+var request = require('request');
 const uuid = require('uuid');
 
 // Gestion de l'upload de fichier
@@ -48,9 +48,18 @@ router.get('/new', function(req, res, next) {
   // Affichages des thèmes disponibles dans le formulaire de création d'un sondage
   themeService.findAll().then(
     themes => {
-      return res.render('polls/new', {
-        themes: themes
+      // Récupération des Googles fonts
+      var options = {
+	  uri: 'https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyAQV6kPGJiYHVQJKjFBceBQ71vxdQVzdDc',
+	  json:true,
+	};
+	request(options, function(error, response, fonts){
+	    if(error) console.log(error);
+	    else return res.render('polls/new', {
+        themes: themes,fonts:fonts.items
       });
+});
+
     }
   )
 });

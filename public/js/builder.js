@@ -220,4 +220,8 @@ $(document).ready(function(){
       $("#form_json").val(form_json);
       return true;
     });
+
+    $("#font").change(function(){
+      console.log($(this).val());
+    })
 });
