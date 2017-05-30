@@ -10,6 +10,7 @@ var userService = require("../services/users");
 var pollService = require("../services/polls");
 var themeService = require("../services/themes");
 var TinyURL = require('tinyurl');
+var QRCode = require('qrcode')
 
 const uuid = require('uuid');
 
@@ -103,8 +104,20 @@ router.get('/online/:id', function(req, res, next) {
   pollService.onlinePoll(req.params.id)
     .then(poll => {
       TinyURL.shorten(req.headers.referer+"/live/"+req.params.id, function(url) {
-        req.flash("success", "Le sondage a bien été mis en ligne à l'url suivante : "+url);
-        res.redirect("/polls");
+        var qrcode_url='uploads/qrcodes/'+uuid.v1() + '.png';
+        QRCode.toFile(qrcode_url, url, {
+    color: {
+      dark: '#000',  // Blue dots
+      light: '#0000' // Transparent background
+    }
+  }, function (err) {
+    if (err) throw err
+    console.log('done')
+    req.flash("success", "Le sondage a bien été mis en ligne à l'url suivante : "+url+" QR Code URL : "+qrcode_url);
+    res.redirect("/polls");
+
+  });
+
 });
 
     });
