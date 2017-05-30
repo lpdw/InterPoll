@@ -77,6 +77,7 @@ router.get('/live/:id', function(req, res, next) {
       if(poll !== null){
         themeService.findById(poll.fk_theme)
           .then(theme => {
+            console.log(JSON.parse(poll.form_json).length);
             // On affiche le template correspondant au thème et on affiche la première question du formulaire
             return res.render('polls/themes/' + theme.page, {
               poll: poll, first_form : JSON.parse(poll.form_json)[0]
@@ -87,7 +88,8 @@ router.get('/live/:id', function(req, res, next) {
           console.log(err);
         });
 }     else{
-  return res.send(404);
+  return res.status(404).send("Ce sondage n'est pas disponible.");
+
 }
     }).catch(err => {
       console.log(err);

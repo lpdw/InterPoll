@@ -168,10 +168,17 @@ app.io.use(function(socket, next) {
 });
 app.set('socketio', app.io);
 
+/*
+*
+*     Socket io pour le live poll
+*
+*/
+
+var current_slide=0;
 app.io.on("connection", function(socket) {
 
-  var url_cuurent = url.parse(socket.handshake.headers.referer, true, true);
-  var poll_id = url_cuurent.pathname.split("/");
+  var url_current = url.parse(socket.handshake.headers.referer, true, true);
+  var poll_id = url_current.pathname.split("/");
   poll_id = poll_id[poll_id.length - 1];
   pollService.findById(poll_id)
     .then(poll => {
@@ -180,26 +187,26 @@ app.io.on("connection", function(socket) {
       var isConnected = false;
       if (session.passport !== undefined && session.passport !== null) {
         isConnected = true;
+        // Initialisation de la première slide
         app.io.emit("change_slide", {
           number: 0,
           form_json: form_array[0]
         });
       }else{
-        socket.emit("change_slide", {
-          number: 0,
-          form_json: form_array[0]
+        // On initialise l'écran du visiteur à la slide en cours
+        app.io.emit("change_slide", {
+          number: current_slide,
+          form_json: form_array[current_slide]
         });
       }
 
-      console.log(isConnected);
       // On affiche la première slide avec le formulaire
       socket.on('change_slide', function(slide) {
-        console.log("current slide number " + slide.number);
-        console.log("slide action " + slide.action);
         var session = socket.handshake.session;
         var nouvelle_slide = parseInt(slide.number) + parseInt(slide.action);
-        console.log("next slide number " + nouvelle_slide);
-        // Si il existe la nouvelle slide
+        // Mise à jour de la variable current_slide pour les visiteurs qui arriveraient en cours de présentation
+        current_slide=nouvelle_slide;
+        // Si la nouvelle slide existe
         if (form_array[nouvelle_slide] !== undefined && form_array[nouvelle_slide] !== null) {
           app.io.emit("change_slide", {
             number: nouvelle_slide,

@@ -1,19 +1,17 @@
-<% include ../..partials/header %>
+<% include partials/header %>
 
-        <p id="status">
+<div id="poll_content">
 
-        </p>
-        <div id="next">
+    </div>
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/jqueryui/jquery-ui.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/formbuilder/form-builder.min.js"></script>
+    <script src="/formbuilder/form-render.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var isLogged=<%=userLogged%>;
+    </script>
+    <script src="/js/poll_live.js"></script>
 
-        </div>
-        <script src="/jquery/jquery.min.js"></script>
-        <script src="/jqueryui/jquery-ui.min.js"></script>
-        <script src="/bootstrap/js/bootstrap.min.js"></script>
-        <script src="/formbuilder/form-builder.min.js"></script>
-        <script src="/formbuilder/form-render.min.js"></script>
-        <script src="/socket.io/socket.io.js"></script>
-        <script src="/js/polls_live.js"></script>
-
-
-
-    <% include partials/footer %>
+  <% include partials/footer %>
