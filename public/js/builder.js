@@ -157,8 +157,6 @@ $(document).ready(function(){
   });
 
   // Tabs
-  // $(function() {
-  //   'use strict';
     var $fbPages = $('#form-builder-pages'),
       addPageTab = document.getElementById('add-page-tab');
 
@@ -185,36 +183,32 @@ $(document).ready(function(){
       $fbPages.tabs("option", "active", tabCount - 1);
       $newPage.formBuilder(fbOptions);
 
-      // Close tab
-      $('.closeTab').on('click', function(){
-        console.log("close", this);
+    });
 
-        var idTab = $(this).prev().attr('href');
-        $(idTab).remove();
-        $(this).parent().remove();
-        // tabs.tabs( "refresh" );
+    // Close tab
+    $('.tabs-poll').on('click', '.closeTab', function(){
 
-        // Rename tabs
-        var i = 2,
-        j = 2;
-        $('.new-tab a').map(function(i, tab){
-          tab.innerHTML = 'Page ' + i;
-          $(tab).attr('href', '#page-' + i);
-          $(tab).parent().attr('aria-controls', 'page-' + i);
-          i++;
-        });
-        i = 2;
-        $('.new-slide').map(function(i, slide){
-          console.log($(slide));
-          $(slide).removeAttr('id');
-          $(slide).attr('id', 'page-' + j);
-          j++;
-        });
-        j = 2;
+      var idTab = $(this).prev().attr('href');
+      $(idTab).remove();
+      $(this).parent().remove();
+      // tabs.tabs( "refresh" );
 
-        console.log("close after");
+      // Rename tabs
+      var i = 2,
+      j = 2;
+      $('.new-tab a').map(function(c, tab){
+        tab.innerHTML = 'Page ' + i;
+        $(tab).attr('href', '#page-' + i);
+        $(tab).parent().attr('aria-controls', 'page-' + i);
+        i++;
       });
-
+      i = 2;
+      $('.new-slide').map(function(c, slide){
+        $(slide).removeAttr('id');
+        $(slide).attr('id', 'page-' + j);
+        j++;
+      });
+      j = 2;
     });
 
 });
