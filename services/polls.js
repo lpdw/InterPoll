@@ -25,6 +25,14 @@ exports.createPoll = (title,form_json,logo,font,font_color,background_color) => 
 exports.findById = (id) => {
     return db.Polls.findById(id);
 };
+exports.findLivePollById=(id)=>{
+  return db.Polls.findOne({
+    where :{
+      id:id,
+      online:1
+    }
+  })
+}
 exports.findByUser= (user) => {
     return db.Polls.findAll({
   where: {

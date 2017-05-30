@@ -12,6 +12,7 @@
 
 <% if(polls.length > 0 ){%>
   <ul class="list-sondages">
+    <!-- TODO: Pagination pour liste des sondages + amélioration du style (image trop grosse etc..)-->
   <% polls.forEach(function(poll){ %>
     <li class="item-sondage">
       <p><%= poll.title %></p>
