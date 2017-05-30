@@ -1,7 +1,8 @@
 /*jshint esversion: 6 */
+
 var formBuilder;
 
-jQuery(function($) {
+$(document).ready(function(){
 
   var typeUserDisabledAttrs = {
     'header': ['access'],
@@ -100,14 +101,9 @@ jQuery(function($) {
       text: ['datetime-local']
     },
     disabledActionButtons: ['data', 'save'],
-    defaultFields: [{
-      class: "header-base",
-      label: "Votre question ?",
-      type: "header"
-      }],
     i18n: {
       locale: 'fr-FR',
-      location: '/formbuilder/',
+      location: '/formbuildercharts/',
       extension: '.lang'
     },
     controlOrder: [
@@ -124,15 +120,6 @@ jQuery(function($) {
       'hidden',
       'button'
     ],
-    onSave: function(e, formData) {
-      // console.log("save");
-      toggleEdit();
-      $('.render-wrap').formRender({
-        formData
-        //  tes
-      });
-      window.sessionStorage.setItem('formData', JSON.stringify(formData));
-    },
     stickyControls: {
       enable: true
     },
@@ -141,102 +128,10 @@ jQuery(function($) {
     typeUserAttrs,
     // disabledAttrs
   };
-  let formData = window.sessionStorage.getItem('formData');
-  let multipleFormData = window.sessionStorage.getItem('multipleFormData');
-  let editing = true;
-
-  if (formData) {
-    fbOptions.formData = JSON.parse(formData);
-  }
-  if (multipleFormData) {
-    // fbOptions.formData = JSON.parse(multipleFormData)[0];
-    // console.log(JSON.parse(multipleFormData));
-  }
-
-  // Tabs
-  $(function() {
-    'use strict';
-    var $fbPages = $(document.getElementById('form-builder-pages')),
-      addPageTab = document.getElementById('add-page-tab');
-
-    $fbPages.tabs({
-      beforeActivate: function(event, ui) {
-        if (ui.newPanel.selector === '#new-page') {
-          return false;
-        }
-      }
-    });
-
-    addPageTab.onclick = function() {
-      var tabCount = document.getElementById('tabs').children.length,
-        tabId = 'page-' + tabCount.toString(),
-        $newPageTemplate = $(document.getElementById('new-page')),
-        $newPage = $newPageTemplate.clone().attr('id', tabId).addClass('build-wrap'),
-        // $newPage = $newPageTemplate.clone().attr('id', tabId).prepend('<div class="build-wrap">'),
-        $newTab = $(this).clone().removeAttr('id'),
-        $tabLink = $('a', $newTab).attr('href', '#' + tabId).text('Page ' + tabCount);
-        $newTab.append('<span class="closeTab">X</span>');
-
-      $newPage.insertBefore($newPageTemplate);
-      $newTab.insertBefore(this);
-      $fbPages.tabs('refresh');
-      $fbPages.tabs("option", "active", tabCount - 1);
-      $newPage.formBuilder(fbOptions);
-
-      // Close tab
-      $('.closeTab').on('click', function(e){
-        // e.preventDefault();
-        console.log(this);
-        var idTab = $(this).prev().attr('href');
-        // var tabs = $( "#tabs" ).tabs();
-        console.log($(idTab));
-        $(idTab).remove();
-        $(this).parent().remove();
-        // tabs.tabs( "refresh" );
-      });
-
-    };
 
     $('.fb-editor').formBuilder();
 
-
-// ON SAVE ALL
-  //   $(document.getElementById('save-all')).click(function(e) {
-  //     var allEditorValues = $('.build-wrap').map(function() {
-  //       return $(this).data("formBuilder").actions.getData("json");
-  //     });
-  //     // window.sessionStorage.setItem('multipleFormData', JSON.stringify(allEditorValues));
-  //     // $('.inputJSON').val(JSON.stringify(allEditorValues));
-  //     var dataJSON = JSON.stringify(allEditorValues);
-  //
-  //     // Ajax request save polls
-  //     $.ajax({
-  //       url: '/polls/new',
-  //       method: 'POST',
-  //       dataType: "json",
-  //       contentType: "application/json; charset=utf-8",
-  //       data: {polls: dataJSON},
-  //       error: function(e) {
-  //         console.log(e);
-  //       }
-  //     });
-  //
-  //   });
-
-  });
-
-
-
-
-
-  /**
-   * Toggles the edit mode for the demo
-   * @return {Boolean} editMode
-   */
-  function toggleEdit() {
-    document.body.classList.toggle('form-rendered', editing);
-    return editing = !editing;
-  }
+  // });
 
   const setFormData = '[{"type":"text","label":"Full Name","subtype":"text","className":"form-control","name":"text-1476748004559"},{"type":"select","label":"Occupation","className":"form-control","name":"select-1476748006618","values":[{"label":"Street Sweeper","value":"option-1","selected":true},{"label":"Moth Man","value":"option-2"},{"label":"Chemist","value":"option-3"}]},{"type":"textarea","label":"Short Bio","rows":"5","className":"form-control","name":"textarea-1476748007461"}]';
 
@@ -261,17 +156,59 @@ jQuery(function($) {
     };
   });
 
-  document.getElementById('edit-form').onclick = function() {
-    toggleEdit();
-  };
+  // Tabs
+    var $fbPages = $('#form-builder-pages'),
+      addPageTab = document.getElementById('add-page-tab');
 
-  $('#form-save-all').submit(function() {
+    $fbPages.tabs({
+      beforeActivate: function(event, ui) {
+        if (ui.newPanel.selector === '#new-page') {
+          return false;
+        }
+      }
+    });
 
-  var allEditorValues = $('.build-wrap').map(function() {
-    return $(this).data("formBuilder").actions.getData("json");
-  });
-  var form_json = JSON.stringify(allEditorValues);
-  $("#form_json").val(form_json);
-  return true;
-});
+    $(addPageTab).on('click', function() {
+      var tabCount = document.getElementById('tabs').children.length,
+        tabId = 'page-' + tabCount.toString(),
+        $newPageTemplate = $('#new-page'),
+        $newPage = $newPageTemplate.clone().attr('id', tabId).addClass('build-wrap new-slide'),
+        $newTab = $(this).clone().removeAttr('id').addClass('new-tab'),
+        $tabLink = $('a', $newTab).attr('href', '#' + tabId).text('Page ' + tabCount);
+        $newTab.append('<span class="closeTab">&#215;</span>');
+
+      $newPage.insertBefore($newPageTemplate);
+      $newTab.insertBefore(this);
+      $fbPages.tabs('refresh');
+      $fbPages.tabs("option", "active", tabCount - 1);
+      $newPage.formBuilder(fbOptions);
+
+    });
+
+    // Close tab
+    $('.tabs-poll').on('click', '.closeTab', function(){
+
+      var idTab = $(this).prev().attr('href');
+      $(idTab).remove();
+      $(this).parent().remove();
+      // tabs.tabs( "refresh" );
+
+      // Rename tabs
+      var i = 2,
+      j = 2;
+      $('.new-tab a').map(function(c, tab){
+        tab.innerHTML = 'Page ' + i;
+        $(tab).attr('href', '#page-' + i);
+        $(tab).parent().attr('aria-controls', 'page-' + i);
+        i++;
+      });
+      i = 2;
+      $('.new-slide').map(function(c, slide){
+        $(slide).removeAttr('id');
+        $(slide).attr('id', 'page-' + j);
+        j++;
+      });
+      j = 2;
+    });
+
 });
