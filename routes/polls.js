@@ -9,7 +9,7 @@ var cookie = require('cookie');
 var userService = require("../services/users");
 var pollService = require("../services/polls");
 var themeService = require("../services/themes");
-
+var TinyURL = require('tinyurl');
 
 const uuid = require('uuid');
 
@@ -102,8 +102,11 @@ router.get('/live/:id', function(req, res, next) {
 router.get('/online/:id', function(req, res, next) {
   pollService.onlinePoll(req.params.id)
     .then(poll => {
-      req.flash("success", "Le sondage a bien été mis en ligne à l'url suivante :");
-      res.redirect("/polls");
+      TinyURL.shorten(req.headers.referer+"/live/"+req.params.id, function(url) {
+        req.flash("success", "Le sondage a bien été mis en ligne à l'url suivante : "+url);
+        res.redirect("/polls");
+});
+
     });
 });
 
