@@ -11,7 +11,9 @@ var getResultChart = function(formField, formGroup, chart) {
 	var colors = colorsArray;
 	var inputName = formGroup.find(':input').first().attr('name');
 	inputName = inputName.substring(0, inputName.length-8);
-	var options = formBuilder.actions.getData();
+	var options = $('.build-wrap').map(function() {
+		return $(this).data("formBuilder").actions.getData();
+	});
 	for (var i=0; i<options.length; i++) {
 		var currentOption = options[i];
 		if (currentOption.values && currentOption.name == inputName) {
