@@ -124,6 +124,7 @@ $(document).ready(function(){
       enable: true
     },
     sortableControls: true,
+    disableInjectedStyle: true,
     typeUserDisabledAttrs,
     typeUserAttrs,
     // disabledAttrs
