@@ -129,6 +129,33 @@ $(document).ready(function(){
     // disabledAttrs
   };
 
+    $('.fb-editor').formBuilder();
+
+  // });
+
+  const setFormData = '[{"type":"text","label":"Full Name","subtype":"text","className":"form-control","name":"text-1476748004559"},{"type":"select","label":"Occupation","className":"form-control","name":"select-1476748006618","values":[{"label":"Street Sweeper","value":"option-1","selected":true},{"label":"Moth Man","value":"option-2"},{"label":"Chemist","value":"option-3"}]},{"type":"textarea","label":"Short Bio","rows":"5","className":"form-control","name":"textarea-1476748007461"}]';
+
+  formBuilder = $('.build-wrap').formBuilder(fbOptions);
+  const fbPromise = formBuilder.promise;
+
+  fbPromise.then(function(fb) {
+    let apiBtns = {
+      showData: fb.actions.showData,
+      clearFields: fb.actions.clearFields,
+      getData: () => console.log(fb.actions.getData()),
+      setData: () => fb.actions.setData(setFormData),
+      addField: () => {
+        let field = {
+            type: 'text',
+            class: 'form-control',
+            label: 'Text Field added at: ' + new Date().getTime()
+          };
+        fb.actions.addField(field);
+      },
+      removeField: () => fb.actions.removeField()
+    };
+  });
+
   // Tabs
   // $(function() {
   //   'use strict';
@@ -160,7 +187,7 @@ $(document).ready(function(){
 
       // Close tab
       $('.closeTab').on('click', function(){
-        console.log("close");
+        console.log("close", this);
 
         var idTab = $(this).prev().attr('href');
         $(idTab).remove();
@@ -170,16 +197,17 @@ $(document).ready(function(){
         // Rename tabs
         var i = 2,
         j = 2;
-        $('.new-tab a').map(function(){
-          this.innerHTML = 'Page ' + i;
-          $(this).attr('href', '#page-' + i);
-          $(this).parent().attr('aria-controls', 'page-' + i);
+        $('.new-tab a').map(function(i, tab){
+          tab.innerHTML = 'Page ' + i;
+          $(tab).attr('href', '#page-' + i);
+          $(tab).parent().attr('aria-controls', 'page-' + i);
           i++;
         });
         i = 2;
-        $('.new-slide').map(function(){
-          $(this).removeAttr('id');
-          $(this).attr('id', 'page-' + j);
+        $('.new-slide').map(function(i, slide){
+          console.log($(slide));
+          $(slide).removeAttr('id');
+          $(slide).attr('id', 'page-' + j);
           j++;
         });
         j = 2;
@@ -188,32 +216,5 @@ $(document).ready(function(){
       });
 
     });
-
-    $('.fb-editor').formBuilder();
-
-  // });
-
-  const setFormData = '[{"type":"text","label":"Full Name","subtype":"text","className":"form-control","name":"text-1476748004559"},{"type":"select","label":"Occupation","className":"form-control","name":"select-1476748006618","values":[{"label":"Street Sweeper","value":"option-1","selected":true},{"label":"Moth Man","value":"option-2"},{"label":"Chemist","value":"option-3"}]},{"type":"textarea","label":"Short Bio","rows":"5","className":"form-control","name":"textarea-1476748007461"}]';
-
-  formBuilder = $('.build-wrap').formBuilder(fbOptions);
-  const fbPromise = formBuilder.promise;
-
-  fbPromise.then(function(fb) {
-    let apiBtns = {
-      showData: fb.actions.showData,
-      clearFields: fb.actions.clearFields,
-      getData: () => console.log(fb.actions.getData()),
-      setData: () => fb.actions.setData(setFormData),
-      addField: () => {
-        let field = {
-            type: 'text',
-            class: 'form-control',
-            label: 'Text Field added at: ' + new Date().getTime()
-          };
-        fb.actions.addField(field);
-      },
-      removeField: () => fb.actions.removeField()
-    };
-  });
 
 });
