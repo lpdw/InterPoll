@@ -211,12 +211,14 @@ $(document).ready(function(){
       });
       j = 2;
     });
-    $('#form-save-all').submit(function() {
 
+
+    $('#form-save-all').submit(function(e) {
       var allEditorValues = $('.build-wrap').map(function() {
-        return $(this).data("formBuilder").actions.getData("json");
-      });
+        return $(this).data("formBuilder").actions.getData();
+      }).toArray();
       var form_json = JSON.stringify(allEditorValues);
+      console.log("json : ", form_json);
       $("#form_json").val(form_json);
       return true;
     });
