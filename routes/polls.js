@@ -12,6 +12,8 @@ var themeService = require("../services/themes");
 
 
 const uuid = require('uuid');
+
+// Gestion de l'upload de fichier
 const fs = require('fs');
 const multer = require("multer");
 const storage = multer.diskStorage({
@@ -19,15 +21,14 @@ const storage = multer.diskStorage({
     cb(null, 'uploads/')
   },
   filename: function(req, file, cb) {
+    // Renommage des fichiers avec un UUID pour éviter les duplicatas
     cb(null, uuid.v1() + "." + file.mimetype.split("/")[1])
   }
 })
 const upload = multer({
   storage: storage
 });
-//io = require("socket.io")();
 
-//const io = req.app.get('socketio');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -43,6 +44,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/new', function(req, res, next) {
+  // Affichages des thèmes disponibles dans le formulaire de création d'un sondage
   themeService.findAll().then(
     themes => {
       return res.render('polls/new', {
@@ -56,14 +58,11 @@ router.post('/new', upload.single('logo'), function(req, res, next) {
 
   var filename = req.file.path;
 
-  // PollService.createPoll(req.body.title,form_json,req.body.logo,req.body.font,req.body.font_color,req.body.background_color)
   pollService.createPoll(req.body.title, req.body.form_json, filename, req.body.font, req.body.font_color, req.body.background_color)
     .then(poll => {
-      // console.log(poll);
       poll.setUser(req.user.id);
       poll.setTheme(req.body.theme);
       req.flash("success", "Le sondage a bien été créé");
-
       res.redirect("edit/" + poll.id);
     }).catch(err => {
       // console.log("error : ", err);
@@ -72,11 +71,13 @@ router.post('/new', upload.single('logo'), function(req, res, next) {
 
 router.get('/live/:id', function(req, res, next) {
   const io = req.app.get('socketio');
-  pollService.findById(req.params.id)
+  // On vérifie que le sondage avec cet id existe et est en ligne
+  pollService.findLivePollById(req.params.id)
     .then( poll => {
       if(poll !== null){
         themeService.findById(poll.fk_theme)
           .then(theme => {
+            // On affiche le template correspondant au thème et on affiche la première question du formulaire
             return res.render('polls/themes/' + theme.page, {
               poll: poll, first_form : JSON.parse(poll.form_json)[0]
             });
@@ -94,7 +95,8 @@ router.get('/live/:id', function(req, res, next) {
 
 });
 
-
+// Mise en ligne du sondage
+// TODO :  Génération Tiny URL + QR Code
 router.get('/online/:id', function(req, res, next) {
   pollService.onlinePoll(req.params.id)
     .then(poll => {
@@ -102,6 +104,7 @@ router.get('/online/:id', function(req, res, next) {
       res.redirect("/polls");
     });
 });
+
 router.get('/offline/:id', function(req, res, next) {
   pollService.offlinePoll(req.params.id)
     .then(poll => {
