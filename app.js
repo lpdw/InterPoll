@@ -180,6 +180,8 @@ app.io.on("connection", function(socket) {
   var url_current = url.parse(socket.handshake.headers.referer, true, true);
   var poll_id = url_current.pathname.split("/");
   poll_id = poll_id[poll_id.length - 1];
+  // On rejoint la room du sondage
+  socket.join(poll_id);
   pollService.findById(poll_id)
     .then(poll => {
       var session = socket.handshake.session;
@@ -188,13 +190,13 @@ app.io.on("connection", function(socket) {
       if (session.passport !== undefined && session.passport !== null) {
         isConnected = true;
         // Initialisation de la première slide
-        app.io.emit("change_slide", {
+        app.io.to(poll_id).emit("change_slide", {
           number: 0,
           form_json: form_array[0]
         });
       }else{
         // On initialise l'écran du visiteur à la slide en cours
-        app.io.emit("change_slide", {
+        app.io.to(poll_id).emit("change_slide", {
           number: current_slide,
           form_json: form_array[current_slide]
         });
@@ -208,13 +210,13 @@ app.io.on("connection", function(socket) {
         current_slide=nouvelle_slide;
         // Si la nouvelle slide existe
         if (form_array[nouvelle_slide] !== undefined && form_array[nouvelle_slide] !== null) {
-          app.io.emit("change_slide", {
+          app.io.to(poll_id).emit("change_slide", {
             number: nouvelle_slide,
             form_json: form_array[nouvelle_slide]
           });
         } else {
           if(nouvelle_slide>0){
-            app.io.emit("last_slide");
+            app.io.to(poll_id).emit("last_slide");
           }
         }
 
