@@ -10,13 +10,14 @@ exports.find = (query = {}) => {
     });
 };
 
-exports.createPoll = (title,form_json,logo,font,font_color,background_color) => {
+exports.createPoll = (title,form_json,logo,font_family, font_category,font_color,background_color) => {
   return db.Polls.create(
   {
       title: title,
       form_json: form_json,
       logo: logo,
-      font: font,
+      font_family: font_family,
+      font_category: font_category,
       font_color: font_color,
       background_color: background_color
   });

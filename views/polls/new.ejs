@@ -26,8 +26,10 @@
               </div>
               <div class="form-group">
                 <label for="font">Font family</label>
+
                 <select name="font" id="font" class="form-control">
                   <% if(fonts.length > 0 ){%>
+                    <script>let fonts = <%-JSON.stringify(fonts)%></script>
                     <% fonts.forEach(function(font,index){ %>
                       <option value="<%= index %>"><%= font.family %></option>
                     <%});%>
@@ -37,14 +39,18 @@
                 <input type="hidden" class="form-control" id="font_family" name="font_family" value="">
 
               </div>
-              <div class="form-group">
+              <div class="row">
+
+
+              <div class="form-group col-md-6">
                 <label for="font_color">Font color</label>
-                <input type="text" name="font_color" class="form-control" id="font_color" value="">
+                <input type="color" name="font_color" class="form-control" id="font_color" value="">
               </div>
-              <div class="form-group">
+              <div class="form-group col-md-6">
                 <label for="background_color">Background color</label>
-                <input type="text" class="form-control" name="background_color" value="">
+                <input type="color" class="form-control" name="background_color" value="">
               </div>
+                </div>
               <fieldset class="form-group">
                 <legend>Theme</legend>
                 <% if(themes.length > 0 ){%>
