@@ -173,7 +173,6 @@ router.put('/:id', upload.single('logo'), function(req, res, next) {
     .then(result => {
       pollService.findById(req.params.id)
         .then(poll => {
-          console.log(req.body.theme);
           poll.setTheme(req.body.theme);
           req.flash("success", "Le sondage a bien été modifié");
           res.redirect("edit/" + poll.id);

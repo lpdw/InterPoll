@@ -10,10 +10,11 @@ var getResultChart = function(formField, formGroup, chart) {
 	var datas = [];
 	var colors = colorsArray;
 	var inputName = formGroup.find(':input').first().attr('name');
-	inputName = inputName.substring(0, inputName.length-8);
+	inputName = inputName.substring(0, inputName.lastIndexOf('-preview'));
 	var options = $('.build-wrap').map(function() {
 		return $(this).data("formBuilder").actions.getData();
-	});
+	}).toArray();
+	//console.log(options);
 	for (var i=0; i<options.length; i++) {
 		var currentOption = options[i];
 		if (currentOption.values && currentOption.name == inputName) {
