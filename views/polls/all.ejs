@@ -19,6 +19,10 @@
       <div>
         <%if(poll.online){%>
           <button class="btn btn-danger"><a href="polls/offline/<%=poll.id%>">Mettre hors ligne</a></button>
+          <a target="_blank" href="<%=poll.tinyurl%>"><%=poll.tinyurl%></a>
+          <button class="btn btn-primary"><a href="/<%=poll.qrcode%>" download="qrcode">Télécharger le QR Code</a></button>
+
+
           <%}else{%>
             <button class="btn btn-success"><a href="polls/online/<%=poll.id%>">Mettre en ligne</a></button>
 

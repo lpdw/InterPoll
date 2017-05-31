@@ -111,9 +111,7 @@ router.get('/live/:id', function(req, res, next) {
 // Mise en ligne du sondage
 // TODO :  Génération Tiny URL + QR Code
 router.get('/online/:id', function(req, res, next) {
-  pollService.onlinePoll(req.params.id)
-    .then(poll => {
-      TinyURL.shorten(req.headers.referer + "/live/" + req.params.id, function(url) {
+        TinyURL.shorten(req.headers.referer + "/live/" + req.params.id, function(url) {
         var qrcode_url = 'uploads/qrcodes/' + uuid.v1() + '.png';
         QRCode.toFile(qrcode_url, url, {
           color: {
@@ -122,8 +120,9 @@ router.get('/online/:id', function(req, res, next) {
           }
         }, function(err) {
           if (err) throw err
-          console.log('done')
-          req.flash("success", "Le sondage a bien été mis en ligne à l'url suivante : " + url + " QR Code URL : " + qrcode_url);
+          pollService.onlinePoll(req.params.id,qrcode_url,url)
+            .then(poll => {
+          req.flash("success", "Le sondage a bien été mis en ligne");
           res.redirect("/polls");
 
         });

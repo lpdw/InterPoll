@@ -57,16 +57,17 @@ exports.update = (song,id) => {
   });
 };
 
-exports.onlinePoll = (id) => {
+exports.onlinePoll = (id,qrcode,tinyurl) => {
     return db.Polls.update(
     {
         online: true,
+        qrcode:qrcode,
+        tinyurl:tinyurl
     },
     { where:{
       id: id
 
     }
-    // TODO: Generate URL + QR CODE
   });
 };
 exports.offlinePoll = (id) => {
