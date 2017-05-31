@@ -35,6 +35,12 @@
          online: {
              type: DataTypes.BOOLEAN,
              defaultValue:false
+         },
+         qrcode:{
+           type: DataTypes.STRING
+         },
+         tinyurl:{
+           type: DataTypes.STRING
          }
      });
  };
