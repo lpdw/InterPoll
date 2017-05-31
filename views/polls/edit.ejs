@@ -13,7 +13,7 @@
         <%}%>
 
           <div class="content">
-            <form action="/polls/edit/<%=poll.id%>" method="post" enctype="multipart/form-data" class="save-all-wrap" id="form-save-all">
+            <form method="post" action="/polls/<%=poll.id%>?_method=PUT" enctype="multipart/form-data" class="save-all-wrap" id="form-save-all">
               <div class="form-group">
                 <label for="title">Titre</label>
                 <input type="text" class="form-control" id="title" name="title" value="<%=poll.title%>">
@@ -66,12 +66,11 @@
                   <% themes.forEach(function(theme){ %>
                     <div class="form-check">
                       <label class="form-check-label">
-                <%if(poll.fk_theme=theme.id){%>
+                <%if(poll.fk_theme==theme.id){%>
                   <input type="radio" class="form-check-input" name="theme" id="theme-<%=theme.id%>" value="<%=theme.id%>" checked >
 
                   <%}else{%>
                     <input type="radio" class="form-check-input" name="theme" id="theme-<%=theme.id%>" value="<%=theme.id%>" >
-
                     <%}%>
 <%=theme.name%>
 </label>
