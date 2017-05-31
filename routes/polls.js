@@ -11,7 +11,7 @@ var pollService = require("../services/polls");
 var themeService = require("../services/themes");
 var TinyURL = require('tinyurl');
 var QRCode = require('qrcode');
-
+var request = require('request');
 const uuid = require('uuid');
 
 // Gestion de l'upload de fichier
@@ -48,9 +48,19 @@ router.get('/new', function(req, res, next) {
   // Affichages des thèmes disponibles dans le formulaire de création d'un sondage
   themeService.findAll().then(
     themes => {
-      return res.render('polls/new', {
-        themes: themes
+      // Récupération des Googles fonts
+      var options = {
+        uri: 'https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyAQV6kPGJiYHVQJKjFBceBQ71vxdQVzdDc',
+        json: true,
+      };
+      request(options, function(error, response, fonts) {
+        if (error) console.log(error);
+        else return res.render('polls/new', {
+          themes: themes,
+          fonts: fonts.items
+        });
       });
+
     }
   );
 });
@@ -58,8 +68,8 @@ router.get('/new', function(req, res, next) {
 router.post('/new', upload.single('logo'), function(req, res, next) {
 
   var filename = req.file.path;
-
-  pollService.createPoll(req.body.title, req.body.form_json, filename, req.body.font, req.body.font_color, req.body.background_color)
+  console.log(req);
+  pollService.createPoll(req.body.title, req.body.form_json, filename, req.body.font_family, req.body.font_category, req.body.font_color, req.body.background_color)
     .then(poll => {
       poll.setUser(req.user.id);
       poll.setTheme(req.body.theme);
@@ -74,24 +84,24 @@ router.get('/live/:id', function(req, res, next) {
   const io = req.app.get('socketio');
   // On vérifie que le sondage avec cet id existe et est en ligne
   pollService.findLivePollById(req.params.id)
-    .then( poll => {
-      if(poll !== null){
+    .then(poll => {
+      if (poll !== null) {
         themeService.findById(poll.fk_theme)
           .then(theme => {
-            console.log(JSON.parse(poll.form_json).length);
             // On affiche le template correspondant au thème et on affiche la première question du formulaire
             return res.render('polls/themes/' + theme.page, {
-              poll: poll, first_form : JSON.parse(poll.form_json)[0]
+              poll: poll,
+              first_form: JSON.parse(poll.form_json)[0]
             });
 
 
-        }).catch(err => {
-          console.log(err);
-        });
-}     else{
-  return res.status(404).send("Ce sondage n'est pas disponible.");
+          }).catch(err => {
+            console.log(err);
+          });
+      } else {
+        return res.status(404).send("Ce sondage n'est pas disponible.");
 
-}
+      }
     }).catch(err => {
       console.log(err);
     });
@@ -101,24 +111,23 @@ router.get('/live/:id', function(req, res, next) {
 // Mise en ligne du sondage
 // TODO :  Génération Tiny URL + QR Code
 router.get('/online/:id', function(req, res, next) {
-  pollService.onlinePoll(req.params.id)
-    .then(poll => {
-      TinyURL.shorten(req.headers.referer+"/live/"+req.params.id, function(url) {
-        var qrcode_url='uploads/qrcodes/'+uuid.v1() + '.png';
+        TinyURL.shorten(req.headers.referer + "/live/" + req.params.id, function(url) {
+        var qrcode_url = 'uploads/qrcodes/' + uuid.v1() + '.png';
         QRCode.toFile(qrcode_url, url, {
-    color: {
-      dark: '#000',  // Blue dots
-      light: '#0000' // Transparent background
-    }
-  }, function (err) {
-    if (err) throw err;
-    console.log('done');
-    req.flash("success", "Le sondage a bien été mis en ligne à l'url suivante : "+url+" QR Code URL : "+qrcode_url);
-    res.redirect("/polls");
+          color: {
+            dark: '#000', // Blue dots
+            light: '#0000' // Transparent background
+          }
+        }, function(err) {
+          if (err) throw err;
+          pollService.onlinePoll(req.params.id,qrcode_url,url)
+            .then(poll => {
+          req.flash("success", "Le sondage a bien été mis en ligne");
+          res.redirect("/polls");
 
-  });
+        });
 
-});
+      });
 
     });
 });
@@ -135,9 +144,18 @@ router.get('/edit/:id', function(req, res, next) {
     themes => {
       pollService.findById(req.params.id)
         .then(poll => {
-          return res.render('polls/edit', {
-            themes: themes,
-            poll: poll
+          var options = {
+            uri: 'https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyAQV6kPGJiYHVQJKjFBceBQ71vxdQVzdDc',
+            json: true,
+          };
+          request(options, function(error, response, fonts) {
+            if (error) console.log(error);
+            else return res.render('polls/edit', {
+              themes: themes,
+              poll: poll,
+              fonts: fonts.items
+            });
+
           });
 
         });

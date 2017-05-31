@@ -256,7 +256,16 @@ $(document).ready(function(){
       });
       var form_json = JSON.stringify(allEditorValues);
       $("#form_json").val(form_json);
-      // console.log(JSON.parse(form_json));
       return true;
+    });
+    // Par défaut la première valeur est ajoutée
+    if($("#font_family").val()===""){
+      $("#font_family").val(fonts[0].family);
+      $("#font_category").val(fonts[0].category);
+    }
+
+    $("#font").change(function(){
+      $("#font_family").val(fonts[$(this).val()].family);
+      $("#font_category").val(fonts[$(this).val()].category);
     });
 });

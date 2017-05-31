@@ -10,13 +10,14 @@ exports.find = (query = {}) => {
     });
 };
 
-exports.createPoll = (title,form_json,logo,font,font_color,background_color) => {
+exports.createPoll = (title,form_json,logo,font_family, font_category,font_color,background_color) => {
   return db.Polls.create(
   {
       title: title,
       form_json: form_json,
       logo: logo,
-      font: font,
+      font_family: font_family,
+      font_category: font_category,
       font_color: font_color,
       background_color: background_color
   });
@@ -56,16 +57,17 @@ exports.update = (song,id) => {
   });
 };
 
-exports.onlinePoll = (id) => {
+exports.onlinePoll = (id,qrcode,tinyurl) => {
     return db.Polls.update(
     {
         online: true,
+        qrcode:qrcode,
+        tinyurl:tinyurl
     },
     { where:{
       id: id
 
     }
-    // TODO: Generate URL + QR CODE
   });
 };
 exports.offlinePoll = (id) => {

@@ -20,7 +20,10 @@
          logo: {
              type: DataTypes.STRING,
          },
-         font: {
+         font_family: {
+             type: DataTypes.STRING,
+         },
+         font_category: {
              type: DataTypes.STRING,
          },
          font_color: {
@@ -32,6 +35,12 @@
          online: {
              type: DataTypes.BOOLEAN,
              defaultValue:false
+         },
+         qrcode:{
+           type: DataTypes.STRING
+         },
+         tinyurl:{
+           type: DataTypes.STRING
          }
      });
  };
