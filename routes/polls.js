@@ -10,7 +10,7 @@ var userService = require("../services/users");
 var pollService = require("../services/polls");
 var themeService = require("../services/themes");
 var TinyURL = require('tinyurl');
-var QRCode = require('qrcode')
+var QRCode = require('qrcode');
 
 const uuid = require('uuid');
 
@@ -19,13 +19,13 @@ const fs = require('fs');
 const multer = require("multer");
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
-    cb(null, 'uploads/')
+    cb(null, 'uploads/');
   },
   filename: function(req, file, cb) {
     // Renommage des fichiers avec un UUID pour éviter les duplicatas
-    cb(null, uuid.v1() + "." + file.mimetype.split("/")[1])
+    cb(null, uuid.v1() + "." + file.mimetype.split("/")[1]);
   }
-})
+});
 const upload = multer({
   storage: storage
 });
@@ -52,7 +52,7 @@ router.get('/new', function(req, res, next) {
         themes: themes
       });
     }
-  )
+  );
 });
 
 router.post('/new', upload.single('logo'), function(req, res, next) {
@@ -111,8 +111,8 @@ router.get('/online/:id', function(req, res, next) {
       light: '#0000' // Transparent background
     }
   }, function (err) {
-    if (err) throw err
-    console.log('done')
+    if (err) throw err;
+    console.log('done');
     req.flash("success", "Le sondage a bien été mis en ligne à l'url suivante : "+url+" QR Code URL : "+qrcode_url);
     res.redirect("/polls");
 
@@ -142,7 +142,7 @@ router.get('/edit/:id', function(req, res, next) {
 
         });
     }
-  )
+  );
 });
 
 router.delete('/delete/:id', function(req, res) {
