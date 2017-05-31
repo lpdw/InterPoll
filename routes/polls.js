@@ -67,8 +67,10 @@ router.get('/new', function(req, res, next) {
 
 router.post('/new', upload.single('logo'), function(req, res, next) {
 
-  var filename = req.file.path;
-  console.log(req);
+  var filename = "";
+  if (req.file) {
+    filename = req.file.path;
+  }
   pollService.createPoll(req.body.title, req.body.form_json, filename, req.body.font_family, req.body.font_category, req.body.font_color, req.body.background_color)
     .then(poll => {
       poll.setUser(req.user.id);
@@ -109,27 +111,26 @@ router.get('/live/:id', function(req, res, next) {
 });
 
 // Mise en ligne du sondage
-// TODO :  Génération Tiny URL + QR Code
 router.get('/online/:id', function(req, res, next) {
-        TinyURL.shorten(req.headers.referer + "/live/" + req.params.id, function(url) {
-        var qrcode_url = 'uploads/qrcodes/' + uuid.v1() + '.png';
-        QRCode.toFile(qrcode_url, url, {
-          color: {
-            dark: '#000', // Blue dots
-            light: '#0000' // Transparent background
-          }
-        }, function(err) {
-          if (err) throw err
-          pollService.onlinePoll(req.params.id,qrcode_url,url)
-            .then(poll => {
+  TinyURL.shorten(req.headers.referer + "/live/" + req.params.id, function(url) {
+    var qrcode_url = 'uploads/qrcodes/' + uuid.v1() + '.png';
+    QRCode.toFile(qrcode_url, url, {
+      color: {
+        dark: '#000', // Blue dots
+        light: '#0000' // Transparent background
+      }
+    }, function(err) {
+      if (err) throw err
+      pollService.onlinePoll(req.params.id, qrcode_url, url)
+        .then(poll => {
           req.flash("success", "Le sondage a bien été mis en ligne");
           res.redirect("/polls");
 
         });
 
-      });
-
     });
+
+  });
 });
 
 router.get('/offline/:id', function(req, res, next) {
@@ -163,6 +164,26 @@ router.get('/edit/:id', function(req, res, next) {
   )
 });
 
+router.put('/:id', upload.single('logo'), function(req, res, next) {
+  var filename = "";
+  if (req.file) {
+    filename = req.file.path;
+  }
+  pollService.updatePoll(req.params.id, req.body.title[0], req.body.form_json, filename, req.body.font_family[0], req.body.font_category[0], req.body.font_color[0], req.body.background_color[0])
+    .then(result => {
+      pollService.findById(req.params.id)
+        .then(poll => {
+          console.log(req.body.theme);
+          poll.setTheme(req.body.theme);
+          req.flash("success", "Le sondage a bien été modifié");
+          res.redirect("edit/" + poll.id);
+        }).catch(err => {
+          console.log("error : ", err);
+        });
+    }).catch(err => {
+      console.log("error : ", err);
+    });
+});
 router.delete('/delete/:id', function(req, res) {
   return pollService.destroy(req.params.id)
     .then(poll => {
