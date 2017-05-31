@@ -177,7 +177,7 @@ app.set('socketio', app.io);
 *
 */
 
-var current_slide=0;
+var current_slide = 0;
 app.io.on("connection", function(socket) {
 
   var url_current = url.parse(socket.handshake.headers.referer, true, true);
@@ -189,21 +189,21 @@ app.io.on("connection", function(socket) {
     var session = socket.handshake.session;
     var form_array = JSON.parse(poll.form_json);
     var isConnected = false;
-    var chartsResult = createChartsResult(form_array[0]);
+    var chartsData = createChartsData(form_array[0]);
     if (session.passport !== undefined && session.passport !== null) {
       isConnected = true;
       // Initialisation de la première slide
       app.io.to(poll_id).emit("change_slide", {
         number: 0,
         form_json: form_array[0],
-        charts_result: chartsResult
+        charts_result: chartsData
       });
     } else {
       // On initialise l'écran du visiteur à la slide en cours
       app.io.to(poll_id).emit("change_slide", {
         number: current_slide,
         form_json: form_array[current_slide],
-        charts_result: chartsResult
+        charts_result: chartsData
       });
     }
 
@@ -211,38 +211,36 @@ app.io.on("connection", function(socket) {
     socket.on('change_slide', function(slide) {
       var session = socket.handshake.session;
       var nouvelle_slide = parseInt(slide.number) + parseInt(slide.action);
-      chartsResult = createChartsResult(form_array[nouvelle_slide]);
+      chartsData = createChartsData(form_array[nouvelle_slide]);
       // Mise à jour de la variable current_slide pour les visiteurs qui arriveraient en cours de présentation
-      current_slide=nouvelle_slide;
+      current_slide = nouvelle_slide;
       // Si la nouvelle slide existe
       if (form_array[nouvelle_slide] !== undefined && form_array[nouvelle_slide] !== null) {
         app.io.to(poll_id).emit("change_slide", {
           number: nouvelle_slide,
           form_json: form_array[nouvelle_slide],
-          charts_result: chartsResult
+          charts_result: chartsData
         });
-      } else {
-        if(nouvelle_slide>0){
-          app.io.to(poll_id).emit("last_slide");
-        }
+      } else if (nouvelle_slide > 0) {
+        app.io.to(poll_id).emit("last_slide");
       }
     });
 
-    socket.on('input_values', function(inputValues){
-      chartsResult = updateChartsResult(chartsResult, inputValues);
-      app.io.emit('data_update', chartsResult);
+    socket.on('input_values', function(inputValues) {
+      chartsData = updateChartsData(chartsData, inputValues);
+      app.io.emit('data_update', chartsData);
     });
 
   });
 
 });
 
-var createChartsResult = function(currentSlide) {
+var createChartsData = function(currentSlide) {
   currentSlideJson = JSON.parse(currentSlide);
-  var chartsResult = {};
-  for (var i=0; i<currentSlideJson.length; i++) {
+  var chartsData = {};
+  for (var i = 0; i < currentSlideJson.length; i++) {
     var formField = currentSlideJson[i];
-    if (formField.values && formField.resultat && formField.name && formField.resultat != 'nodisplay') {
+    if (formField.values && formField.resultat && formField.name && formField.resultat != 'noresult') {
       var values = [];
       var data = {
         labels: [],
@@ -252,7 +250,7 @@ var createChartsResult = function(currentSlide) {
         data: [],
         backgroundColor: []
       };
-      for (var j=0; j<formField.values.length; j++) {
+      for (var j = 0; j < formField.values.length; j++) {
         data.labels.push(formField.values[j].label);
         datasets.data.push(0);
         datasets.backgroundColor.push(colorsArray[j]);
@@ -265,21 +263,23 @@ var createChartsResult = function(currentSlide) {
         values.push('other');
       }
       data.datasets.push(datasets);
-      chartsResult[formField.name] = {type: formField.resultat, data: data, values: values};
+      chartsData[formField.name] = {type: formField.resultat, data: data, values: values};
     }
   }
-  return chartsResult;
+  return chartsData;
 };
 
-var updateChartsResult = function(chartsResult, updateValue) {
-  for (var fieldName in chartsResult) {
-    var index = chartsResult[fieldName].values.indexOf(updateValue[fieldName]);
-    if (index != -1)
-      chartsResult[fieldName].data.datasets[0].data[index]++;
-    else if (chartsResult[fieldName].values[chartsResult[fieldName].values.length-1] == 'other')
-      chartsResult[fieldName].data.datasets[0].data[chartsResult[fieldName].values.length-1]++;
+var updateChartsData = function(chartsData, updateValue) {
+  for (var i = 0; i < updateValue.length; i++) {
+    for (var fieldName in updateValue[i]) {
+      var index = chartsData[fieldName].values.indexOf(updateValue[i][fieldName]);
+      if (index != -1)
+        chartsData[fieldName].data.datasets[0].data[index]++;
+      else if (chartsData[fieldName].values[chartsData[fieldName].values.length-1] == 'other')
+        chartsData[fieldName].data.datasets[0].data[chartsData[fieldName].values.length-1]++;
+    }
   }
-  return chartsResult;
+  return chartsData;
 };
 
 var colorsArray = ['rgba(81,87,74,1)', 'rgba(68,124,105,1)', 'rgba(116,196,147,1)', 'rgba(142,140,109,1)', 'rgba(228,191,128,1)', 'rgba(233,215,142,1)', 'rgba(226,151,93,1)', 'rgba(241,150,112,1)', 'rgba(225,101,82,1)', 'rgba(201,74,83,1)', 'rgba(190,81,104,1)', 'rgba(163,73,116,1)', 'rgba(153,55,103,1)', 'rgba(101,56,125,1)', 'rgba(78,36,114,1)', 'rgba(145,99,182,1)', 'rgba(226,121,163,1)', 'rgba(224,89,139,1)', 'rgba(124,159,176,1)', 'rgba(86,152,196,1)', 'rgba(154,191,136,1)'];

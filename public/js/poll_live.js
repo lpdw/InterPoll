@@ -46,7 +46,6 @@
           $('#poll_content').find('div').each(function() {
             $(this).addClass('col-md-12');
           });
-          console.log(chartsData);
           $.each(chartsData, function(name, value) {
             var ctx = document.createElement('canvas');
             ctx.id = name + '-' + value.type;
@@ -63,18 +62,17 @@
       $(container).formRender(formRenderOpts);
       $(container).append("<button id='ok'>Valider</button>");
       $('#ok').click(function(){
-        var inputValues = {};
+        var inputValues = [];
         $('.form-group').each(function() {
           $(this).find(':input').each(function() {
             if ($(this).is(':radio:checked, :checkbox:checked')) {
               if ($(this).next().is(':input:text'))
-                inputValues[$(this).next().attr('name')] = $(this).next().val();
+                inputValues.push({[$(this).next().attr('name').replace("[]","")]:$(this).next().val()});
               else
-                inputValues[$(this).attr('name')] = $(this).val();
+                inputValues.push({[$(this).attr('name').replace("[]","")]: $(this).val()});
             }
-            else if (!$(this).is(':radio, :checkbox'))
-              if (!$(this).prev().is(':radio, :checkbox'))
-                inputValues[$(this).attr('name')] = $(this).val();
+            else if (!$(this).is(':radio, :checkbox') && !$(this).prev().is(':radio, :checkbox'))
+                inputValues.push({[$(this).attr('name').replace("[]","")]: $(this).val()});
             $(this).attr('disabled','disabled');
           });
         });
