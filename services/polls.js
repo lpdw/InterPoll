@@ -41,21 +41,23 @@ exports.findByUser= (user) => {
   }
 });};
 
-exports.update = (song,id) => {
-    return db.Polls.update(
-    {
-        title: song.title,
-        album: song.album,
-        artist: song.artist,
-        year: song.year,
-        bpm: song.bpm
-    },
-    { where:{
-      id: id
-
-    }
+exports.updatePoll = (id,title,form_json,logo,font_family, font_category,font_color,background_color) => {
+  return db.Polls.update(
+  {
+      title: title,
+      form_json: form_json,
+      logo: logo,
+      font_family: font_family,
+      font_category: font_category,
+      font_color: font_color,
+      background_color: background_color
+  },
+  { where:{
+    id: id
+  }
   });
 };
+
 
 exports.onlinePoll = (id,qrcode,tinyurl) => {
     return db.Polls.update(
@@ -85,7 +87,7 @@ exports.offlinePoll = (id) => {
 exports.destroy=(id)=>{
   return db.Polls.destroy({
   where : {
-      _id: id
+      id: id
     }
   });
 

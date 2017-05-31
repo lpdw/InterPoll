@@ -40,18 +40,17 @@
       $(container).html("LOADER");
       var chartsData = slide.charts_result;
       var formRenderOpts = {
-        container,
         formData: slide.form_json,
         dataType: 'json',
         onRender: function() {
-          $('.fb-render').find('div').each(function() {
+          $('#poll_content').find('div').each(function() {
             $(this).addClass('col-md-12');
           });
           console.log(chartsData);
           $.each(chartsData, function(name, value) {
             var ctx = document.createElement('canvas');
             ctx.id = name + '-' + value.type;
-            $(':input[name="' + name + '"]').parents('.form-group').removeClass('col-md-12').addClass('col-md-6').after($('<div class="col-md-6 ' + name + '-chart">' + ctx.outerHTML + '</div>'));
+            $(':input[name^="' + name + '"]').first().parents('.form-group').removeClass('col-md-12').addClass('col-md-6').after($('<div class="col-md-6 ' + name + '-chart">' + ctx.outerHTML + '</div>'));
             ctx = document.getElementById(ctx.id);
             var myChart = new Chart(ctx, {
               type: value.type,
@@ -61,8 +60,29 @@
           });
         }
       };
-
       $(container).formRender(formRenderOpts);
+      $(container).append("<button id='ok'>Valider</button>");
+      $('#ok').click(function(){
+        var inputValues = {};
+        $('.form-group').each(function() {
+          $(this).find(':input').each(function() {
+            if ($(this).is(':radio:checked, :checkbox:checked')) {
+              if ($(this).next().is(':input:text'))
+                inputValues[$(this).next().attr('name')] = $(this).next().val();
+              else
+                inputValues[$(this).attr('name')] = $(this).val();
+            }
+            else if (!$(this).is(':radio, :checkbox'))
+              if (!$(this).prev().is(':radio, :checkbox'))
+                inputValues[$(this).attr('name')] = $(this).val();
+            $(this).attr('disabled','disabled');
+          });
+        });
+        socket.emit('input_values', inputValues);
+        $(this).attr('disabled','disabled');
+        $(this).unbind('click');
+        return false;
+      });
     };
 
     socket.on("last_slide", function(slide) {
@@ -103,27 +123,5 @@
           chart.update();
         }
       });
-    });
-
-    $('#ok').click(function(){
-      var inputValues = {};
-      $('.form-group').each(function() {
-        $(this).find(':input').each(function() {
-          if ($(this).is(':radio:checked, :checkbox:checked')) {
-            if ($(this).next().is(':input:text'))
-              inputValues[$(this).next().attr('name')] = $(this).next().val();
-            else
-              inputValues[$(this).attr('name')] = $(this).val();
-          }
-          else if (!$(this).is(':radio, :checkbox'))
-            if (!$(this).prev().is(':radio, :checkbox'))
-              inputValues[$(this).attr('name')] = $(this).val();
-          $(this).attr('disabled','disabled');
-        });
-      });
-      socket.emit('input_values', inputValues);
-      $(this).attr('disabled','disabled');
-      $(this).unbind('click');
-      return false;
     });
 
