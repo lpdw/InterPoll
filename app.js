@@ -1,3 +1,6 @@
+/* jshint esversion: 6 */
+/* jshint node: true */
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -16,7 +19,7 @@ var myaccount = require('./routes/myaccount');
 var flash = require('express-flash');
 var methodOverride = require("method-override");
 var UserService = require("./services/users");
-const projectRoot = path.resolve(__dirname, '../')
+const projectRoot = path.resolve(__dirname, '../');
 
 var http = require('http');
 var app = express();

@@ -3,12 +3,16 @@ body {
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-.btn a {
+.btn {
     color: white;
 }
 
-.btn a:hover {
+a:hover {
     text-decoration: none;
+}
+
+.btn:active, .btn:focus {
+  outline: 0 none;
 }
 
 .alert {
@@ -32,21 +36,29 @@ body {
     margin: 0;
     list-style-type: none;
 }
-.item-sondage{
+
+.item-sondage, .item-sondage-responsive {
   display: flex;
   flex-direction: row;
+  align-items: center;
   width: 100%;
-  justify-content: space-between;
   padding: 15px;
 }
-.item-sondage p{
-  width: 45%;
+
+.item-sondage-responsive {
+  display: none;
+}
+.poll-title{
+  flex: 1;
+  font-weight: bold;
+  margin: 0;
 }
 
-.item-sondage div{
-  width: 45%;
+.poll-infos{
+  flex: 4;
   display: flex;
   justify-content: space-around;
+  align-items: center;
 }
 
 .tabs-poll {
@@ -108,4 +120,18 @@ a.close-field {
 
 .btn-primary {
   background-color: #2196F3;
+}
+
+
+
+@media screen and (max-width: 1100px) {
+  .item-sondage {
+    display: none;
+  }
+  .item-sondage-responsive {
+    display: flex;
+  }
+  .list-sondages {
+    padding: 0;
+  }
 }

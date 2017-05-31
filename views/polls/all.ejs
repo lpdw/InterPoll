@@ -1,48 +1,58 @@
 <% include ../partials/header %>
 <h1>Mes sondages </h1>
+
 <% if(messages.success){%>
   <div class="alert alert-success"><%= messages.success %></div>
+<%}%>
+<% if(messages.error){%>
+  <div class="alert alert-error"><%= messages.error %></div>
+<%}%>
 
-  <%}%>
-  <% if(messages.error){%>
-    <div class="alert alert-error"><%= messages.error %></div>
-
-    <%}%>
-<button class="btn btn-primary"><a href="/polls/new">Nouveau sondage</a></button>
+<a href="/polls/new"><button class="btn btn-primary">Nouveau sondage</button></a>
 
 <% if(polls.length > 0 ){%>
   <ul class="list-sondages">
     <!-- TODO: Pagination pour liste des sondages + amélioration du style (image trop grosse etc..)-->
   <% polls.forEach(function(poll){ %>
     <li class="item-sondage">
-      <p><%= poll.title %></p>
-      <div>
+      <p class="poll-title"><%= poll.title %></p>
+      <div class="poll-infos">
         <%if(poll.online){%>
-          <button class="btn btn-danger"><a href="polls/offline/<%=poll.id%>">Mettre hors ligne</a></button>
-          <a target="_blank" href="<%=poll.tinyurl%>"><%=poll.tinyurl%></a>
-          <button class="btn btn-primary"><a href="/<%=poll.qrcode%>" download="qrcode">Télécharger le QR Code</a></button>
+          Lien : <a target="_blank" href="<%=poll.tinyurl%>"><%=poll.tinyurl%></a>
+          <a href="polls/offline/<%=poll.id%>"><button class="btn btn-danger">Mettre hors ligne</button></a>
+          <a href="/<%=poll.qrcode%>" download="qrcode"><button class="btn btn-primary">Télécharger le QR Code</button></a>
+        <%}else{%>
+          <a href="polls/online/<%=poll.id%>"><button class="btn btn-success">Mettre en ligne</button></a>
+        <%}%>
 
-
-          <%}else{%>
-            <button class="btn btn-success"><a href="polls/online/<%=poll.id%>">Mettre en ligne</a></button>
-
-            <%}%>
-
-        <button class="btn btn-warning"><a href="polls/edit/<%=poll.id%>">Modifier le sondage</a></button>
+        <a href="polls/edit/<%=poll.id%>"><button class="btn btn-warning">Modifier le sondage</button></a>
         <form method="POST" action="polls/delete/<%=poll.id%>?_method=DELETE">
-    <button type="submit" class="btn btn-danger">Supprimer le sondage</button>
-  </form>
-  <!-- <img src="/<%=poll.logo%>" /> -->
+          <button type="submit" class="btn btn-danger">Supprimer le sondage</button>
+        </form>
       </div>
-
     </li>
-  <% });%>
+    <li class="item-sondage-responsive">
+      <p class="poll-title"><%= poll.title %></p>
+      <div class="poll-infos">
+        <%if(poll.online){%>
+          <a target="_blank" href="<%=poll.tinyurl%>">Lien</a>
+          <a href="polls/offline/<%=poll.id%>"><button class="btn btn-danger">HL</button></a>
+          <a href="/<%=poll.qrcode%>" download="qrcode"><button class="btn btn-primary">QRC</button></a>
+        <%}else{%>
+          <a href="polls/online/<%=poll.id%>"><button class="btn btn-success">online</button></a>
+        <%}%>
+
+        <a href="polls/edit/<%=poll.id%>"><button class="btn btn-warning">Mod</button></a>
+        <form method="POST" action="polls/delete/<%=poll.id%>?_method=DELETE">
+          <button type="submit" class="btn btn-danger">Trash</button>
+        </form>
+      </div>
+    </li>
+<% });%>
   </ul>
-  <%}else{%>
-  <p>
-    Vous n'avez pas encore de sondage
-  </p>
-  <%}%>
+<%}else{%>
+  <p>Vous n'avez pas encore de sondage</p>
+<%}%>
 
 
 <% include ../partials/footer %>
