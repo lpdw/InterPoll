@@ -220,8 +220,15 @@ $(document).ready(function(){
       $("#form_json").val(form_json);
       return true;
     });
+    // Par défaut la première valeur est ajoutée
+    console.log($("#font_family").val());
+    if($("#font_family").val()===""){
+      $("#font_family").val(fonts[0].family);
+      $("#font_category").val(fonts[0].category);
+    }
 
     $("#font").change(function(){
-      console.log($(this).val());
-    })
+      $("#font_family").val(fonts[$(this).val()].family);
+      $("#font_category").val(fonts[$(this).val()].category);
+})
 });
