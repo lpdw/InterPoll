@@ -70,9 +70,9 @@ const verifyAuth = (req, res, next) => {
   //         });
   //
   // } else {
-  if (req.originalUrl === '/signup' || req.originalUrl === '/login' || req.originalUrl === '/') {
+  if (req.originalUrl === '/signup' || req.originalUrl === '/login') {
     return next();
-  } else if (req.originalUrl.indexOf("/polls/live/") === 0) {
+  } else if (req.originalUrl.indexOf("/polls/live/") === 0 || req.originalUrl === '/') {
     if (req.isAuthenticated()) {
       res.locals.userLogged = true;
       return next();
