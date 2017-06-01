@@ -44,9 +44,11 @@ function updateSlide(slide) {
     formData: slide.form_json,
     dataType: 'json',
     onRender: function() {
-      $('#poll_content').find('div').each(function() {
+      $('#poll_content').children('div').each(function() {
         $(this).addClass('poll-element');
       });
+      $('#poll_content').find('input[type="date"]').addClass('datepicker');
+      $('#poll_content').find('textarea').addClass('materialize-textarea');
       $.each(chartsData, function(name, value) {
         var ctx = document.createElement('canvas');
         ctx.id = name + '-' + value.type;
@@ -61,7 +63,7 @@ function updateSlide(slide) {
     }
   };
   $(container).formRender(formRenderOpts);
-  $(container).append("<button class='waves-effect waves-light btn-large' id='ok'>Valider</button>");
+  $(container).append("<button class='waves-effect waves-light btn-large indigo' id='ok'>Valider</button>");
   $('#ok').click(function(){
     var inputValues = [];
     $('.form-group').each(function() {
