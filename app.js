@@ -193,6 +193,7 @@ app.io.on("connection", function(socket) {
     var isConnected = false;
     if (chartsData[poll_id] == undefined)
       chartsData[poll_id] = createChartsData(form_array[0]);
+    console.log(chartsData[poll_id]);
     if (session.passport !== undefined && session.passport !== null) {
       isConnected = true;
       // Initialisation de la première slide
