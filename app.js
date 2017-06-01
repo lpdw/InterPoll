@@ -119,7 +119,7 @@ app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist'));
 app.use('/jqueryui', express.static(__dirname + '/node_modules/jqueryui'));
 app.use('/formbuilder', express.static(__dirname + '/node_modules/formBuilder/dist'));
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist'));
-app.use('/materialize', express.static(__dirname + '/node_modules/materialize-css/dist/css'));
+app.use('/materialize', express.static(__dirname + '/node_modules/materialize-css/dist'));
 app.use('/chart', express.static(__dirname + '/node_modules/chart.js/dist'));
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use('/js', express.static(__dirname + '/public/js'));
