@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
 
 router.post('/',
    passport.authenticate('local', {
-       successRedirect: '/polls',
+       successRedirect: '/polls/1',
        failureRedirect: '/login',
        failureFlash: true
       })

@@ -1,99 +1,131 @@
 <% include ../partials/header %>
-  <h1>Nouveau  sondage </h1>
-  <% if(messages.success){%>
-    <div class="alert alert-success">
-      <%= messages.success %>
-    </div>
-
-    <%}%>
-      <% if(messages.error){%>
-        <div class="alert alert-error">
-          <%= messages.error %>
+<div class="container">
+    <h1>Nouveau  sondage </h1>
+    <% if(messages.success){%>
+      <div id="card-alert" class="card green lighten-5">
+        <div class="card-content green-text">
+          <%= messages.success %>
         </div>
-
-        <%}%>
+      </div>
+      <%}%>
+        <% if(messages.error){%>
+          <div id="card-alert" class="card red lighten-5">
+            <div class="card-content red-text">
+              <%= messages.error %>
+            </div>
+          </div>
+          <%}%>
 
 
           <div class="content">
-            <form action="/polls/new" method="post" enctype="multipart/form-data" class="save-all-wrap" id="form-save-all">
-              <div class="form-group">
-                <label for="title">Titre</label>
-                <input type="text" class="form-control" id="title" name="title" value="">
-              </div>
-              <div class="form-group">
-                <label for="logo">Logo</label>
-                <input type="file" id="logo" class="form-control" name="logo" value="">
-              </div>
-              <div class="form-group">
-                <label for="font">Font family</label>
+            <div class="row">
+              <form action="/polls/new" method="post" enctype="multipart/form-data" class="save-all-wrap col s12" id="form-save-all">
+                <div class="row">
+                  <div class="input-field">
+                    <i class="material-icons prefix">subject</i>
+                    <input type="text" class="validate" id="title" name="title" value="">
+                    <label for="title">Titre</label>
+                  </div>
+                  <div class="file-field input-field">
+                    <div class="btn">
+                      <i class="material-icons">library_add</i>
+                      <span>Logo</span>
+                      <input type="file" id="logo" class="validate" name="logo" value="">
+                    </div>
+                    <div class="file-path-wrapper">
+                      <input class="file-path validate" type="text" placeholder="Ajouter le logo de l'entreprise">
+                    </div>
+                  </div>
 
-                <select name="font" id="font" class="form-control">
-                  <% if(fonts.length > 0 ){%>
-                    <script>let fonts = <%-JSON.stringify(fonts)%></script>
-                    <% fonts.forEach(function(font,index){ %>
-                      <option value="<%= index %>"><%= font.family %></option>
-                    <%});%>
-                    <%}%>
+                  <div class="input-field col l6 m12">
+                        <select name="font" id="font">
+                      <% if(fonts.length > 0 ){%>
+                        <option value="" disabled selected>Choisir une police</option>
+
+                      <% fonts.forEach(function(font,index){ %>
+                        <option value="<%= index %>"><%= font.family %></option>
+                      <%});%>
+                      <%}else{%>
+                        <option value="" disabled selected>Erreur lors du chargement des polices</option>
+
+                        <%}%>
+
                 </select>
-                <input type="hidden" class="form-control" id="font_category" name="font_category" value="">
-                <input type="hidden" class="form-control" id="font_family" name="font_family" value="">
 
+                  </div>
+
+
+                  <div class="input-field col l3 m12">
+                    <div class="col m6" style="color: #9e9e9e;font-size: 1rem;">
+                      Couleur de la police
+                    </div>
+
+                    <div class="col m6">
+                      <input type="color" style="width:inherit" name="font_color" class="validate" id="font_color" value="">
+                    </div>
+                  </div>
+                  <div class="input-field col l3 m12">
+                    <div class="col m6" style="color: #9e9e9e;font-size: 1rem;">
+                    Couleur de fond
+                    </div>
+                    <div class="col m6">
+                    <input type="color"  style="width:inherit"class="validate" name="background_color" value="">
+                  </div>
+                  </div>
+                </div>
+                  <div class="row">
+
+
+                <fieldset class="input-field col m12">
+                  <legend>Thème</legend>
+                  <% if(themes.length > 0 ){%>
+                    <% themes.forEach(function(theme){ %>
+                      <p>
+      <input name="theme" type="radio" value="<%=theme.id%>" id="theme-<%=theme.id%>" />
+      <label for="theme-<%=theme.id%>">  <%=theme.name%></label>
+    </p>
+                    <img class="responsive-img" src="<%=theme.preview%>" />
+                      <%});%>
+                        <%}%>
+                </fieldset>
               </div>
               <div class="row">
+                  <input type="hidden" class="validate" id="form_json" name="form_json" value="">
 
-
-              <div class="form-group col-md-6">
-                <label for="font_color">Font color</label>
-                <input type="color" name="font_color" class="form-control" id="font_color" value="">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="background_color">Background color</label>
-                <input type="color" class="form-control" name="background_color" value="">
-              </div>
+                <div id="form-builder-pages" class="input-field col l12">
+                  <ul id="tabs" class="tabs-poll">
+                    <li class="tab-page"><a href="#page-1">Page 1</a></li>
+                    <li id="add-page-tab"><a href="#new-page">+ Page</a></li>
+                  </ul>
+                  <div id="page-1">
+                    <div class="build-wrap"></div>
+                  </div>
+                  <div id="new-page"></div>
                 </div>
-              <fieldset class="form-group">
-                <legend>Theme</legend>
-                <% if(themes.length > 0 ){%>
-                    <% themes.forEach(function(theme){ %>
-                      <div class="form-check">
-                        <label class="form-check-label">
-          <input type="radio" class="form-check-input" name="theme" id="theme-<%=theme.id%>" value="<%=theme.id%>" >
-          <%=theme.name%>
-        </label>
-        <img src="<%=theme.preview%>" />
-                              </div>
-                      <%});%>
-                      <%}%>
-              </fieldset>
-              <input type="hidden" class="form-control" id="form_json" name="form_json" value="">
+                <input type="hidden" class="validate" id="font_category" name="font_category" value="">
+                <input type="hidden" class="validate" id="font_family" name="font_family" value="">
 
-              <div id="form-builder-pages">
-                <ul id="tabs" class="tabs-poll">
-                  <li class="tab-page"><a href="#page-1">Page 1</a></li>
-                  <li id="add-page-tab"><a href="#new-page">+ Page</a></li>
-                </ul>
-                <div id="page-1">
-                  <div class="build-wrap"></div>
-                </div>
-                <div id="new-page"></div>
-              </div>
-
-              <button id="form-save-all" class="btn btn-primary" type="submit">Enregistrer le sondage</button>
-            </form>
+                <button id="form-save-all" class="btn btn-primary" type="submit">Enregistrer le sondage</button>
+              </form>
+            </div>
           </div>
+        </div>
 
-
+          <script>
+            let fonts = <%-JSON.stringify(fonts)%>
+          </script>
           <script src="/jquery/jquery.min.js"></script>
+          <script src="/materialize-js/materialize.js"></script>
+          <!-- <script src="/js/init.js"></script> -->
           <script src="/jqueryui/jquery-ui.min.js"></script>
-          <script src="/bootstrap/js/bootstrap.min.js"></script>
+          <!-- <script src="/bootstrap/js/bootstrap.min.js"></script> -->
           <script src="/formbuilder/form-builder.min.js"></script>
           <script src="/formbuilder/form-render.min.js"></script>
           <script src="/socket.io/socket.io.js"></script>
           <script src="/chart/Chart.js"></script>
 
-
           <script src="/js/builder.js"></script>
           <script src="/js/formbuilderplugin.js"></script>
+          </body>
 
-
-          <% include ../partials/footer %>
+          </html>

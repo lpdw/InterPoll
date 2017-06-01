@@ -29,21 +29,6 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage: storage
 });
-
-
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  const user = req.user;
-  userService.currentUser(user.id)
-    .then(user => {
-      return user.getPolls();
-    }).then(polls => {
-      return res.render('polls/all', {
-        polls: polls
-      });
-    });
-});
-
 router.get('/new', function(req, res, next) {
   // Affichages des thèmes disponibles dans le formulaire de création d'un sondage
   themeService.findAll().then(
@@ -64,6 +49,9 @@ router.get('/new', function(req, res, next) {
     }
   )
 });
+
+
+
 
 router.post('/new', upload.single('logo'), function(req, res, next) {
 
@@ -124,7 +112,7 @@ router.get('/online/:id', function(req, res, next) {
       pollService.onlinePoll(req.params.id, qrcode_url, url)
         .then(poll => {
           req.flash("success", "Le sondage a bien été mis en ligne");
-          res.redirect("/polls");
+          res.redirect("/polls/1");
 
         });
 
@@ -137,7 +125,7 @@ router.get('/offline/:id', function(req, res, next) {
   pollService.offlinePoll(req.params.id)
     .then(poll => {
       req.flash("success", "Le sondage a bien été mis en hors ligne");
-      res.redirect("/polls");
+      res.redirect("/polls/1");
     });
 });
 router.get('/edit/:id', function(req, res, next) {
@@ -169,7 +157,7 @@ router.put('/:id', upload.single('logo'), function(req, res, next) {
   if (req.file) {
     filename = req.file.path;
   }
-  pollService.updatePoll(req.params.id, req.body.title[0], req.body.form_json, filename, req.body.font_family, req.body.font_category, req.body.font_color[0], req.body.background_color[0])
+  pollService.updatePoll(req.params.id, req.body.title, req.body.form_json, filename, req.body.font_family, req.body.font_category, req.body.font_color, req.body.background_color)
     .then(result => {
       pollService.findById(req.params.id)
         .then(poll => {
@@ -187,14 +175,27 @@ router.delete('/delete/:id', function(req, res) {
   return pollService.destroy(req.params.id)
     .then(poll => {
       req.flash("success", "Le sondage a bien été supprimé");
-      res.redirect("/polls");
+      res.redirect("/polls/1");
     })
     .catch(err => {
       req.flash("error", "Une erreur est parvenue lors de la suppression du sondage");
-      res.redirect("/polls");
+      res.redirect("/polls/1");
     });
 });
 
 
+/* GET polls listing. */
+router.get('/:page', function(req, res, next) {
+  const user = req.user;
+  var page = req.params.page || 1
+      pollService.getPollsbyUser(user.id,page)
+    .then(polls => {
+      return res.render('polls/all', {
+        polls: polls.rows,
+        page:page,
+        total:polls.count
+      });
+    });
+});
 
 module.exports = router;

@@ -1,31 +1,51 @@
 <% include partials/header %>
-<div class="login-container">
+<div class="row">
+  <form action="/signup" method="post" class="full-content">
+    <div class="col l4 s12 col-centered">
 
 <% if (err != null) { %>
-      <div class="alert alert-danger"><%= err %></div>
-    <% } %>
-      <form action="/signup" method="post" class="full-content">
-        <div class="form-group">
-             <label for="username" >Identifiant :</label>
-             <input type="text" id="username" required class="form-control" placeholder="Identifiant" name="username"/>
-      </div>
-      <div class="form-group">
-          <label for="email">Adresse e-mail:</label>
-          <input required type="email" id="email" class="form-control" placeholder="E-mail" name="email" />
-        </div>
-        <div class="form-group">
-               <label for="password">Mot de passe:</label>
-               <input type="password" id="password"  class="form-control" placeholder="Mot de passe" name="password"/>
-           </div>
-           <div class="form-group">
-                  <label for="confirm_password">Confirmation du mot de passe:</label>
-                  <input type="password" id="confirm_password"  class="form-control" placeholder="Confirmation du mot de passe" name="confirm_password"/>
-              </div>
-              <div class="form-group">
-                  <input type="submit" class="btn btn-primary" value="S'inscrire"/>
-              </div>
-              J'ai déjà un compte <a href="/login"> me connecter </a>
+  <div id="card-alert" class="card red lighten-5">
+    <div class="card-content red-text">
+      <%= err %>
+    </div>
+  </div>
+      <% } %>
+      <div class="card">
 
+        <div class="card-content">
+          <span class="card-title">Inscription</span>
+          <div class="input-field">
+            <i class="material-icons prefix">account_circle</i>
+            <input type="text" id="username" class="validate" name="username" />
+            <label for="username">Identifiant</label>
+          </div>
+                  <div class="input-field">
+            <i class="material-icons prefix">email</i>
+          <input required type="email" id="email" class="validate" name="email" />
+          <label for="email">Adresse e-mail</label>
+
+        </div>
+
+        <div class="input-field">
+          <i class="material-icons prefix">vpn_key</i>
+          <input type="password" id="password" class="validate"   name="password" />
+          <label for="password">Mot de passe</label>
+
+        </div>
+        <div class="input-field">
+          <i class="material-icons prefix">vpn_key</i>
+          <input type="password" id="confirm_password" class="validate"   name="confirm_password" />
+          <label for="confirm_password">Confirmation du mot de passe</label>
+
+        </div>
+        <input type="submit" class="btn btn-primary" value="S'inscrire"/>
+
+      </div>
+      <div class="card-action">
+              J'ai déjà un compte <a href="/login"> me connecter </a>
+      </div>
+    </div>
+  </div>
       </form>
     </div>
       <% include partials/footer %>
