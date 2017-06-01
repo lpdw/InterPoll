@@ -10,7 +10,6 @@ $(document).ready(function(){
   if ($('#form_json').val() !== "") {
     setFormData = JSON.parse($('#form_json').val());
     parseSetFormData = setFormData;
-    console.log(JSON.stringify(setFormData));
   }
 
 
@@ -113,7 +112,7 @@ $(document).ready(function(){
     disabledActionButtons: ['data', 'save'],
     i18n: {
       locale: 'fr-FR',
-      location: '/formBuilderCharts/',
+      location: '/formbuildercharts/',
       extension: '.lang'
     },
     controlOrder: [
@@ -157,7 +156,6 @@ $(document).ready(function(){
   if (parseSetFormData.length > 1) {
     // parseSetFormData.map(function(value, i){
       for (var cpt = 1; cpt < parseSetFormData.length; cpt++) {
-        console.log(parseSetFormData[cpt]);
         // if (cpt > 0) {
           const newOptions = {
             subtypes: {

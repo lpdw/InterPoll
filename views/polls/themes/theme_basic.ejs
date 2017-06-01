@@ -3,10 +3,10 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Interpoll</title>
+    <title><%=poll.title%></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="/jqueryui/jquery-ui.min.css">
-    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/materialize/materialize.css">
     <link rel="stylesheet" type="text/css" href="/css/theme_basic.css" />
      <link href="https://fonts.googleapis.com/css?family=<%=poll.font_family%>" rel="stylesheet">
     <style>
@@ -28,8 +28,9 @@
           <img class="poll-img" src="/<%=poll.logo%>" alt="img">
           <!-- <div style="background: url('/<%=poll.logo%>') center center; background-size: cover"></div> -->
       </header>
-
-      <div id="poll_content"></div>
+      <div class="container">
+          <div id="poll_content"></div>
+      </div>
       <script src="/jquery/jquery.min.js"></script>
       <script src="/jqueryui/jquery-ui.min.js"></script>
       <script src="/bootstrap/js/bootstrap.min.js"></script>
