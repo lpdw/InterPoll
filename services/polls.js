@@ -30,7 +30,7 @@ exports.findLivePollById=(id)=>{
   return db.Polls.findOne({
     where :{
       id:id,
-      online:1
+      online:true
     }
   })
 }
