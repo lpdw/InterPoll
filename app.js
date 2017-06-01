@@ -203,7 +203,7 @@ app.io.on("connection", function(socket) {
       });
     } else {
       // On initialise l'écran du visiteur à la slide en cours
-      app.io.to(poll_id).emit("change_slide", {
+      socket.emit("change_slide", {
         number: current_slide,
         form_json: form_array[current_slide],
         charts_result: chartsData[poll_id]
@@ -232,7 +232,7 @@ app.io.on("connection", function(socket) {
 
     socket.on('input_values', function(inputValues) {
       chartsData[poll_id] = updateChartsData(chartsData[poll_id], inputValues);
-      app.io.emit('data_update', chartsData[poll_id]);
+      app.io.to(poll_id).emit('data_update', chartsData[poll_id]);
     });
 
   });
