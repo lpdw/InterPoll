@@ -113,7 +113,7 @@ $(document).ready(function(){
     disabledActionButtons: ['data', 'save'],
     i18n: {
       locale: 'fr-FR',
-      location: '/formbuildercharts/',
+      location: '/formBuilderCharts/',
       extension: '.lang'
     },
     controlOrder: [
