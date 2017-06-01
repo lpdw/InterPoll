@@ -45,12 +45,12 @@
         dataType: 'json',
         onRender: function() {
           $('#poll_content').find('div').each(function() {
-            $(this).addClass('poll-element col-md-12');
+            $(this).addClass('poll-element');
           });
           $.each(chartsData, function(name, value) {
             var ctx = document.createElement('canvas');
             ctx.id = name + '-' + value.type;
-            $(':input[name^="' + name + '"]').first().parents('.form-group').removeClass('col-md-12').addClass('col-md-6').after($('<div class="poll-chart col-md-6 ' + name + '-chart">' + ctx.outerHTML + '</div>'));
+            $(':input[name^="' + name + '"]').first().parents('.form-group').addClass('col s6').after($('<div class="poll-chart col s6 ' + name + '-chart">' + ctx.outerHTML + '</div>'));
             ctx = document.getElementById(ctx.id);
             var myChart = new Chart(ctx, {
               type: value.type,
@@ -61,7 +61,7 @@
         }
       };
       $(container).formRender(formRenderOpts);
-      $(container).append("<button id='ok'>Valider</button>");
+      $(container).append("<button class='waves-effect waves-light btn-large' id='ok'>Valider</button>");
       $('#ok').click(function(){
         var inputValues = [];
         $('.form-group').each(function() {
