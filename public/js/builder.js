@@ -4,16 +4,6 @@ var formBuilder;
 
 $(document).ready(function(){
 
-  // Get Data for edit
-  var setFormData = "";
-  var parseSetFormData = "";
-  if ($('#form_json').val() !== "") {
-    setFormData = JSON.parse($('#form_json').val());
-    parseSetFormData = setFormData;
-    console.log(JSON.stringify(setFormData));
-  }
-
-
   var typeUserDisabledAttrs = {
     'header': ['access'],
     'paragraph': ['access'],
@@ -113,7 +103,7 @@ $(document).ready(function(){
     disabledActionButtons: ['data', 'save'],
     i18n: {
       locale: 'fr-FR',
-      location: '/formbuildercharts/',
+      location: '/formBuilderCharts/',
       extension: '.lang'
     },
     controlOrder: [
@@ -133,7 +123,6 @@ $(document).ready(function(){
     stickyControls: {
       enable: true
     },
-    formData: parseSetFormData[0],
     sortableControls: true,
     disableInjectedStyle: true,
     typeUserDisabledAttrs,
@@ -141,116 +130,89 @@ $(document).ready(function(){
     // disabledAttrs
   };
 
-  // Tabs
-  var $fbPages = $('#form-builder-pages'),
-    addPageTab = document.getElementById('add-page-tab');
+    $('.fb-editor').formBuilder();
 
-  $fbPages.tabs({
-    beforeActivate: function(event, ui) {
-      if (ui.newPanel.selector === '#new-page') {
-        return false;
-      }
-    }
-  });
+  // });
 
-  // Generate base tabs
-  if (parseSetFormData.length > 1) {
-    // parseSetFormData.map(function(value, i){
-      for (var cpt = 1; cpt < parseSetFormData.length; cpt++) {
-        console.log(parseSetFormData[cpt]);
-        // if (cpt > 0) {
-          const newOptions = {
-            subtypes: {
-              text: ['datetime-local']
-            },
-            disabledActionButtons: ['data', 'save'],
-            i18n: {
-              locale: 'fr-FR',
-              location: '/formbuildercharts/',
-              extension: '.lang'
-            },
-            controlOrder: [
-              'header',
-              'paragraph',
-              'checkbox-group',
-              'radio-group',
-              'select',
-              'number'
-            ],
-            disableFields: [
-              'autocomplete',
-              'file',
-              'hidden',
-              'button'
-            ],
-            stickyControls: {
-              enable: true
-            },
-            formData: parseSetFormData[cpt],
-            sortableControls: true,
-            disableInjectedStyle: true,
-            typeUserDisabledAttrs,
-            typeUserAttrs,
-            // disabledAttrs
+  const setFormData = '[{"type":"text","label":"Full Name","subtype":"text","className":"form-control","name":"text-1476748004559"},{"type":"select","label":"Occupation","className":"form-control","name":"select-1476748006618","values":[{"label":"Street Sweeper","value":"option-1","selected":true},{"label":"Moth Man","value":"option-2"},{"label":"Chemist","value":"option-3"}]},{"type":"textarea","label":"Short Bio","rows":"5","className":"form-control","name":"textarea-1476748007461"}]';
+
+  formBuilder = $('.build-wrap').formBuilder(fbOptions);
+  const fbPromise = formBuilder.promise;
+
+  fbPromise.then(function(fb) {
+    let apiBtns = {
+      showData: fb.actions.showData,
+      clearFields: fb.actions.clearFields,
+      getData: () => console.log(fb.actions.getData()),
+      setData: () => fb.actions.setData(setFormData),
+      addField: () => {
+        let field = {
+            type: 'text',
+            class: 'form-control',
+            label: 'Text Field added at: ' + new Date().getTime()
           };
+        fb.actions.addField(field);
+      },
+      removeField: () => fb.actions.removeField()
+    };
+  });
 
-          addTab($(document.getElementById('add-page-tab')), newOptions);
-        // }
+  // Tabs
+    var $fbPages = $('#form-builder-pages'),
+      addPageTab = document.getElementById('add-page-tab');
+
+    $fbPages.tabs({
+      beforeActivate: function(event, ui) {
+        if (ui.newPanel.selector === '#new-page') {
+          return false;
+        }
       }
-    // });
-  }
-
-  $(addPageTab).on('click', function() {
-    addTab(this, fbOptions);
-  });
-
-  // Close tab
-  $('.tabs-poll').on('click', '.closeTab', function(){
-
-    var idTab = $(this).prev().attr('href');
-    $(idTab).remove();
-    $(this).parent().remove();
-    // tabs.tabs( "refresh" );
-
-    // Rename tabs
-    var i = 2,
-    j = 2;
-    $('.new-tab a').map(function(c, tab){
-      tab.innerHTML = 'Page ' + i;
-      $(tab).attr('href', '#page-' + i);
-      $(tab).parent().attr('aria-controls', 'page-' + i);
-      i++;
     });
-    i = 2;
-    $('.new-slide').map(function(c, slide){
-      $(slide).removeAttr('id');
-      $(slide).attr('id', 'page-' + j);
-      j++;
+
+    $(addPageTab).on('click', function() {
+      var tabCount = document.getElementById('tabs').children.length,
+        tabId = 'page-' + tabCount.toString(),
+        $newPageTemplate = $('#new-page'),
+        $newPage = $newPageTemplate.clone().attr('id', tabId).addClass('build-wrap new-slide'),
+        $newTab = $(this).clone().removeAttr('id').addClass('new-tab'),
+        $tabLink = $('a', $newTab).attr('href', '#' + tabId).text('Page ' + tabCount);
+        $newTab.append('<span class="closeTab">&#215;</span>');
+
+      $newPage.insertBefore($newPageTemplate);
+      $newTab.insertBefore(this);
+      $fbPages.tabs('refresh');
+      $fbPages.tabs("option", "active", tabCount - 1);
+      $newPage.formBuilder(fbOptions);
+
     });
-    j = 2;
-  });
 
-  function addTab(clone, options) {
-    var tabCount = document.getElementById('tabs').children.length,
-      tabId = 'page-' + tabCount.toString(),
-      $newPageTemplate = $('#new-page'),
-      $newPage = $newPageTemplate.clone().attr('id', tabId).addClass('build-wrap new-slide'),
-      $newTab = $(clone).clone().removeAttr('id').addClass('new-tab'),
-      $tabLink = $('a', $newTab).attr('href', '#' + tabId).text('Page ' + tabCount);
-      $newTab.append('<span class="closeTab">&#215;</span>');
+    // Close tab
+    $('.tabs-poll').on('click', '.closeTab', function(){
 
-    $newPage.insertBefore($newPageTemplate);
-    $newTab.insertBefore(clone);
-    $fbPages.tabs('refresh');
-    $fbPages.tabs("option", "active", tabCount - 1);
-    $newPage.formBuilder(options);
-  }
+      var idTab = $(this).prev().attr('href');
+      $(idTab).remove();
+      $(this).parent().remove();
+      // tabs.tabs( "refresh" );
 
-  // Set Form Builder
-  formBuilder = $($('.build-wrap')[0]).formBuilder(fbOptions);
+      // Rename tabs
+      var i = 2,
+      j = 2;
+      $('.new-tab a').map(function(c, tab){
+        tab.innerHTML = 'Page ' + i;
+        $(tab).attr('href', '#page-' + i);
+        $(tab).parent().attr('aria-controls', 'page-' + i);
+        i++;
+      });
+      i = 2;
+      $('.new-slide').map(function(c, slide){
+        $(slide).removeAttr('id');
+        $(slide).attr('id', 'page-' + j);
+        j++;
+      });
+      j = 2;
+    });
+    $('#form-save-all').submit(function() {
 
-    $('#form-save-all').submit(function(e) {
-      // e.preventDefault(e);
       var allEditorValues = $('.build-wrap').map(function() {
         return $(this).data("formBuilder").actions.getData("json");
       });
@@ -258,6 +220,7 @@ $(document).ready(function(){
       $("#form_json").val(form_json);
       return true;
     });
+
     // Par défaut la première valeur est ajoutée
     if($("#font_family").val()===""){
       $("#font_family").val(fonts[0].family);
@@ -267,5 +230,5 @@ $(document).ready(function(){
     $("#font").change(function(){
       $("#font_family").val(fonts[$(this).val()].family);
       $("#font_category").val(fonts[$(this).val()].category);
-    });
+})
 });

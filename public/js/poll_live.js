@@ -1,7 +1,7 @@
 /* jshint esversion: 6 */
 /* jshint node: true */
 
-    var socket = io.connect('http://localhost:3000');
+    var socket = io.connect(window.location.origin);
     var charts = {};
 
     socket.on("change_slide", function(slide) {
