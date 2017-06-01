@@ -49,6 +49,7 @@ function updateSlide(slide) {
       });
       $('#poll_content').find('input[type="date"]').addClass('datepicker');
       $('#poll_content').find('textarea').addClass('materialize-textarea');
+      console.log(chartsData);
       $.each(chartsData, function(name, value) {
         var ctx = document.createElement('canvas');
         ctx.id = name + '-' + value.type;
