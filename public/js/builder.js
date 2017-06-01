@@ -235,7 +235,7 @@ $(document).ready(function(){
       $newPage = $newPageTemplate.clone().attr('id', tabId).addClass('build-wrap new-slide'),
       $newTab = $(clone).clone().removeAttr('id').addClass('new-tab'),
       $tabLink = $('a', $newTab).attr('href', '#' + tabId).text('Page ' + tabCount);
-    
+
     $newTab.append('<span class="closeTab">&#215;</span>');
 
     $newPage.insertBefore($newPageTemplate);
