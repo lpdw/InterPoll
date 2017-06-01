@@ -1,3 +1,6 @@
+/* jshint esversion: 6 */
+/* jshint node: true */
+
     var socket = io.connect('http://localhost:3000');
     var charts = {};
 
@@ -16,7 +19,6 @@
                 changeSlide = true;
               }
               return false;
-              break;
             case e.which = 37:
               if (!changeSlide) {
                 socket.emit("change_slide", {
@@ -26,7 +28,6 @@
                 changeSlide = true;
               }
               return false;
-              break;
             default:
 
           }
@@ -44,12 +45,12 @@
         dataType: 'json',
         onRender: function() {
           $('#poll_content').find('div').each(function() {
-            $(this).addClass('col-md-12');
+            $(this).addClass('poll-element col-md-12');
           });
           $.each(chartsData, function(name, value) {
             var ctx = document.createElement('canvas');
             ctx.id = name + '-' + value.type;
-            $(':input[name^="' + name + '"]').first().parents('.form-group').removeClass('col-md-12').addClass('col-md-6').after($('<div class="col-md-6 ' + name + '-chart">' + ctx.outerHTML + '</div>'));
+            $(':input[name^="' + name + '"]').first().parents('.form-group').removeClass('col-md-12').addClass('col-md-6').after($('<div class="poll-chart col-md-6 ' + name + '-chart">' + ctx.outerHTML + '</div>'));
             ctx = document.getElementById(ctx.id);
             var myChart = new Chart(ctx, {
               type: value.type,
@@ -81,7 +82,7 @@
         $(this).unbind('click');
         return false;
       });
-    };
+    }
 
     socket.on("last_slide", function(slide) {
       $("#poll_content").html("Merci de votre attention !");
@@ -122,4 +123,3 @@
         }
       });
     });
-
