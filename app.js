@@ -208,11 +208,12 @@ app.io.on("connection", function(socket) {
     socket.on('change_slide', function(slide) {
       var session = socket.handshake.session;
       var nouvelle_slide = parseInt(slide.number) + parseInt(slide.action);
-      chartsData = createChartsData(form_array[nouvelle_slide]);
       // Mise à jour de la variable current_slide pour les visiteurs qui arriveraient en cours de présentation
       current_slide = nouvelle_slide;
       // Si la nouvelle slide existe
       if (form_array[nouvelle_slide] !== undefined && form_array[nouvelle_slide] !== null) {
+        chartsData = createChartsData(form_array[nouvelle_slide]);
+
         app.io.to(poll_id).emit("change_slide", {
           number: nouvelle_slide,
           form_json: form_array[nouvelle_slide],
