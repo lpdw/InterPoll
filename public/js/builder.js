@@ -1,12 +1,12 @@
 /*jshint esversion: 6 */
 
-var formBuilder;
+var formBuilders = [];
+var setFormData = "";
+var parseSetFormData = "";
 
 $(document).ready(function(){
 
   // Get Data for edit
-  var setFormData = "";
-  var parseSetFormData = "";
   if ($('#form_json').val() !== "") {
     setFormData = JSON.parse($('#form_json').val());
     parseSetFormData = setFormData;
@@ -164,7 +164,7 @@ $(document).ready(function(){
             disabledActionButtons: ['data', 'save'],
             i18n: {
               locale: 'fr-FR',
-              location: '/formbuildercharts/',
+              location: '/formBuilderCharts/',
               extension: '.lang'
             },
             controlOrder: [
@@ -235,17 +235,18 @@ $(document).ready(function(){
       $newPage = $newPageTemplate.clone().attr('id', tabId).addClass('build-wrap new-slide'),
       $newTab = $(clone).clone().removeAttr('id').addClass('new-tab'),
       $tabLink = $('a', $newTab).attr('href', '#' + tabId).text('Page ' + tabCount);
-      $newTab.append('<span class="closeTab">&#215;</span>');
+    
+    $newTab.append('<span class="closeTab">&#215;</span>');
 
     $newPage.insertBefore($newPageTemplate);
     $newTab.insertBefore(clone);
     $fbPages.tabs('refresh');
     $fbPages.tabs("option", "active", tabCount - 1);
-    $newPage.formBuilder(options);
+    formBuilders.push($newPage.formBuilder(options));
   }
 
   // Set Form Builder
-  formBuilder = $($('.build-wrap')[0]).formBuilder(fbOptions);
+  formBuilders.push($($('.build-wrap')[0]).formBuilder(fbOptions));
 
     $('#form-save-all').submit(function(e) {
       // e.preventDefault(e);

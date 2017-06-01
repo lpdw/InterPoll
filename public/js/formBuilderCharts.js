@@ -11,10 +11,12 @@ var getResultChart = function(formField, formGroup, chart) {
 	var colors = colorsArray;
 	var inputName = formGroup.find(':input').first().attr('name');
 	inputName = inputName.substring(0, inputName.lastIndexOf('-preview'));
-	var options = $('.build-wrap').map(function() {
-		return $(this).data("formBuilder").actions.getData();
+	var options = $('.build-wrap').map(function(i) {
+		if ($(this).data("formBuilder") == undefined && parseSetFormData.length > i)
+			return JSON.parse(parseSetFormData[i]);
+		else
+			return $(this).data("formBuilder").actions.getData();
 	}).toArray();
-	//console.log(options);
 	for (var i=0; i<options.length; i++) {
 		var currentOption = options[i];
 		if (currentOption.values && currentOption.name == inputName) {
@@ -68,7 +70,7 @@ var prevHolderNodeInserted = function(prevHolder, formField) {
 	});
 };
 
-var formbuilderplugin = function() {
+var formBuilderCharts = function() {
 	$('.content').on('DOMNodeInserted', function() {
 		if ($('.frmb.ui-sortable').length && $('.frmb.ui-sortable').length != formBuilderUl.length)
 			formBuilderUl = $('.frmb.ui-sortable');
@@ -84,4 +86,6 @@ var formbuilderplugin = function() {
 	});
 };
 
-formbuilderplugin();
+$(document).ready(function(){
+	formBuilderCharts();
+});
