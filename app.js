@@ -191,23 +191,25 @@ app.io.on("connection", function(socket) {
     var session = socket.handshake.session;
     var form_array = JSON.parse(poll.form_json);
     var isConnected = false;
-    if (chartsData[poll_id] == undefined)
-      chartsData[poll_id] = createChartsData(form_array[0]);
-    console.log(chartsData[poll_id]);
+    if (chartsData[poll_id] == undefined) {
+      chartsData[poll_id] = {};
+      chartsData[poll_id][0] = createChartsData(form_array[0]);
+    }
     if (session.passport !== undefined && session.passport !== null) {
       isConnected = true;
+      current_slide = 0;
       // Initialisation de la première slide
       app.io.to(poll_id).emit("change_slide", {
         number: 0,
         form_json: form_array[0],
-        charts_result: chartsData[poll_id]
+        charts_result: chartsData[poll_id][0]
       });
     } else {
       // On initialise l'écran du visiteur à la slide en cours
       socket.emit("change_slide", {
         number: current_slide,
         form_json: form_array[current_slide],
-        charts_result: chartsData[poll_id]
+        charts_result: chartsData[poll_id][current_slide]
       });
     }
 
@@ -219,12 +221,13 @@ app.io.on("connection", function(socket) {
       current_slide = nouvelle_slide;
       // Si la nouvelle slide existe
       if (form_array[nouvelle_slide] !== undefined && form_array[nouvelle_slide] !== null) {
-        chartsData[poll_id] = createChartsData(form_array[nouvelle_slide]);
+        if (chartsData[poll_id][nouvelle_slide] === undefined)
+          chartsData[poll_id][nouvelle_slide] = createChartsData(form_array[nouvelle_slide]);
 
         app.io.to(poll_id).emit("change_slide", {
           number: nouvelle_slide,
           form_json: form_array[nouvelle_slide],
-          charts_result: chartsData[poll_id]
+          charts_result: chartsData[poll_id][nouvelle_slide]
         });
       } else if (nouvelle_slide > 0) {
         app.io.to(poll_id).emit("last_slide");
@@ -232,8 +235,9 @@ app.io.on("connection", function(socket) {
     });
 
     socket.on('input_values', function(inputValues) {
-      chartsData[poll_id] = updateChartsData(chartsData[poll_id], inputValues);
-      app.io.to(poll_id).emit('data_update', chartsData[poll_id]);
+      console.log(current_slide);
+      chartsData[poll_id][current_slide] = updateChartsData(chartsData[poll_id][current_slide], inputValues);
+      app.io.to(poll_id).emit('data_update', chartsData[poll_id][current_slide]);
     });
 
   });
@@ -275,6 +279,7 @@ var createChartsData = function(currentSlide) {
 };
 
 var updateChartsData = function(localChartsData, updateValue) {
+  console.log(localChartsData);
   for (var i = 0; i < updateValue.length; i++) {
     for (var fieldName in updateValue[i]) {
       var index = localChartsData[fieldName].values.indexOf(updateValue[i][fieldName]);
