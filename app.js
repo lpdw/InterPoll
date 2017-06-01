@@ -235,7 +235,6 @@ app.io.on("connection", function(socket) {
     });
 
     socket.on('input_values', function(inputValues) {
-      console.log(current_slide);
       chartsData[poll_id][current_slide] = updateChartsData(chartsData[poll_id][current_slide], inputValues);
       app.io.to(poll_id).emit('data_update', chartsData[poll_id][current_slide]);
     });
@@ -279,9 +278,10 @@ var createChartsData = function(currentSlide) {
 };
 
 var updateChartsData = function(localChartsData, updateValue) {
-  console.log(localChartsData);
   for (var i = 0; i < updateValue.length; i++) {
     for (var fieldName in updateValue[i]) {
+      if (localChartsData[fieldName] === undefined)
+        continue;
       var index = localChartsData[fieldName].values.indexOf(updateValue[i][fieldName]);
       if (index != -1)
         localChartsData[fieldName].data.datasets[0].data[index]++;

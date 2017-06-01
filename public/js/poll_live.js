@@ -49,7 +49,6 @@ function updateSlide(slide) {
       });
       $('#poll_content').find('input[type="date"]').addClass('datepicker');
       $('#poll_content').find('textarea').addClass('materialize-textarea');
-      console.log(chartsData);
       $.each(chartsData, function(name, value) {
         var ctx = document.createElement('canvas');
         ctx.id = name + '-' + value.type;
@@ -69,14 +68,16 @@ function updateSlide(slide) {
     var inputValues = [];
     $('.form-group').each(function() {
       $(this).find(':input').each(function() {
-        if ($(this).is(':radio:checked, :checkbox:checked')) {
+        if ($(this).attr('name') === undefined) {
+          return true;
+        } else if ($(this).is(':radio:checked, :checkbox:checked')) {
           if ($(this).next().is(':input:text'))
             inputValues.push({[$(this).next().attr('name').replace("[]","")]:$(this).next().val()});
           else
             inputValues.push({[$(this).attr('name').replace("[]","")]: $(this).val()});
+        } else if (!$(this).is(':radio, :checkbox') && !$(this).prev().is(':radio, :checkbox')) {
+          inputValues.push({[$(this).attr('name').replace("[]","")]: $(this).val()});
         }
-        else if (!$(this).is(':radio, :checkbox') && !$(this).prev().is(':radio, :checkbox'))
-            inputValues.push({[$(this).attr('name').replace("[]","")]: $(this).val()});
         $(this).attr('disabled','disabled');
       });
     });
