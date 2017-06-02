@@ -314,3 +314,9 @@ fieldset{
 input[type="radio"]:checked + label:after, [type="radio"].with-gap:checked + label:before, [type="radio"].with-gap:checked + label:after {
     border: 2px solid #8c9eff !important;
 }
+.slider .slides {
+  background:none !important;
+}
+.slider .slides li img {
+  background-position: left;
+}
