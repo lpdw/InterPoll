@@ -26,7 +26,6 @@ a:hover {
   flex-direction: row;
   width: 50%;
   margin: 0 auto;
-  margin-top: 40px;
 }
 
 .full-content {
@@ -143,14 +142,48 @@ a.close-field {
 }
 
 @media screen and (max-width: 1100px) {
-  .item-sondage {
-    display: none;
-  }
   .item-sondage-responsive {
     display: flex;
   }
   .list-sondages {
     padding: 0;
+  }
+  .item-sondage{
+    display: flex;
+    flex-direction: row;
+    }
+    .collection .collection-item.avatar {
+        min-height: 84px;
+        padding-left: 0px;
+        position: relative;
+      }
+
+      .poll-desc{
+        display: flex;
+flex-direction: row;
+justify-content: space-between;
+width: inherit;
+flex-wrap: wrap;
+      }
+    .poll-desc div:first-child{
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: inherit;
+    }
+    .collection .collection-item.avatar .circle {
+    position: inherit;
+    width: 42px;
+    height: 42px;
+     left: 0px;
+    /* display: inline-block; */
+    /* vertical-align: middle; */
+  }
+  .poll-actions {
+    width: 100% !important;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
   }
 }
 
@@ -197,6 +230,7 @@ p {
   #index-banner .section {
     top: 10%;
   }
+
 }
 
 @media only screen and (max-width: 600px) {
@@ -307,7 +341,7 @@ textarea.materialize-textarea:focus:not([readonly]) + label {
   color: #8c9eff !important
 }
 .input-field .prefix.active {
-  color: #8c9eff !important;
+    color: #8c9eff !important;
 }
 fieldset{
   min-height:200px !important;
