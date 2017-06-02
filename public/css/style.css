@@ -312,5 +312,5 @@ fieldset{
   min-height:200px !important;
 }
 input[type="radio"]:checked + label:after, [type="radio"].with-gap:checked + label:before, [type="radio"].with-gap:checked + label:after {
-    border: 2px solid #8c9eff;
-  }
+    border: 2px solid #8c9eff !important;
+}
