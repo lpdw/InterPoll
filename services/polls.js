@@ -4,6 +4,7 @@
 
 'use strict';
 const db = require('../database');
+const app = require("../app.js");
 
 exports.find = (query = {}) => {
   return db.Polls.findAll({
@@ -91,6 +92,7 @@ exports.onlinePoll = (id,qrcode,tinyurl) => {
 };
 
 exports.offlinePoll = (id) => {
+  app.resetChartsData(id);
   return db.Polls.update({
     online: false,
   }, {
