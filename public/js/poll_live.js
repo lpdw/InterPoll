@@ -50,15 +50,7 @@ function updateSlide(slide) {
       $('#poll_content').find('input[type="date"]').addClass('datepicker');
       $('#poll_content').find('textarea').addClass('materialize-textarea');
       $.each(chartsData, function(name, value) {
-        var ctx = document.createElement('canvas');
-        ctx.id = name + '-' + value.type;
-        $(':input[name^="' + name + '"]').first().parents('.form-group').addClass('col s6').after($('<div class="poll-chart col s6 ' + name + '-chart">' + ctx.outerHTML + '</div>'));
-        ctx = document.getElementById(ctx.id);
-        var myChart = new Chart(ctx, {
-          type: value.type,
-          data: value.data
-        });
-        charts[name] = myChart;
+        renderChart(name, value);
       });
     }
   };
@@ -86,6 +78,48 @@ function updateSlide(slide) {
     $(this).unbind('click');
     return false;
   });
+}
+
+function renderChart(name, value) {
+  var ctx = document.createElement('canvas');
+  ctx.id = name + '-' + value.type;
+  $(':input[name^="' + name + '"]').first().parents('.form-group').addClass('col s6').after($('<div class="poll-chart col s6 ' + name + '-chart">' + ctx.outerHTML + '</div>'));
+  ctx = document.getElementById(ctx.id);
+  var options = {
+    type: value.type,
+    data: value.data
+  };
+  switch (value.type) {
+    case "pie":
+      break;
+    case "bar":
+      options.options = {
+        scales: {
+          yAxes: [{
+            display: true,
+            ticks: {
+              beginAtZero: true,
+              stepSize: 1
+            }
+          }]
+        }
+      };
+      break;
+    case "line":
+      options.options = {
+        scales: {
+          yAxes: [{
+            display: true,
+            ticks: {
+              beginAtZero: true,
+              stepSize: 1
+            }
+          }]
+        }
+      };
+  }
+  var myChart = new Chart(ctx, options);
+  charts[name] = myChart;
 }
 
 socket.on("last_slide", function(slide) {
