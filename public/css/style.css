@@ -150,6 +150,7 @@ a.close-field {
   }
   .item-sondage{
     display: flex;
+    padding:10px !important;
     flex-direction: row;
     }
     .collection .collection-item.avatar {
