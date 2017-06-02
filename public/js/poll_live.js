@@ -123,7 +123,7 @@ function renderChart(name, value) {
 }
 
 socket.on("last_slide", function(slide) {
-  $("#poll_content").html("Merci de votre attention !");
+  $("#poll_content").html("<h1 class='text-center'>Merci de votre attention !</h1>");
   // changeSlide=false;
   // if (isLogged) {
   //   $(document).on("keyup", function(e) {
