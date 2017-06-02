@@ -1,28 +1,51 @@
 <% include partials/header %>
-<div class="login-container">
-<% if (err.length>0) { %>
-        <div class="alert alert-danger"><%= err %></div>
-    <% } %>
-    <% if (user) { %>
-            <div class="alert alert-success"> Félicitations <%=user.username%> votre compte a bien été créé ! Vous pouvez désormais vous connecter</div>
+  <div class="row">
+    <form action="/login" method="post" class="full-content">
+
+
+    <div class="col l4 s12 col-centered">
+      <% if (err.length>0) { %>
+        <div id="card-alert" class="card red lighten-5">
+          <div class="card-content red-text">
+            <%= err %>
+          </div>
+        </div>
         <% } %>
-<form action="/login" method="post" class="full-content">
-  <div class="form-group">
-       <label for="username" >Identifiant :</label>
-       <input type="text" id="username"  class="form-control" placeholder="Identifiant" name="username"/>
-</div>
-<div class="form-group">
-       <label for="password">Mot de passe:</label>
-       <input type="password" id="password"  class="form-control" placeholder="Mot de passe" name="password"/>
-   </div>
-   <div class="form-group">
-       <input type="submit" class="btn btn-primary" value="Se connecter"/>
-   </div>
-   <a href="/signup"> Je n'ai pas encore de compte </a>
+          <% if (user) { %>
+            <div id="card-alert" class="card green lighten-5">
+              <div class="card-content green-text">
+                Félicitations
+                <%=user.username%> votre compte a bien été créé ! Vous pouvez désormais vous connecter </div>
+            </div>
+            <% } %>
+              <div class="card">
 
-</form>
+                <div class="card-content">
+                  <span class="card-title">Connexion</span>
+                  <div class="input-field">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input type="text" id="username" class="validate" name="username" />
+                    <label for="username">Identifiant</label>
+                  </div>
+                  <div class="input-field">
+                    <i class="material-icons prefix">vpn_key</i>
+                    <input type="password" id="password" class="validate"   name="password" />
+                    <label for="password">Mot de passe</label>
+                    <input type="submit" class="btn btn-primary" value="Se connecter" />
+
+                  </div>
+                </div>
+                <div class="card-action">
+                  <a href="/signup"> Je n'ai pas encore de compte </a>
+                </div>
+
+              </div>
+    </div>
+  </form>
+
+  </div>
 
 
-</div>
 
-<% include partials/footer %>
+
+  <% include partials/footer %>

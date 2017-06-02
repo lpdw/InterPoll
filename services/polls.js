@@ -34,6 +34,24 @@ exports.findLivePollById = (id) => {
       online:true
     }
   });
+}
+exports.getPollsbyUser= (user,page) => {
+  if (page ==1){
+    return db.Polls.findAndCountAll({
+  where: {
+    fk_user: user
+  },
+  limit:10
+});
+  }else{
+    return db.Polls.findAndCountAll({
+  where: {
+    fk_user: user,
+  },
+  offset: (10*page)-1,
+   limit: 10
+});
+  }
 };
 
 exports.findByUser = (user) => {

@@ -72,8 +72,7 @@ const verifyAuth = (req, res, next) => {
   // } else {
   if (req.originalUrl === '/signup' || req.originalUrl === '/login') {
     return next();
-  } else if (req.originalUrl.indexOf("/polls/live/") === 0) {
-    console.log("Live poll");
+  } else if (req.originalUrl.indexOf("/polls/live/") === 0 || req.originalUrl === '/') {
     if (req.isAuthenticated()) {
       res.locals.userLogged = true;
       return next();
@@ -102,7 +101,7 @@ const verifyAuth = (req, res, next) => {
   // }
 };
 
-app.all('/polls', verifyAuth);
+app.all('/polls/*', verifyAuth);
 app.all('/polls/new', verifyAuth);
 app.all('/polls/live/*', verifyAuth);
 app.all('/polls/edit/*', verifyAuth);
@@ -119,10 +118,12 @@ app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist'));
 app.use('/jqueryui', express.static(__dirname + '/node_modules/jqueryui'));
 app.use('/formbuilder', express.static(__dirname + '/node_modules/formBuilder/dist'));
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist'));
+
 app.use('/materialize', express.static(__dirname + '/node_modules/materialize-css/dist'));
 app.use('/chart', express.static(__dirname + '/node_modules/chart.js/dist'));
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use('/js', express.static(__dirname + '/public/js'));
+app.use('/img', express.static(__dirname + '/public/img'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

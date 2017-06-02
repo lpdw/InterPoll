@@ -164,7 +164,7 @@ $(document).ready(function(){
             disabledActionButtons: ['data', 'save'],
             i18n: {
               locale: 'fr-FR',
-              location: '/formBuilderCharts/',
+              location: '/formbuildercharts/',
               extension: '.lang'
             },
             controlOrder: [
@@ -235,7 +235,7 @@ $(document).ready(function(){
       $newPage = $newPageTemplate.clone().attr('id', tabId).addClass('build-wrap new-slide'),
       $newTab = $(clone).clone().removeAttr('id').addClass('new-tab'),
       $tabLink = $('a', $newTab).attr('href', '#' + tabId).text('Page ' + tabCount);
-    
+
     $newTab.append('<span class="closeTab">&#215;</span>');
 
     $newPage.insertBefore($newPageTemplate);

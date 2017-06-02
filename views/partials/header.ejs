@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="/jqueryui/jquery-ui.min.css">
     <link rel="stylesheet" type="text/css" href="/formbuildercharts/form-builder.custom.css">
-    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/materialize-custom.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
     <!-- HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
@@ -15,24 +16,29 @@
     <![endif]-->
   </head>
   <body>
-    <header>
-      <% if (userLogged) { %>
-      <nav class="navbar navbar-default">
-        <ul class="nav navbar-nav">
-          <li>
-            <a href="/">Interpoll</a>
-          </li>
-          <li>
-            <a href="/polls">Mes sondages</a>
-          </li>
-          <li>
-            <a href="/myaccount">Mon compte</a>
-          </li>
-          <li>
-            <a href="/logout">Se déconnecter</a>
-          </li>
-        </ul>
+      <nav class="white" role="navigation">
+<div class="nav-wrapper">
+
+            <a id="logo-container" href="#" class="brand-logo"><img src="/img/logo.png" width="40"></a>
+
+          <% if (userLogged) { %>
+            <ul class="right hide-on-med-and-down">
+              <li>
+                <a href="/polls/1" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Mes sondages"><i class="material-icons">view_list</i></a>
+              </li>
+              <li>
+
+                <a href="/myaccount" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Mon compte"><i class="material-icons">person_pin</i></a>
+              </li>
+              <li>
+                <a href="/logout" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Se déconnecter"><i class="material-icons">power_settings_new</i></a>
+              </li>
+            </ul>
+          </nav>
+          <% } else{%>
+          <a href="/login" class="brand-logo right"><i class="material-icons">perm_identity</i></a>
+<%}%>
+        </div>
       </nav>
-      <% } %>
-    </header>
+
     <main>

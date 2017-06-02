@@ -1,8 +1,7 @@
-body {
-    padding: 50px;
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+#logo-container {
+  margin-left: 15px;
+  margin-top: 10px;
 }
-
 .btn {
     color: white;
 }
@@ -137,4 +136,101 @@ a.close-field {
   .list-sondages {
     padding: 0;
   }
+}
+nav ul a, nav .brand-logo {
+  color: #444;
+}
+
+p {
+  line-height: 2rem;
+}
+
+.col-centered {
+  margin: 0 auto;
+  float: none !important;
+}
+
+.button-collapse {
+  color: #26a69a;
+}
+
+.parallax-container {
+  min-height: 380px;
+  line-height: 0;
+  height: auto;
+  color: rgba(255, 255, 255, .9);
+  background-color: rgba(0,0,0,0.4);
+}
+
+.parallax-container .section {
+  width: 100%;
+}
+@media only screen and (min-width: 993px){
+.container {
+    width: 90% !important;
+  }
+}
+@media only screen and (max-width: 992px) {
+  .parallax-container .section {
+    position: absolute;
+    top: 40%;
+  }
+  #index-banner .section {
+    top: 10%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  #index-banner .section {
+    top: 0;
+  }
+}
+
+.icon-block {
+  padding: 0 15px;
+}
+
+.icon-block .material-icons {
+  font-size: inherit;
+}
+
+footer.page-footer {
+  margin: 0;
+}
+
+.collection .collection-item.avatar .secondary-content {
+     right: 5% !important;
+   }
+.poll-actions{
+  width: 25%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+.poll-actions a{
+  background-color: #fff;
+      line-height: 1.5rem;
+      padding: 10px 20px;
+      margin: 0;
+      min-height: 84px;
+  padding-left: 72px;
+  position: relative;
+}
+.poll-desc{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: inherit;
+}
+
+select{
+  display: block;
+}
+input[type='color']{
+  background-color: rgba(255, 255, 255, 0.9);
+width: 100%;
+padding: 5px;
+border: 1px solid #f2f2f2;
+border-radius: 2px;
+height: 3rem;
 }
