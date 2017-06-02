@@ -29,7 +29,7 @@
       <div class="row">
         <div class="col s12 m4">
           <div class="icon-block">
-            <h2 class="center brown-text"><i class="material-icons">flash_on</i></h2>
+            <h2 class="center indigo-text  text-accent-1"><i class="material-icons">flash_on</i></h2>
             <h5 class="center">Dynamise vos présentations</h5>
 
             <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.</p>
@@ -38,16 +38,17 @@
 
         <div class="col s12 m4">
           <div class="icon-block">
-            <h2 class="center brown-text"><i class="material-icons">stay_primary_portrait</i></h2>
+            <h2 class="center indigo-text  text-accent-1"><i class="material-icons">stay_primary_portrait</i></h2>
             <h5 class="center">Disponible sur tout support</h5>
 
-            <p class="light">By utilizing elements and principles of Material Design, we were able to create a framework that incorporates components and animations that provide more feedback to users. Additionally, a single underlying responsive system across all platforms allow for a more unified user experience.</p>
+            <p class="light">By utilizing elements and principles of Material Design, we were able to create a framework that incorporates components and animations that provide more feedback to users. Additionally, a single underlying responsive system across all platforms
+              allow for a more unified user experience.</p>
           </div>
         </div>
 
         <div class="col s12 m4">
           <div class="icon-block">
-            <h2 class="center brown-text"><i class="material-icons">settings</i></h2>
+            <h2 class="center indigo-text  text-accent-1"><i class="material-icons">settings</i></h2>
             <h5 class="center">Facile d'utilisation</h5>
 
             <p class="light">We have provided detailed documentation as well as specific code examples to help new users get started. We are also always open to feedback and can answer any questions a user may have about Materialize.</p>
@@ -75,9 +76,57 @@
 
       <div class="row">
         <div class="col s12 center">
-          <h3><i class="mdi-content-send brown-text"></i></h3>
-          <h4>Nous contacter</h4>
-          <p class="left-align light">Une idée ? Un problème ? N'hésitez pas à nous faire part de vos suggestions.</p>
+          <h3><i class="mdi-content-send blue lighten-4"></i></h3>
+          <h4>Comment ça marche ?</h4>
+          <div class="col s12 l6">
+            <div class="slider">
+              <ul class="slides">
+                <li>
+                  <img src="http://lorempixel.com/580/250/nature/1">
+                  <!-- random image -->
+                  <div class="caption center-align">
+                    <h3>This is our big Tagline!</h3>
+                    <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+                  </div>
+                </li>
+                <li>
+                  <img src="http://lorempixel.com/580/250/nature/2">
+                  <!-- random image -->
+                  <div class="caption left-align">
+                    <h3>Left Aligned Caption</h3>
+                    <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+                  </div>
+                </li>
+                <li>
+                  <img src="http://lorempixel.com/580/250/nature/3">
+                  <!-- random image -->
+                  <div class="caption right-align">
+                    <h3>Right Aligned Caption</h3>
+                    <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+                  </div>
+                </li>
+                <li>
+                  <img src="http://lorempixel.com/580/250/nature/4">
+                  <!-- random image -->
+                  <div class="caption center-align">
+                    <h3>This is our big Tagline!</h3>
+                    <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col s12 l6">
+          <h6 class="left-align light">Créer et personnaliser vos sondages facilement à intégrer à vos présentations</h6>
+          <ul>
+            <ol>
+              Créer votre sondage
+            </ol>
+            <ol>
+              Créer votre sondage
+            </ol>
+          </ul>
+        </div>
         </div>
       </div>
 
@@ -85,18 +134,7 @@
   </div>
 
 
-  <div class="parallax-container valign-wrapper">
-    <div class="section no-pad-bot">
-      <div class="container">
-        <div class="row center">
-          <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
-        </div>
-      </div>
-    </div>
-    <div class="parallax"><img src="/img/background3.jpg" alt="Unsplashed background img 3"></div>
-  </div>
-
-  <footer class="page-footer indigo">
+  <footer class="page-footer indigo accent-1">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
@@ -127,9 +165,13 @@
     </div>
     <div class="footer-copyright">
       <div class="container">
-      Made with <span class="brown-text text-lighten-3">coffee</span>
+        Made with <span class="blue lighten-4 text-lighten-4">coffee</span>
       </div>
     </div>
   </footer>
 
+
   <% include partials/footer %>
+  <script>
+     $('.slider').slider();
+  </script>
