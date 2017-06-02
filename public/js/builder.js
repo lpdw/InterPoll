@@ -59,7 +59,7 @@ $(document).ready(function(){
         }
       }
     },
-    'date': {
+    /*'date': {
       resultat: {
         label: 'Resultat',
         options: {
@@ -102,7 +102,7 @@ $(document).ready(function(){
           'line': 'Graphique',
         }
       }
-    }
+    }*/
   };
 
   const fbOptions = {
