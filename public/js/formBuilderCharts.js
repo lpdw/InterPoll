@@ -7,6 +7,7 @@ var getResultChart = function(formField, formGroup, chart) {
 	ctx.id = formField.attr('id') + '-' + chart;
 	formGroup.after($('<div class="col-md-6 result-display">' + ctx.outerHTML + '</div>'));
 	var labels = [];
+	var label = "";
 	var datas = [];
 	var colors = colorsArray;
 	var inputName = formGroup.find(':input').first().attr('name');
@@ -20,6 +21,7 @@ var getResultChart = function(formField, formGroup, chart) {
 	for (var i=0; i<options.length; i++) {
 		var currentOption = options[i];
 		if (currentOption.values && currentOption.name == inputName) {
+			label = currentOption.label;
 			for (var j=0; j<currentOption.values.length; j++) {
 				labels.push(currentOption.values[j].label);
 				datas.push(Math.round(Math.random()*30));
@@ -33,17 +35,52 @@ var getResultChart = function(formField, formGroup, chart) {
 	}
 	colors.length = labels.length;
 	ctx = document.getElementById(ctx.id);
-	var myChart = new Chart(ctx, {
+	var chartOptions = {
 		type: chart,
 		data: {
 			labels: labels,
 			datasets: [{
+				label: label,
 				data: datas,
 				backgroundColor: colors,
 			}]
 		}
-	});
+	}
+	renderChart(ctx, chartOptions);
 };
+
+function renderChart(ctx, options) {
+  switch (options.type) {
+    case "pie":
+      break;
+    case "bar":
+      options.options = {
+        scales: {
+          yAxes: [{
+            display: true,
+            ticks: {
+              beginAtZero: true,
+              stepSize: 1
+            }
+          }]
+        }
+      };
+      break;
+    case "line":
+      options.options = {
+        scales: {
+          yAxes: [{
+            display: true,
+            ticks: {
+              beginAtZero: true,
+              stepSize: 1
+            }
+          }]
+        }
+      };
+  }
+  var myChart = new Chart(ctx, options);
+}
 
 var resultDisplayToggle = function(formField) {
 	var prevHolder = formField.find('div.prev-holder');
