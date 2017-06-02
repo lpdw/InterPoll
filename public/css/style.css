@@ -2,12 +2,13 @@
   margin-left: 15px;
   margin-top: 10px;
 }
+
 .btn {
-    color: white;
+  color: white;
 }
 
 a:hover {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .btn:active, .btn:focus {
@@ -15,25 +16,25 @@ a:hover {
 }
 
 .alert {
-    width: 100%;
+  width: 100%;
 }
 
 .login-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    flex-direction: row;
-    width: 50%;
-    margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+  width: 50%;
+  margin: 0 auto;
 }
 
 .full-content {
-    width: inherit;
+  width: inherit;
 }
 
 .list-sondages {
-    margin: 0;
-    list-style-type: none;
+  margin: 0;
+  list-style-type: none;
 }
 
 .item-sondage, .item-sondage-responsive {
@@ -47,13 +48,14 @@ a:hover {
 .item-sondage-responsive {
   display: none;
 }
-.poll-title{
+
+.poll-title {
   flex: 1;
   font-weight: bold;
   margin: 0;
 }
 
-.poll-infos{
+.poll-infos {
   flex: 4;
   display: flex;
   justify-content: space-around;
@@ -67,37 +69,48 @@ a:hover {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
+
 .ui-tabs {
   padding: 0;
 }
+
 .ui-widget-content {
   background-color: #f8f8f8;
   background-image: none;
   margin-bottom: 10px;
   border: none;
 }
+
 #tabs li {
   background-color: #f8f8f8;
   background-image: none;
 }
-.ui-widget * { outline: none !important; }​
 
-#tabs .ui-state-default, #tabs .ui-state-focus, #tabs .ui-state-active {
+.ui-widget * {
+  outline: none !important;
+}
+
+​ #tabs .ui-state-default, #tabs .ui-state-focus, #tabs .ui-state-active {
   border: 1px solid transparent;
 }
+
 #tabs .ui-state-active a {
   color: #212121;
 }
+
 #tabs .ui-state-default:not(.ui-state-active), #tabs .ui-state-default:not(.ui-state-active) a {
   color: rgba(33, 33, 33, .7);
   cursor: pointer;
 }
+
 #tabs .ui-state-default:hover a {
   color: #212121;
 }
+
 #tabs .ui-state-hover:not(.ui-state-active) {
   border: 1px solid #ccc;
 }
+
 #tabs li .closeTab {
   color: #212121;
   cursor: pointer;
@@ -105,14 +118,17 @@ a:hover {
   padding-right: 10px;
   opacity: 0.6;
 }
+
 #tabs li .closeTab:hover {
   opacity: 1;
 }
+
 .form-field {
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   margin-bottom: 7px !important;
   padding: 10px !important;
 }
+
 a.close-field {
   padding: 2px 15px !important;
 }
@@ -120,11 +136,10 @@ a.close-field {
 .btn-primary {
   background-color: #2196F3;
 }
+
 .img-thumbnail {
   width: 100px;
 }
-
-
 
 @media screen and (max-width: 1100px) {
   .item-sondage {
@@ -137,6 +152,7 @@ a.close-field {
     padding: 0;
   }
 }
+
 nav ul a, nav .brand-logo {
   color: #444;
 }
@@ -159,17 +175,19 @@ p {
   line-height: 0;
   height: auto;
   color: rgba(255, 255, 255, .9);
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .parallax-container .section {
   width: 100%;
 }
-@media only screen and (min-width: 993px){
-.container {
+
+@media only screen and (min-width: 993px) {
+  .container {
     width: 90% !important;
   }
 }
+
 @media only screen and (max-width: 992px) {
   .parallax-container .section {
     position: absolute;
@@ -199,38 +217,106 @@ footer.page-footer {
 }
 
 .collection .collection-item.avatar .secondary-content {
-     right: 5% !important;
-   }
-.poll-actions{
-  width: 25%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
+  right: 5% !important;
 }
-.poll-actions a{
+
+.poll-actions {
+  width: 25%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.poll-actions a {
   background-color: #fff;
-      line-height: 1.5rem;
-      padding: 10px 20px;
-      margin: 0;
-      min-height: 84px;
+  line-height: 1.5rem;
+  padding: 10px 20px;
+  margin: 0;
+  min-height: 84px;
   padding-left: 72px;
   position: relative;
 }
-.poll-desc{
+
+.poll-desc {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   width: inherit;
 }
 
-select{
+select {
   display: block;
 }
-input[type='color']{
+
+input[type='color'] {
   background-color: rgba(255, 255, 255, 0.9);
-width: 100%;
-padding: 5px;
-border: 1px solid #f2f2f2;
-border-radius: 2px;
-height: 3rem;
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #f2f2f2;
+  border-radius: 2px;
+  height: 3rem;
+}
+/*** slider homepage ***/
+
+.slider .indicators .indicator-item.active{
+  background-color: #8c9eff !important;
+}
+.btn {
+  background-color: #8c9eff !important;
+}
+.btn-floating{
+  background-color: #8c9eff !important;
+
+}
+input[type="radio"]:checked + label:after, [type="radio"].with-gap:checked + label:after{
+  background-color: #8c9eff !important;
+
+}
+
+input:not([type]):focus:not([readonly]),
+input[type=text]:focus:not([readonly]),
+input[type=password]:focus:not([readonly]),
+input[type=email]:focus:not([readonly]),
+input[type=url]:focus:not([readonly]),
+input[type=time]:focus:not([readonly]),
+input[type=date]:focus:not([readonly]),
+input[type=datetime]:focus:not([readonly]),
+input[type=datetime-local]:focus:not([readonly]),
+input[type=tel]:focus:not([readonly]),
+input[type=number]:focus:not([readonly]),
+input[type=search]:focus:not([readonly]),
+textarea.materialize-textarea:focus:not([readonly]) {
+  border-bottom: 1px solid #8c9eff !important;
+  box-shadow: 0 1px 0 0 #8c9eff !important;
+}
+
+input:not([type]):focus:not([readonly]) + label,
+input[type=text]:focus:not([readonly]) + label,
+input[type=password]:focus:not([readonly]) + label,
+input[type=email]:focus:not([readonly]) + label,
+input[type=url]:focus:not([readonly]) + label,
+input[type=time]:focus:not([readonly]) + label,
+input[type=date]:focus:not([readonly]) + label,
+input[type=datetime]:focus:not([readonly]) + label,
+input[type=datetime-local]:focus:not([readonly]) + label,
+input[type=tel]:focus:not([readonly]) + label,
+input[type=number]:focus:not([readonly]) + label,
+input[type=search]:focus:not([readonly]) + label,
+textarea.materialize-textarea:focus:not([readonly]) + label {
+  color: #8c9eff !important
+}
+.input-field .prefix.active {
+  color: #8c9eff !important;
+}
+fieldset{
+  min-height:200px !important;
+}
+input[type="radio"]:checked + label:after, [type="radio"].with-gap:checked + label:before, [type="radio"].with-gap:checked + label:after {
+    border: 2px solid #8c9eff !important;
+}
+.slider .slides {
+  background:none !important;
+}
+.slider .slides li img {
+  background-position: left;
 }

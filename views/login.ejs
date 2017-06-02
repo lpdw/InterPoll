@@ -1,4 +1,50 @@
-<% include partials/header %>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Interpoll</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png">
+    <link rel="stylesheet" type="text/css" href="/jqueryui/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="/formbuildercharts/form-builder.custom.css">
+    <link rel="stylesheet" type="text/css" href="materialize/css/materialize.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+      <nav class="white" role="navigation">
+<div class="nav-wrapper">
+
+            <a id="logo-container" href="#" class="brand-logo"><img src="/img/logo.png" width="40"></a>
+
+          <% if (userLogged) { %>
+            <ul class="right hide-on-med-and-down">
+              <li>
+                <a href="/polls/1" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Mes sondages"><i class="material-icons">view_list</i></a>
+              </li>
+              <li>
+
+                <a href="/myaccount" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Mon compte"><i class="material-icons">person_pin</i></a>
+              </li>
+              <li>
+                <a href="/logout" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Se déconnecter"><i class="material-icons">power_settings_new</i></a>
+              </li>
+            </ul>
+          </nav>
+          <% } else{%>
+          <a href="/login" class="brand-logo right"><i class="material-icons">perm_identity</i></a>
+<%}%>
+        </div>
+      </nav>
+
+    <main>
   <div class="row">
     <form action="/login" method="post" class="full-content">
 

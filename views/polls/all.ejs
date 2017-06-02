@@ -2,13 +2,23 @@
   <h1>Mes sondages </h1>
 
   <% if(messages.success){%>
-    <div class="alert alert-success">
-      <%= messages.success %>
+    <div class="row">
+
+    <div id="card-alert" class="card green lighten-5 col s12 m12 l10 col-centered">
+      <div class="card-content green-text">
+        <%= messages.success %>
+      </div>
+    </div>
     </div>
     <%}%>
       <% if(messages.error){%>
-        <div class="alert alert-error">
-          <%= messages.error %>
+        <div class="row">
+
+        <div id="card-alert" class="card red lighten-5 col s12 m12 l10 col-centered">
+          <div class="card-content red-text">
+            <%= messages.error %>
+          </div>
+        </div>
         </div>
         <%}%>
         <div class="row">
@@ -59,8 +69,8 @@
 
     <%}%>
     <a href="edit/<%=poll.id%>" ><i class="material-icons circle orange white-text">mode_edit</i></a>
-    <form method="POST" action="polls/delete/<%=poll.id%>?_method=DELETE" class="avatar collection-item">
-      <button class="btn waves-effect red  waves-light" type="submit" name="action"> Supprimer
+    <form method="POST" action="delete/<%=poll.id%>?_method=DELETE" class="avatar collection-item">
+      <button class="btn waves-effect red waves-light" type="submit" name="action"> Supprimer
         <i class="material-icons white-text">delete</i>
   </button>
     </form>

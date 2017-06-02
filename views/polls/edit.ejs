@@ -27,7 +27,7 @@
                       <label for="title">Titre</label>
                     </div>
                     <div class="file-field input-field">
-                      <div class="col l6 s12">
+                      <div class="col l6 m12 s12">
 
                         <div class="btn">
                           <i class="material-icons">library_add</i>
@@ -38,14 +38,15 @@
                           <input class="file-path validate" type="text" placeholder="Ajouter le logo de l'entreprise">
                         </div>
                       </div>
-                      <div class="col l6 s12">
-
+                      <div class="col l6 m12 s12">
+                        <%if(poll.logo){%>
                         <img src="/<%=poll.logo%>" class="responsive-img" />
+                        <%}%>
                       </div>
 
                     </div>
 
-                    <div class="input-field col l6 m12">
+                    <div class="input-field col l6 m12 s12">
                       <select name="font" id="font">
         <% if(fonts.length > 0 ){%>
           <script>let fonts = <%-JSON.stringify(fonts)%></script>
@@ -66,26 +67,26 @@
                       <input type="hidden" class="form-control" id="font_family" name="font_family" value="<%=poll.font_family%>">
 
                     </div>
-                    <div class="input-field col l3 m12">
+                    <div class="input-field col l3 m12 s12">
                       <div class="col m6" style="color: #9e9e9e;font-size: 1rem;">
                         Couleur de la police
                       </div>
 
-                      <div class="col m6">
+                      <div class="col l6 m6 s6">
                         <input type="color" style="width:inherit" name="font_color" class="validate" id="font_color" value="<%=poll.font_color%>">
                       </div>
                     </div>
-                    <div class="input-field col l3 m12">
+                    <div class="input-field col l3 m12 s12">
                       <div class="col m6" style="color: #9e9e9e;font-size: 1rem;">
                         Couleur de fond
                       </div>
-                      <div class="col m6">
+                      <div class="col l6 m6 s6">
                         <input type="color" style="width:inherit" class="validate" name="background_color" value="<%=poll.background_color%>">
                       </div>
                     </div>
                   </div>
                   <div class="row">
-                    <fieldset class="input-field col m12">
+                    <fieldset class="input-field col m12 s12 l12">
                       <legend>Thème</legend>
                       <% if(themes.length > 0 ){%>
                         <% themes.forEach(function(theme){ %>
@@ -94,13 +95,13 @@
                               <input name="theme" type="radio" checked value="<%=theme.id%>" id="theme-<%=theme.id%>" />
                               <label for="theme-<%=theme.id%>">  <%=theme.name%></label>
                             </p>
-                            <img class="responsive-img" src="<%=theme.preview%>" />
+                            <!-- <img class="responsive-img" src="<%=theme.preview%>" /> -->
                             <%}else{%>
                               <p>
                                 <input name="theme" type="radio" value="<%=theme.id%>" id="theme-<%=theme.id%>" />
                                 <label for="theme-<%=theme.id%>">  <%=theme.name%></label>
                               </p>
-                              <img class="responsive-img" src="<%=theme.preview%>" />
+                              <!-- <img class="responsive-img" src="<%=theme.preview%>" /> -->
                               <%}%>
 
                                 <%});%>
@@ -109,8 +110,7 @@
                   </div>
                   <div class="row">
                     <input type="hidden" class="form-control" id="form_json" name="form_json" value="<%=poll.form_json%>">
-
-                    <div id="form-builder-pages" class="input-field col l12">
+                    <div id="form-builder-pages" class="form-group col l12">
                       <ul id="tabs" class="tabs-poll">
                         <li class="tab-page"><a href="#page-1">Page 1</a></li>
                         <li id="add-page-tab"><a href="#new-page">+ Page</a></li>
