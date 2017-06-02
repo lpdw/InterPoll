@@ -182,13 +182,13 @@ flex-wrap: wrap;
   }
   .poll-actions {
     width: 100% !important;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-flex-wrap: wrap;
+    display: flex!important;
+    flex-direction: row !important;
+    justify-content: center !important;
+flex-wrap: wrap !important;
   }
   .poll-actions a{
-    padding-left: 0px;
+    padding-left: 0px !important;
   }
 }
 
