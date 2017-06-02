@@ -100,7 +100,7 @@ router.get('/live/:id', function(req, res, next) {
 
 // Mise en ligne du sondage
 router.get('/online/:id', function(req, res, next) {
-  TinyURL.shorten(req.headers.referer + "/live/" + req.params.id, function(url) {
+  TinyURL.shorten(req.protocol + '://' + req.get('host') + "/polls/live/" + req.params.id, function(url) {
     var qrcode_url = 'uploads/qrcodes/' + uuid.v1() + '.png';
     QRCode.toFile(qrcode_url, url, {
       color: {
