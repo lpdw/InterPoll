@@ -102,7 +102,8 @@ function renderChart(name, value) {
               stepSize: 1
             }
           }]
-        }
+        },
+        colors:['rgba(114, 169, 208,1)','rgba(58, 103, 181,1)','rgba(40, 67, 112,1)']
       };
       break;
     case "line":
@@ -157,9 +158,6 @@ socket.on('data_update', function(chartsData) {
   $.each(charts, function(name, chart) {
     if (chartsData[name]) {
       chart.data.datasets[0] = chartsData[name].data.datasets[0];
-        chart.data.datasets[0].bars[0].fillColor = 'rgba(114, 169, 208,1)';
-    chart.data.datasets[0].bars[1].fillColor = 'rgba(58, 103, 181,1)';
-    chart.data.datasets[0].bars[2].fillColor = 'rgba(40, 67, 112,1)';
       chart.update();
     }
   });
